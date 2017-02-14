@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.loversAPP.dao.TreasureMapper">
+  <resultMap id="BaseResultMap" type="org.loversAPP.model.Treasure">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <id column="userID" jdbcType="INTEGER" property="userid" />
+    <id column="treasureType" jdbcType="INTEGER" property="treasuretype" />
+    <result column="treasureName" jdbcType="VARCHAR" property="treasurename" />
+    <result column="treasureValue" jdbcType="INTEGER" property="treasurevalue" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="map">
+    delete from treasure
+    where id = #{id,jdbcType=INTEGER}
+      and userID = #{userid,jdbcType=INTEGER}
+      and treasureType = #{treasuretype,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.loversAPP.model.Treasure">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into treasure (userID, treasureType, treasureName, 
+      treasureValue)
+    values (#{userid,jdbcType=INTEGER}, #{treasuretype,jdbcType=INTEGER}, #{treasurename,jdbcType=VARCHAR}, 
+      #{treasurevalue,jdbcType=INTEGER})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="org.loversAPP.model.Treasure">
+    update treasure
+    set treasureName = #{treasurename,jdbcType=VARCHAR},
+      treasureValue = #{treasurevalue,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+      and userID = #{userid,jdbcType=INTEGER}
+      and treasureType = #{treasuretype,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+    select id, userID, treasureType, treasureName, treasureValue
+    from treasure
+    where id = #{id,jdbcType=INTEGER}
+      and userID = #{userid,jdbcType=INTEGER}
+      and treasureType = #{treasuretype,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, userID, treasureType, treasureName, treasureValue
+    from treasure
+  </select>
+</mapper>

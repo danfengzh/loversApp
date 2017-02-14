@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.loversAPP.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="org.loversAPP.model.User">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="userName" jdbcType="VARCHAR" property="username" />
+    <result column="passWord" jdbcType="VARCHAR" property="password" />
+    <result column="avator" jdbcType="VARCHAR" property="avator" />
+    <result column="wexID" jdbcType="VARCHAR" property="wexid" />
+    <result column="qq" jdbcType="VARCHAR" property="qq" />
+    <result column="phoneNumber" jdbcType="VARCHAR" property="phonenumber" />
+    <result column="loveIndex" jdbcType="INTEGER" property="loveindex" />
+    <result column="level" jdbcType="INTEGER" property="level" />
+    <result column="signature" jdbcType="VARCHAR" property="signature" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="org.loversAPP.model.User">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into user (userName, passWord, avator, 
+      wexID, qq, phoneNumber, 
+      loveIndex, level, signature
+      )
+    values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{avator,jdbcType=VARCHAR}, 
+      #{wexid,jdbcType=VARCHAR}, #{qq,jdbcType=VARCHAR}, #{phonenumber,jdbcType=VARCHAR}, 
+      #{loveindex,jdbcType=INTEGER}, #{level,jdbcType=INTEGER}, #{signature,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="org.loversAPP.model.User">
+    update user
+    set userName = #{username,jdbcType=VARCHAR},
+      passWord = #{password,jdbcType=VARCHAR},
+      avator = #{avator,jdbcType=VARCHAR},
+      wexID = #{wexid,jdbcType=VARCHAR},
+      qq = #{qq,jdbcType=VARCHAR},
+      phoneNumber = #{phonenumber,jdbcType=VARCHAR},
+      loveIndex = #{loveindex,jdbcType=INTEGER},
+      level = #{level,jdbcType=INTEGER},
+      signature = #{signature,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, userName, passWord, avator, wexID, qq, phoneNumber, loveIndex, level, 
+    signature
+    from user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, userName, passWord, avator, wexID, qq, phoneNumber, loveIndex, level, 
+    signature
+    from user
+  </select>
+</mapper>
