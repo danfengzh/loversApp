@@ -1,6 +1,6 @@
 package org.loversAPP.model;
 
-public class UserItem {
+public class UserItemKey {
     private Integer userId;
 
     private Integer itemId;

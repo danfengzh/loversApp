@@ -1,11 +1,11 @@
 package org.loversAPP.model;
 
-public class DigHistory {
+public class TreasureKey {
     private Integer id;
 
     private Integer userid;
 
-    private Integer treasureid;
+    private Integer treasuretype;
 
     public Integer getId() {
         return id;
@@ -23,11 +23,11 @@ public class DigHistory {
         this.userid = userid;
     }
 
-    public Integer getTreasureid() {
-        return treasureid;
+    public Integer getTreasuretype() {
+        return treasuretype;
     }
 
-    public void setTreasureid(Integer treasureid) {
-        this.treasureid = treasureid;
+    public void setTreasuretype(Integer treasuretype) {
+        this.treasuretype = treasuretype;
     }
 }

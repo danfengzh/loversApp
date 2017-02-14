@@ -2,12 +2,23 @@ package org.loversAPP.dao;
 
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
-import org.loversAPP.model.DigHistory;
+import org.loversAPP.model.DigHistoryExample;
+import org.loversAPP.model.DigHistoryKey;
 
 public interface DigHistoryMapper {
-    int deleteByPrimaryKey(@Param("id") Integer id, @Param("userid") Integer userid, @Param("treasureid") Integer treasureid);
+    long countByExample(DigHistoryExample example);
 
-    int insert(DigHistory record);
+    int deleteByExample(DigHistoryExample example);
 
-    List<DigHistory> selectAll();
+    int deleteByPrimaryKey(DigHistoryKey key);
+
+    int insert(DigHistoryKey record);
+
+    int insertSelective(DigHistoryKey record);
+
+    List<DigHistoryKey> selectByExample(DigHistoryExample example);
+
+    int updateByExampleSelective(@Param("record") DigHistoryKey record, @Param("example") DigHistoryExample example);
+
+    int updateByExample(@Param("record") DigHistoryKey record, @Param("example") DigHistoryExample example);
 }
