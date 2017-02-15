@@ -42,4 +42,14 @@ public class Activityrecords extends BaseEntity {
     public void setArea(Double area) {
         this.area = area;
     }
+
+    @Override
+    public String toString() {
+        return "Activityrecords{" +
+                "id=" + id +
+                ", loverid='" + loverid + '\'' +
+                ", totalsteps=" + totalsteps +
+                ", area=" + area +
+                '}';
+    }
 }

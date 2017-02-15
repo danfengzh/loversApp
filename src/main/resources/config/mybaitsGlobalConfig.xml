@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!-- 这是 MyBatis 中极为重要的调整设置，它们会改变 MyBatis 的运行时行为。
+设置中各项的意图、默认值等。-->
+<configuration>
+    <!--配置全局属性-->
+    <settings>
+        <!-- 使用jdbc的getGeneratedKeys获取数据库自增主键值-->
+        <setting name="useGeneratedKeys" value="true"/>
+        <!-- 使用列的别名替换列名 默认:truecom.github.pagehelper
+        例如：select name as title from table
+        其中name是我们具体的列名称，title是实体中的属性名，
+        mybaits会自动识别出列Nme转化成了title,同时把器自动赋值给我们entity对应的实体的属性里面去
+        -->
+        <setting name="useColumnLabel" value="true"/>
+        <!--
+          是否开启自动驼峰命名规则（camel case）映射
+          ，即从经典数据库列名 A_COLUMN 到经典 Java 属性名 aColumn 的类似映射
+        -->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <setting name="logPrefix" value="dao."/>
+        <!-- 打开延迟加载 的开关 -->
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <!-- 将积极加载改为消极加载即按需要加载 -->
+        <setting name="aggressiveLazyLoading" value="false"/>
+        <!-- 开启二级缓存
+         和Spring进行整合之后，mybaits的一级缓存无效了，
+         实际上主要依赖于二级缓存，跨域sqlSession
+         mapper级别的缓存，就是mapper同一个命名空间的
+         就会在内存空间以命名空间为单位创建我们的缓存结构，也就是map结构
+         mybaits默认没有开启二级缓存
+         同时 需要在每个namespace里面创建<cache/>标签 设定缓存参数
+         同时 二级缓存 需要将结果映射的pojo实现序列化接口
+         否则 会报出异常-将内存的数据写入磁盘
+         对象的序列化和反序列化
+         先从二级缓存里面找
+         再从一级缓存里面找
+         反之都没找到
+         就从数据库查
+         对于实时性更新比较频繁的sql
+         需要在mapper里面的statenmet配置 上禁止二级缓存的属性 useCache=false
+          flushCache=true
+        -->
+        <setting name="cacheEnabled" value="true"/>
+    </settings>
+
+</configuration>

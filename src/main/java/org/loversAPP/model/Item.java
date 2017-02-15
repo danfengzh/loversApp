@@ -52,4 +52,15 @@ public class Item extends BaseEntity {
     public void setItemimage(String itemimage) {
         this.itemimage = itemimage == null ? null : itemimage.trim();
     }
+
+    @Override
+    public String toString() {
+        return "Item{" +
+                "id=" + id +
+                ", itemname='" + itemname + '\'' +
+                ", itemfunction='" + itemfunction + '\'' +
+                ", price=" + price +
+                ", itemimage='" + itemimage + '\'' +
+                '}';
+    }
 }

@@ -32,4 +32,13 @@ public class DigHistory extends BaseEntity {
     public void setTreasureid(Integer treasureid) {
         this.treasureid = treasureid;
     }
+
+    @Override
+    public String toString() {
+        return "DigHistory{" +
+                "id=" + id +
+                ", userid=" + userid +
+                ", treasureid=" + treasureid +
+                '}';
+    }
 }

@@ -1,7 +1,8 @@
 package org.loversAPP.model;
 
-import java.util.Date;
 import org.loversAPP.base.BaseEntity;
+
+import java.util.Date;
 
 public class LoverShip extends BaseEntity {
     private Integer lovergirlid;
@@ -62,5 +63,17 @@ public class LoverShip extends BaseEntity {
 
     public void setCheckindays(Integer checkindays) {
         this.checkindays = checkindays;
+    }
+
+    @Override
+    public String toString() {
+        return "LoverShip{" +
+                "lovergirlid=" + lovergirlid +
+                ", loverboyid=" + loverboyid +
+                ", lovetime=" + lovetime +
+                ", state='" + state + '\'' +
+                ", loverid='" + loverid + '\'' +
+                ", checkindays=" + checkindays +
+                '}';
     }
 }

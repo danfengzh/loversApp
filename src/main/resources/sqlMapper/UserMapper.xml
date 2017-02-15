@@ -12,6 +12,7 @@
     <result column="loveIndex" jdbcType="INTEGER" property="loveindex" />
     <result column="level" jdbcType="INTEGER" property="level" />
     <result column="signature" jdbcType="VARCHAR" property="signature" />
+    <result column="inviteCode" jdbcType="VARCHAR" property="invitecode" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -72,7 +73,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, userName, passWord, avator, wexID, qq, phoneNumber, loveIndex, level, signature
+    id, userName, passWord, avator, wexID, qq, phoneNumber, loveIndex, level, signature, 
+    inviteCode
   </sql>
   <select id="selectByExample" parameterType="org.loversAPP.model.UserExample" resultMap="BaseResultMap">
     select
@@ -110,12 +112,12 @@
     </selectKey>
     insert into user (userName, passWord, avator, 
       wexID, qq, phoneNumber, 
-      loveIndex, level, signature
-      )
+      loveIndex, level, signature, 
+      inviteCode)
     values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{avator,jdbcType=VARCHAR}, 
       #{wexid,jdbcType=VARCHAR}, #{qq,jdbcType=VARCHAR}, #{phonenumber,jdbcType=VARCHAR}, 
-      #{loveindex,jdbcType=INTEGER}, #{level,jdbcType=INTEGER}, #{signature,jdbcType=VARCHAR}
-      )
+      #{loveindex,jdbcType=INTEGER}, #{level,jdbcType=INTEGER}, #{signature,jdbcType=VARCHAR}, 
+      #{invitecode,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="org.loversAPP.model.User">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -150,6 +152,9 @@
       <if test="signature != null">
         signature,
       </if>
+      <if test="invitecode != null">
+        inviteCode,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="username != null">
@@ -178,6 +183,9 @@
       </if>
       <if test="signature != null">
         #{signature,jdbcType=VARCHAR},
+      </if>
+      <if test="invitecode != null">
+        #{invitecode,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -220,6 +228,9 @@
       <if test="record.signature != null">
         signature = #{record.signature,jdbcType=VARCHAR},
       </if>
+      <if test="record.invitecode != null">
+        inviteCode = #{record.invitecode,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -236,7 +247,8 @@
       phoneNumber = #{record.phonenumber,jdbcType=VARCHAR},
       loveIndex = #{record.loveindex,jdbcType=INTEGER},
       level = #{record.level,jdbcType=INTEGER},
-      signature = #{record.signature,jdbcType=VARCHAR}
+      signature = #{record.signature,jdbcType=VARCHAR},
+      inviteCode = #{record.invitecode,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -271,6 +283,9 @@
       <if test="signature != null">
         signature = #{signature,jdbcType=VARCHAR},
       </if>
+      <if test="invitecode != null">
+        inviteCode = #{invitecode,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -284,7 +299,8 @@
       phoneNumber = #{phonenumber,jdbcType=VARCHAR},
       loveIndex = #{loveindex,jdbcType=INTEGER},
       level = #{level,jdbcType=INTEGER},
-      signature = #{signature,jdbcType=VARCHAR}
+      signature = #{signature,jdbcType=VARCHAR},
+      inviteCode = #{invitecode,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -23,6 +23,8 @@ public class User extends BaseEntity {
 
     private String signature;
 
+    private String invitecode;
+
     public Integer getId() {
         return id;
     }
@@ -101,5 +103,30 @@ public class User extends BaseEntity {
 
     public void setSignature(String signature) {
         this.signature = signature == null ? null : signature.trim();
+    }
+
+    public String getInvitecode() {
+        return invitecode;
+    }
+
+    public void setInvitecode(String invitecode) {
+        this.invitecode = invitecode == null ? null : invitecode.trim();
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", avator='" + avator + '\'' +
+                ", wexid='" + wexid + '\'' +
+                ", qq='" + qq + '\'' +
+                ", phonenumber='" + phonenumber + '\'' +
+                ", loveindex=" + loveindex +
+                ", level=" + level +
+                ", signature='" + signature + '\'' +
+                ", invitecode='" + invitecode + '\'' +
+                '}';
     }
 }

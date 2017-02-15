@@ -773,6 +773,76 @@ public class UserExample {
             addCriterion("signature not between", value1, value2, "signature");
             return (Criteria) this;
         }
+
+        public Criteria andInvitecodeIsNull() {
+            addCriterion("inviteCode is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvitecodeIsNotNull() {
+            addCriterion("inviteCode is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvitecodeEqualTo(String value) {
+            addCriterion("inviteCode =", value, "invitecode");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvitecodeNotEqualTo(String value) {
+            addCriterion("inviteCode <>", value, "invitecode");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvitecodeGreaterThan(String value) {
+            addCriterion("inviteCode >", value, "invitecode");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvitecodeGreaterThanOrEqualTo(String value) {
+            addCriterion("inviteCode >=", value, "invitecode");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvitecodeLessThan(String value) {
+            addCriterion("inviteCode <", value, "invitecode");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvitecodeLessThanOrEqualTo(String value) {
+            addCriterion("inviteCode <=", value, "invitecode");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvitecodeLike(String value) {
+            addCriterion("inviteCode like", value, "invitecode");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvitecodeNotLike(String value) {
+            addCriterion("inviteCode not like", value, "invitecode");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvitecodeIn(List<String> values) {
+            addCriterion("inviteCode in", values, "invitecode");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvitecodeNotIn(List<String> values) {
+            addCriterion("inviteCode not in", values, "invitecode");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvitecodeBetween(String value1, String value2) {
+            addCriterion("inviteCode between", value1, value2, "invitecode");
+            return (Criteria) this;
+        }
+
+        public Criteria andInvitecodeNotBetween(String value1, String value2) {
+            addCriterion("inviteCode not between", value1, value2, "invitecode");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

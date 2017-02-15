@@ -52,4 +52,15 @@ public class Treasure extends BaseEntity {
     public void setTreasurevalue(Integer treasurevalue) {
         this.treasurevalue = treasurevalue;
     }
+
+    @Override
+    public String toString() {
+        return "Treasure{" +
+                "id=" + id +
+                ", userid=" + userid +
+                ", treasuretype=" + treasuretype +
+                ", treasurename='" + treasurename + '\'' +
+                ", treasurevalue=" + treasurevalue +
+                '}';
+    }
 }

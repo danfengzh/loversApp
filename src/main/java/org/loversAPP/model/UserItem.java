@@ -22,4 +22,12 @@ public class UserItem extends BaseEntity {
     public void setItemId(Integer itemId) {
         this.itemId = itemId;
     }
+
+    @Override
+    public String toString() {
+        return "UserItem{" +
+                "userId=" + userId +
+                ", itemId=" + itemId +
+                '}';
+    }
 }
