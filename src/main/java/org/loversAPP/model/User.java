@@ -1,6 +1,8 @@
 package org.loversAPP.model;
 
-public class User {
+import org.loversAPP.base.BaseEntity;
+
+public class User extends BaseEntity {
     private Integer id;
 
     private String username;

@@ -4,14 +4,13 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.loversAPP.model.LoverShip;
 import org.loversAPP.model.LoverShipExample;
-import org.loversAPP.model.LoverShipKey;
 
 public interface LoverShipMapper {
     long countByExample(LoverShipExample example);
 
     int deleteByExample(LoverShipExample example);
 
-    int deleteByPrimaryKey(LoverShipKey key);
+    int deleteByPrimaryKey(@Param("lovergirlid") Integer lovergirlid, @Param("loverboyid") Integer loverboyid);
 
     int insert(LoverShip record);
 
@@ -19,7 +18,7 @@ public interface LoverShipMapper {
 
     List<LoverShip> selectByExample(LoverShipExample example);
 
-    LoverShip selectByPrimaryKey(LoverShipKey key);
+    LoverShip selectByPrimaryKey(@Param("lovergirlid") Integer lovergirlid, @Param("loverboyid") Integer loverboyid);
 
     int updateByExampleSelective(@Param("record") LoverShip record, @Param("example") LoverShipExample example);
 

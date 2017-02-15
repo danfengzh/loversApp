@@ -84,14 +84,14 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="org.loversAPP.model.LoverShipKey" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from lover_ship
     where loverGirlID = #{lovergirlid,jdbcType=INTEGER}
       and loverBoyID = #{loverboyid,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="org.loversAPP.model.LoverShipKey">
+  <delete id="deleteByPrimaryKey" parameterType="map">
     delete from lover_ship
     where loverGirlID = #{lovergirlid,jdbcType=INTEGER}
       and loverBoyID = #{loverboyid,jdbcType=INTEGER}

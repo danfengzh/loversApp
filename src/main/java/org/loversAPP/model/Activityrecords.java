@@ -1,9 +1,31 @@
 package org.loversAPP.model;
 
-public class Activityrecords extends ActivityrecordsKey {
+import org.loversAPP.base.BaseEntity;
+
+public class Activityrecords extends BaseEntity {
+    private Integer id;
+
+    private String loverid;
+
     private Integer totalsteps;
 
     private Double area;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getLoverid() {
+        return loverid;
+    }
+
+    public void setLoverid(String loverid) {
+        this.loverid = loverid == null ? null : loverid.trim();
+    }
 
     public Integer getTotalsteps() {
         return totalsteps;

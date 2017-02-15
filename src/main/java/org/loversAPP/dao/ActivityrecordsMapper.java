@@ -4,14 +4,13 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.loversAPP.model.Activityrecords;
 import org.loversAPP.model.ActivityrecordsExample;
-import org.loversAPP.model.ActivityrecordsKey;
 
 public interface ActivityrecordsMapper {
     long countByExample(ActivityrecordsExample example);
 
     int deleteByExample(ActivityrecordsExample example);
 
-    int deleteByPrimaryKey(ActivityrecordsKey key);
+    int deleteByPrimaryKey(@Param("id") Integer id, @Param("loverid") String loverid);
 
     int insert(Activityrecords record);
 
@@ -19,7 +18,7 @@ public interface ActivityrecordsMapper {
 
     List<Activityrecords> selectByExample(ActivityrecordsExample example);
 
-    Activityrecords selectByPrimaryKey(ActivityrecordsKey key);
+    Activityrecords selectByPrimaryKey(@Param("id") Integer id, @Param("loverid") String loverid);
 
     int updateByExampleSelective(@Param("record") Activityrecords record, @Param("example") ActivityrecordsExample example);
 

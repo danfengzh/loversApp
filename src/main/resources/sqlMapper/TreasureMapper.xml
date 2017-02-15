@@ -83,7 +83,7 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="org.loversAPP.model.TreasureKey" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from treasure
@@ -91,7 +91,7 @@
       and userID = #{userid,jdbcType=INTEGER}
       and treasureType = #{treasuretype,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="org.loversAPP.model.TreasureKey">
+  <delete id="deleteByPrimaryKey" parameterType="map">
     delete from treasure
     where id = #{id,jdbcType=INTEGER}
       and userID = #{userid,jdbcType=INTEGER}

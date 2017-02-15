@@ -1,4 +1,4 @@
-package sys;
+package org.loversAPP.base;
 import com.alibaba.fastjson.JSONObject;
 import javax.persistence.Entity;
 import java.util.Map;

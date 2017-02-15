@@ -1,8 +1,13 @@
 package org.loversAPP.model;
 
 import java.util.Date;
+import org.loversAPP.base.BaseEntity;
 
-public class LoverShip extends LoverShipKey {
+public class LoverShip extends BaseEntity {
+    private Integer lovergirlid;
+
+    private Integer loverboyid;
+
     private Date lovetime;
 
     private String state;
@@ -10,6 +15,22 @@ public class LoverShip extends LoverShipKey {
     private String loverid;
 
     private Integer checkindays;
+
+    public Integer getLovergirlid() {
+        return lovergirlid;
+    }
+
+    public void setLovergirlid(Integer lovergirlid) {
+        this.lovergirlid = lovergirlid;
+    }
+
+    public Integer getLoverboyid() {
+        return loverboyid;
+    }
+
+    public void setLoverboyid(Integer loverboyid) {
+        this.loverboyid = loverboyid;
+    }
 
     public Date getLovetime() {
         return lovetime;
