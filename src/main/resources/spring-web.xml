@@ -1,6 +1,118 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:annation="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+    <annation:config/>
+    <!--
+     研究的是<mvc:annotation-driven/>标签，所以我们找到对应的实现类是org.springframework.web.servlet.config.AnnotationDrivenBeanDefinitionParser。
+    通过阅读类注释文档，我们发现这个类主要是用来向工厂中注册了
+RequestMappingHandlerMapping
+BeanNameUrlHandlerMapping
+RequestMappingHandlerAdapter
+HttpRequestHandlerAdapter
+SimpleControllerHandlerAdapter
+ExceptionHandlerExceptionResolver
+ResponseStatusExceptionResolver
+DefaultHandlerExceptionResolver
+    -->
 
+    <mvc:annotation-driven>
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter"/>
+            <bean class="org.springframework.http.converter.ResourceHttpMessageConverter"/>
+            <!-- 读写二进制数据
+             其中T为 byte[]类型，可读取所有请求类型，可以通过设置supported指定媒体类型
+             响应的媒体类型为application/octet-stream
+            -->
+            <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter">
+                <property name="defaultCharset" value="UTF-8"/>
+            </bean>
+            <bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter"/>
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                <!--是否对输出的格式数据进行美化 -->
+                <property name="prettyPrint" value="true"></property>
+                <property name="objectMapper">
+                    <bean class="com.fasterxml.jackson.databind.ObjectMapper">
+                        <property name="dateFormat">
+                            <bean class="java.text.SimpleDateFormat">
+                                <constructor-arg type="java.lang.String" value="yyyy-MM-dd HH:mm:ss" />
+                            </bean>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+            <!-- 将java对象转化成xml,或者将xml解析成java,读写xml信息
+             响应类型为text/html. application/xml
+            -->
+            <bean class="org.springframework.http.converter.FormHttpMessageConverter"/>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+        <property name="ignoreAcceptHeader" value="false"/>
+        <property name="favorPathExtension" value="true"/>
+        <property name="defaultContentType" value="text/html"/>
+        <property name="favorParameter" value="true"/>
+        <property name="mediaTypes">
+            <map>
+                <entry key="xml" value="application/xml"/>
+                <entry key="json" value="application/json"/>
+                <entry key="xls" value="application/vnd.ms-excel"/>
+            </map>
+        </property>
+        <!--
+         这里是是否启用扩展名支持，默认就是true
+         例如  /user/{userid}.json
+        -->
+        <!--<property name="favorPathExtension" value="true"/>-->
+        <!--这里是是否启用参数支持，默认就是true-->
+        <!--例如  /user/{userid}?format=json-->
+        <!--<property name="favorParameter" value="true"/>-->
+        <!--这里是否忽略掉accept header，默认就是false-->
+        <!--例如     GET /user HTTP/1.1-->
+        <!--Accept:application/json-->
+        <!--<property name="ignoreAcceptHeader" value="true"/>-->
+        <!-- 如果所有的mediaType都没匹配上，就会使用defaultContentType
+        <property name="defaultContentType" value="TEXT_HTML"/>
+        -->
+    </bean>
+    <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+        <property name="contentNegotiationManager" ref="contentNegotiationManager"/>
+        <property name="viewResolvers">
+            <list>
+                <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+                    <property name="prefix" value="/WEB-INF/jsp/"/>
+                    <property name="suffix" value=".jsp"/>
+                    <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+                </bean>
+            </list>
+        </property>
+        <property name="defaultViews">
+            <list>
+                <!-- JSON View -->
+                <!-- <property name="extractValueFromSingleKeyModel" value="true"/> -->
+                <bean class="com.alibaba.fastjson.support.spring.FastJsonJsonView">
+                    <!-- <property name="extractValueFromSingleKeyModel" value="true"/> -->
+                    <property name="charset" value="UTF-8"/>
+                    <property name="extractValueFromSingleKeyModel" value="true"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <!-- 国际化-->
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basenames">
+            <list>
+                <value>i18n.message</value>
+            </list>
+        </property>
+        <!-- 资源文件编码格式 -->
+        <property name="fileEncodings" value="utf-8" />
+        <!-- 对资源文件内容缓存时间，单位秒 -->
+        <property name="cacheSeconds" value="120" />
+    </bean>
+    <!-- 扫描web相关的配置-->
+    <context:component-scan base-package="org.loversAPP.Controller"/>
 </beans>
