@@ -5,19 +5,6 @@
        xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:annation="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
     <annation:config/>
-    <!--
-     研究的是<mvc:annotation-driven/>标签，所以我们找到对应的实现类是org.springframework.web.servlet.config.AnnotationDrivenBeanDefinitionParser。
-    通过阅读类注释文档，我们发现这个类主要是用来向工厂中注册了
-RequestMappingHandlerMapping
-BeanNameUrlHandlerMapping
-RequestMappingHandlerAdapter
-HttpRequestHandlerAdapter
-SimpleControllerHandlerAdapter
-ExceptionHandlerExceptionResolver
-ResponseStatusExceptionResolver
-DefaultHandlerExceptionResolver
-    -->
-
     <mvc:annotation-driven>
         <mvc:message-converters>
             <bean class="org.springframework.http.converter.StringHttpMessageConverter"/>

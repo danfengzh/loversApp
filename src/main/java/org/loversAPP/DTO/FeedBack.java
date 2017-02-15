@@ -6,10 +6,20 @@ import java.io.Serializable;
  * Created by Administrator on 2017/2/15.
  */
 public class FeedBack<T> implements Serializable {
+    public final static int OK = 1, FAILED = 0, EMPUTY = -1;
+    public final static String OK_STR = "成功", FAILED_STR = "失败", EMPUTY_STR = "数据为空";
 
     private String msg;
     private String code;
-    private T data;
+    private T  data;
+
+    public FeedBack(String msg, String code) {
+        this.msg = msg;
+        this.code = code;
+    }
+
+    public FeedBack() {
+    }
 
     public FeedBack(String msg, String code, T data) {
         this.msg = msg;
@@ -33,7 +43,7 @@ public class FeedBack<T> implements Serializable {
         this.code = code;
     }
 
-    public T getData() {
+    public Object getData() {
         return data;
     }
 
