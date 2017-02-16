@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private Integer updateUserInfo(User user) {
-        return userMapper.updateByPrimaryKey(user);
+        return userMapper.updateByPrimaryKeySelective(user);
     }
 
     public Integer updateUserNameByID(Integer userID,String userName) {

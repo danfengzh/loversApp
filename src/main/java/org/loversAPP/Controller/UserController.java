@@ -1,6 +1,8 @@
 package org.loversAPP.Controller;
 
 import org.loversAPP.Controller.base.BaseController;
+import org.loversAPP.Controller.utils.ControllerConstant;
+import org.loversAPP.Controller.utils.fileUpload;
 import org.loversAPP.DTO.FeedBack;
 import org.loversAPP.model.User;
 import org.loversAPP.service.UserService;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -126,17 +129,19 @@ public class UserController extends BaseController{
     public FeedBack<String> updateAvatarByID(MultipartFile avatar , Integer id){
         FeedBack<String> feedBack;
         //对文件进行保存处理
-//        int count=userService.updateAvatarByID(id,avatar);
-//        if (count==1) {
-//            feedBack=new FeedBack<String>("success","200",avatar);
-//        } else {
-//            feedBack=new FeedBack<String>("failure","500");
-//        }
-        return null;
+        String avatorPath=getMessage(ControllerConstant.userAvatorPath);
+        User user=userService.getUserByID(id);
+        File filePresious=new File(request.getSession().getServletContext().getRealPath(File.separator)+"/"+user.getAvator());
+        if(filePresious.exists()){
+            filePresious.delete();
+        }
+        String newAvatorpath= fileUpload.tacleUpload(avatar,avatorPath,request,user.getPhonenumber());
+        int count=userService.updateAvatarByID(id,newAvatorpath);
+        if (count==1) {
+            feedBack=new FeedBack<String>("success","200",newAvatorpath);
+        } else {
+            feedBack=new FeedBack<String>("failure","500");
+        }
+        return feedBack;
     }
-    @RequestMapping("/demoTEST")
-    public String testDemo(){
-          return null;
-    }
-
 }

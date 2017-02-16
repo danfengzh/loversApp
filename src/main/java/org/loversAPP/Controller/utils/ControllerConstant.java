@@ -5,6 +5,6 @@ package org.loversAPP.Controller.utils;
  */
 public interface ControllerConstant {
 
-   String testpath="test.path";
+   String userAvatorPath="Image.avator.path";
 
 }
