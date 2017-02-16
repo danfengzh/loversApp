@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
 
         UserExample userExample=new UserExample();
         userExample.createCriteria().andPhonenumberEqualTo(phoneNumber).andPasswordEqualTo(Password);
-         List<User> user=  userMapper.selectByExample(userExample);
+        List<User> user=  userMapper.selectByExample(userExample);
         if (user!=null&&user.size()==1) {
             return user.get(0).getId();
         } else {
@@ -33,27 +33,46 @@ public class UserServiceImpl implements UserService {
 
     }
     public Integer insertUser(User user) {
+
         return userMapper.insertSelective(user);
     }
 
-    public Integer updatePwByID(Integer userID) {
-        return null;
+    public Integer updatePwByID(Integer userID,String password) {
+        User user=new User();
+        user.setId(userID);
+        user.setPassword(password);
+        Integer res= userMapper.updateByPrimaryKey(user);
+        return res;
     }
 
-    public Integer updateAvatarByID(Integer userID) {
-        return null;
+    public Integer updateAvatarByID(Integer userID,String avator) {
+        User user=new User();
+        user.setId(userID);
+        user.setAvator(avator);
+        Integer res = updateUserInfo(user);
+        return res;
     }
 
-    public Integer updateUserNameByID(Integer userID) {
-        return null;
+    private Integer updateUserInfo(User user) {
+        return userMapper.updateByPrimaryKey(user);
+    }
+
+    public Integer updateUserNameByID(Integer userID,String userName) {
+        User user=new User();
+        user.setId(userID);
+        user.setUsername(userName);
+        Integer res = updateUserInfo(user);
+        return res;
     }
 
     public Integer getIDByInviteCode(String inviteCode) {
-        return null;
+        UserExample userExample=new UserExample();
+        userExample.createCriteria().andInvitecodeEqualTo(inviteCode);
+        return userMapper.selectByExample(userExample).size();
     }
 
     public Integer deleteUserByID(Integer userID) {
-        return null;
+        return userMapper.deleteByPrimaryKey(userID);
     }
 
     public List<User> getAllUsers() {

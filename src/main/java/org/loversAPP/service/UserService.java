@@ -16,11 +16,11 @@ public interface UserService {
 
     public Integer insertUser(User user);
 
-    public Integer updatePwByID(Integer userID);
+    public Integer updatePwByID(Integer userID,String password);
 
-    public Integer updateAvatarByID(Integer userID);
+    public Integer updateAvatarByID(Integer userID,String avator);
 
-    public Integer updateUserNameByID(Integer userID);
+    public Integer updateUserNameByID(Integer userID,String userName);
 
     public Integer getIDByInviteCode(String inviteCode);
 
