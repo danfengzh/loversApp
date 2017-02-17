@@ -9,10 +9,14 @@
     <result column="wexID" jdbcType="VARCHAR" property="wexid" />
     <result column="qq" jdbcType="VARCHAR" property="qq" />
     <result column="phoneNumber" jdbcType="VARCHAR" property="phonenumber" />
-    <result column="loveIndex" jdbcType="INTEGER" property="loveindex" />
     <result column="level" jdbcType="INTEGER" property="level" />
     <result column="signature" jdbcType="VARCHAR" property="signature" />
     <result column="inviteCode" jdbcType="VARCHAR" property="invitecode" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="stauts" jdbcType="INTEGER" property="stauts" />
+    <result column="longtitude" jdbcType="DECIMAL" property="longtitude" />
+    <result column="latitude" jdbcType="DECIMAL" property="latitude" />
+    <result column="stepsToday" jdbcType="INTEGER" property="stepstoday" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -72,12 +76,9 @@
       </foreach>
     </where>
   </sql>
-  <select id="getAllUsers" resultMap="BaseResultMap">
-    SELECT * FROM  user
-  </select>
   <sql id="Base_Column_List">
-    id, userName, passWord, avator, wexID, qq, phoneNumber, loveIndex, level, signature, 
-    inviteCode
+    id, userName, passWord, avator, wexID, qq, phoneNumber, level, signature, inviteCode, 
+    sex, stauts, longtitude, latitude, stepsToday
   </sql>
   <select id="selectByExample" parameterType="org.loversAPP.model.UserExample" resultMap="BaseResultMap">
     select
@@ -115,13 +116,18 @@
     </selectKey>
     insert into user (userName, passWord, avator, 
       wexID, qq, phoneNumber, 
-      loveIndex, level, signature, 
-      inviteCode)
+      level, signature, inviteCode, 
+      sex, stauts, longtitude, 
+      latitude, stepsToday)
     values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{avator,jdbcType=VARCHAR}, 
       #{wexid,jdbcType=VARCHAR}, #{qq,jdbcType=VARCHAR}, #{phonenumber,jdbcType=VARCHAR}, 
-      #{loveindex,jdbcType=INTEGER}, #{level,jdbcType=INTEGER}, #{signature,jdbcType=VARCHAR}, 
-      #{invitecode,jdbcType=VARCHAR})
+      #{level,jdbcType=INTEGER}, #{signature,jdbcType=VARCHAR}, #{invitecode,jdbcType=VARCHAR}, 
+      #{sex,jdbcType=VARCHAR}, #{stauts,jdbcType=INTEGER}, #{longtitude,jdbcType=DECIMAL}, 
+      #{latitude,jdbcType=DECIMAL}, #{stepstoday,jdbcType=INTEGER})
   </insert>
+  <select id="getAllUsers" resultMap="BaseResultMap">
+    SELECT * FROM user
+  </select>
   <insert id="insertSelective" parameterType="org.loversAPP.model.User">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
@@ -146,9 +152,6 @@
       <if test="phonenumber != null">
         phoneNumber,
       </if>
-      <if test="loveindex != null">
-        loveIndex,
-      </if>
       <if test="level != null">
         level,
       </if>
@@ -157,6 +160,21 @@
       </if>
       <if test="invitecode != null">
         inviteCode,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="stauts != null">
+        stauts,
+      </if>
+      <if test="longtitude != null">
+        longtitude,
+      </if>
+      <if test="latitude != null">
+        latitude,
+      </if>
+      <if test="stepstoday != null">
+        stepsToday,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -178,9 +196,6 @@
       <if test="phonenumber != null">
         #{phonenumber,jdbcType=VARCHAR},
       </if>
-      <if test="loveindex != null">
-        #{loveindex,jdbcType=INTEGER},
-      </if>
       <if test="level != null">
         #{level,jdbcType=INTEGER},
       </if>
@@ -189,6 +204,21 @@
       </if>
       <if test="invitecode != null">
         #{invitecode,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="stauts != null">
+        #{stauts,jdbcType=INTEGER},
+      </if>
+      <if test="longtitude != null">
+        #{longtitude,jdbcType=DECIMAL},
+      </if>
+      <if test="latitude != null">
+        #{latitude,jdbcType=DECIMAL},
+      </if>
+      <if test="stepstoday != null">
+        #{stepstoday,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -222,9 +252,6 @@
       <if test="record.phonenumber != null">
         phoneNumber = #{record.phonenumber,jdbcType=VARCHAR},
       </if>
-      <if test="record.loveindex != null">
-        loveIndex = #{record.loveindex,jdbcType=INTEGER},
-      </if>
       <if test="record.level != null">
         level = #{record.level,jdbcType=INTEGER},
       </if>
@@ -233,6 +260,21 @@
       </if>
       <if test="record.invitecode != null">
         inviteCode = #{record.invitecode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sex != null">
+        sex = #{record.sex,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stauts != null">
+        stauts = #{record.stauts,jdbcType=INTEGER},
+      </if>
+      <if test="record.longtitude != null">
+        longtitude = #{record.longtitude,jdbcType=DECIMAL},
+      </if>
+      <if test="record.latitude != null">
+        latitude = #{record.latitude,jdbcType=DECIMAL},
+      </if>
+      <if test="record.stepstoday != null">
+        stepsToday = #{record.stepstoday,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null">
@@ -248,10 +290,14 @@
       wexID = #{record.wexid,jdbcType=VARCHAR},
       qq = #{record.qq,jdbcType=VARCHAR},
       phoneNumber = #{record.phonenumber,jdbcType=VARCHAR},
-      loveIndex = #{record.loveindex,jdbcType=INTEGER},
       level = #{record.level,jdbcType=INTEGER},
       signature = #{record.signature,jdbcType=VARCHAR},
-      inviteCode = #{record.invitecode,jdbcType=VARCHAR}
+      inviteCode = #{record.invitecode,jdbcType=VARCHAR},
+      sex = #{record.sex,jdbcType=VARCHAR},
+      stauts = #{record.stauts,jdbcType=INTEGER},
+      longtitude = #{record.longtitude,jdbcType=DECIMAL},
+      latitude = #{record.latitude,jdbcType=DECIMAL},
+      stepsToday = #{record.stepstoday,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -277,9 +323,6 @@
       <if test="phonenumber != null">
         phoneNumber = #{phonenumber,jdbcType=VARCHAR},
       </if>
-      <if test="loveindex != null">
-        loveIndex = #{loveindex,jdbcType=INTEGER},
-      </if>
       <if test="level != null">
         level = #{level,jdbcType=INTEGER},
       </if>
@@ -288,6 +331,21 @@
       </if>
       <if test="invitecode != null">
         inviteCode = #{invitecode,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="stauts != null">
+        stauts = #{stauts,jdbcType=INTEGER},
+      </if>
+      <if test="longtitude != null">
+        longtitude = #{longtitude,jdbcType=DECIMAL},
+      </if>
+      <if test="latitude != null">
+        latitude = #{latitude,jdbcType=DECIMAL},
+      </if>
+      <if test="stepstoday != null">
+        stepsToday = #{stepstoday,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -300,10 +358,14 @@
       wexID = #{wexid,jdbcType=VARCHAR},
       qq = #{qq,jdbcType=VARCHAR},
       phoneNumber = #{phonenumber,jdbcType=VARCHAR},
-      loveIndex = #{loveindex,jdbcType=INTEGER},
       level = #{level,jdbcType=INTEGER},
       signature = #{signature,jdbcType=VARCHAR},
-      inviteCode = #{invitecode,jdbcType=VARCHAR}
+      inviteCode = #{invitecode,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      stauts = #{stauts,jdbcType=INTEGER},
+      longtitude = #{longtitude,jdbcType=DECIMAL},
+      latitude = #{latitude,jdbcType=DECIMAL},
+      stepsToday = #{stepstoday,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

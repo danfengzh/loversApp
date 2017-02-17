@@ -16,6 +16,8 @@ public class LoverShip extends BaseModel {
 
     private Integer checkindays;
 
+    private Integer loveindex;
+
     public Integer getLovergirlid() {
         return lovergirlid;
     }
@@ -62,5 +64,13 @@ public class LoverShip extends BaseModel {
 
     public void setCheckindays(Integer checkindays) {
         this.checkindays = checkindays;
+    }
+
+    public Integer getLoveindex() {
+        return loveindex;
+    }
+
+    public void setLoveindex(Integer loveindex) {
+        this.loveindex = loveindex;
     }
 }

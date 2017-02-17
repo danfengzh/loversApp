@@ -1,5 +1,6 @@
 package org.loversAPP.model;
 
+import java.math.BigDecimal;
 import org.loversAPP.base.BaseModel;
 
 public class User extends BaseModel {
@@ -17,13 +18,21 @@ public class User extends BaseModel {
 
     private String phonenumber;
 
-    private Integer loveindex;
-
     private Integer level;
 
     private String signature;
 
     private String invitecode;
+
+    private String sex;
+
+    private Integer stauts;
+
+    private BigDecimal longtitude;
+
+    private BigDecimal latitude;
+
+    private Integer stepstoday;
 
     public Integer getId() {
         return id;
@@ -81,14 +90,6 @@ public class User extends BaseModel {
         this.phonenumber = phonenumber == null ? null : phonenumber.trim();
     }
 
-    public Integer getLoveindex() {
-        return loveindex;
-    }
-
-    public void setLoveindex(Integer loveindex) {
-        this.loveindex = loveindex;
-    }
-
     public Integer getLevel() {
         return level;
     }
@@ -111,5 +112,45 @@ public class User extends BaseModel {
 
     public void setInvitecode(String invitecode) {
         this.invitecode = invitecode == null ? null : invitecode.trim();
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex == null ? null : sex.trim();
+    }
+
+    public Integer getStauts() {
+        return stauts;
+    }
+
+    public void setStauts(Integer stauts) {
+        this.stauts = stauts;
+    }
+
+    public BigDecimal getLongtitude() {
+        return longtitude;
+    }
+
+    public void setLongtitude(BigDecimal longtitude) {
+        this.longtitude = longtitude;
+    }
+
+    public BigDecimal getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(BigDecimal latitude) {
+        this.latitude = latitude;
+    }
+
+    public Integer getStepstoday() {
+        return stepstoday;
+    }
+
+    public void setStepstoday(Integer stepstoday) {
+        this.stepstoday = stepstoday;
     }
 }

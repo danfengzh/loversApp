@@ -7,6 +7,8 @@
     <id column="treasureType" jdbcType="INTEGER" property="treasuretype" />
     <result column="treasureName" jdbcType="VARCHAR" property="treasurename" />
     <result column="treasureValue" jdbcType="INTEGER" property="treasurevalue" />
+    <result column="longtitude" jdbcType="DECIMAL" property="longtitude" />
+    <result column=" latitude" jdbcType="DECIMAL" property="latitude" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -67,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, userID, treasureType, treasureName, treasureValue
+    id, userID, treasureType, treasureName, treasureValue, longtitude, " latitude"
   </sql>
   <select id="selectByExample" parameterType="org.loversAPP.model.TreasureExample" resultMap="BaseResultMap">
     select
@@ -108,9 +110,11 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into treasure (userID, treasureType, treasureName, 
-      treasureValue)
+      treasureValue, longtitude, " latitude"
+      )
     values (#{userid,jdbcType=INTEGER}, #{treasuretype,jdbcType=INTEGER}, #{treasurename,jdbcType=VARCHAR}, 
-      #{treasurevalue,jdbcType=INTEGER})
+      #{treasurevalue,jdbcType=INTEGER}, #{longtitude,jdbcType=DECIMAL}, #{latitude,jdbcType=DECIMAL}
+      )
   </insert>
   <insert id="insertSelective" parameterType="org.loversAPP.model.Treasure">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -130,6 +134,12 @@
       <if test="treasurevalue != null">
         treasureValue,
       </if>
+      <if test="longtitude != null">
+        longtitude,
+      </if>
+      <if test="latitude != null">
+        " latitude",
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="userid != null">
@@ -143,6 +153,12 @@
       </if>
       <if test="treasurevalue != null">
         #{treasurevalue,jdbcType=INTEGER},
+      </if>
+      <if test="longtitude != null">
+        #{longtitude,jdbcType=DECIMAL},
+      </if>
+      <if test="latitude != null">
+        #{latitude,jdbcType=DECIMAL},
       </if>
     </trim>
   </insert>
@@ -170,6 +186,12 @@
       <if test="record.treasurevalue != null">
         treasureValue = #{record.treasurevalue,jdbcType=INTEGER},
       </if>
+      <if test="record.longtitude != null">
+        longtitude = #{record.longtitude,jdbcType=DECIMAL},
+      </if>
+      <if test="record.latitude != null">
+        " latitude" = #{record.latitude,jdbcType=DECIMAL},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -181,7 +203,9 @@
       userID = #{record.userid,jdbcType=INTEGER},
       treasureType = #{record.treasuretype,jdbcType=INTEGER},
       treasureName = #{record.treasurename,jdbcType=VARCHAR},
-      treasureValue = #{record.treasurevalue,jdbcType=INTEGER}
+      treasureValue = #{record.treasurevalue,jdbcType=INTEGER},
+      longtitude = #{record.longtitude,jdbcType=DECIMAL},
+      " latitude" = #{record.latitude,jdbcType=DECIMAL}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -195,6 +219,12 @@
       <if test="treasurevalue != null">
         treasureValue = #{treasurevalue,jdbcType=INTEGER},
       </if>
+      <if test="longtitude != null">
+        longtitude = #{longtitude,jdbcType=DECIMAL},
+      </if>
+      <if test="latitude != null">
+        " latitude" = #{latitude,jdbcType=DECIMAL},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
       and userID = #{userid,jdbcType=INTEGER}
@@ -203,7 +233,9 @@
   <update id="updateByPrimaryKey" parameterType="org.loversAPP.model.Treasure">
     update treasure
     set treasureName = #{treasurename,jdbcType=VARCHAR},
-      treasureValue = #{treasurevalue,jdbcType=INTEGER}
+      treasureValue = #{treasurevalue,jdbcType=INTEGER},
+      longtitude = #{longtitude,jdbcType=DECIMAL},
+      " latitude" = #{latitude,jdbcType=DECIMAL}
     where id = #{id,jdbcType=INTEGER}
       and userID = #{userid,jdbcType=INTEGER}
       and treasureType = #{treasuretype,jdbcType=INTEGER}

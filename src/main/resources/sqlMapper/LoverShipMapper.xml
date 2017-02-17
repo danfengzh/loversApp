@@ -8,6 +8,7 @@
     <result column="state" jdbcType="CHAR" property="state" />
     <result column="loverID" jdbcType="VARCHAR" property="loverid" />
     <result column="checkinDays" jdbcType="INTEGER" property="checkindays" />
+    <result column="loveIndex" jdbcType="INTEGER" property="loveindex" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -68,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    loverGirlID, loverBoyID, loveTime, state, loverID, checkinDays
+    loverGirlID, loverBoyID, loveTime, state, loverID, checkinDays, loveIndex
   </sql>
   <select id="selectByExample" parameterType="org.loversAPP.model.LoverShipExample" resultMap="BaseResultMap">
     select
@@ -91,6 +92,22 @@
     where loverGirlID = #{lovergirlid,jdbcType=INTEGER}
       and loverBoyID = #{loverboyid,jdbcType=INTEGER}
   </select>
+  <!--
+  selectSelectiveByPrimaryKey
+  -->
+  <select id="selectSelectiveByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from lover_ship
+    <where>
+      <if test="lovergirlid!=null">
+        loverGirlID = #{lovergirlid,jdbcType=INTEGER}
+      </if>
+      <if test="loverboyid!=null">
+       AND loverBoyID = #{loverboyid,jdbcType=INTEGER}
+      </if>
+    </where>
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="map">
     delete from lover_ship
     where loverGirlID = #{lovergirlid,jdbcType=INTEGER}
@@ -104,11 +121,11 @@
   </delete>
   <insert id="insert" parameterType="org.loversAPP.model.LoverShip">
     insert into lover_ship (loverGirlID, loverBoyID, loveTime, 
-      state, loverID, checkinDays
-      )
+      state, loverID, checkinDays, 
+      loveIndex)
     values (#{lovergirlid,jdbcType=INTEGER}, #{loverboyid,jdbcType=INTEGER}, #{lovetime,jdbcType=TIMESTAMP}, 
-      #{state,jdbcType=CHAR}, #{loverid,jdbcType=VARCHAR}, #{checkindays,jdbcType=INTEGER}
-      )
+      #{state,jdbcType=CHAR}, #{loverid,jdbcType=VARCHAR}, #{checkindays,jdbcType=INTEGER}, 
+      #{loveindex,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="org.loversAPP.model.LoverShip">
     insert into lover_ship
@@ -131,6 +148,9 @@
       <if test="checkindays != null">
         checkinDays,
       </if>
+      <if test="loveindex != null">
+        loveIndex,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="lovergirlid != null">
@@ -150,6 +170,9 @@
       </if>
       <if test="checkindays != null">
         #{checkindays,jdbcType=INTEGER},
+      </if>
+      <if test="loveindex != null">
+        #{loveindex,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -180,6 +203,9 @@
       <if test="record.checkindays != null">
         checkinDays = #{record.checkindays,jdbcType=INTEGER},
       </if>
+      <if test="record.loveindex != null">
+        loveIndex = #{record.loveindex,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -192,7 +218,8 @@
       loveTime = #{record.lovetime,jdbcType=TIMESTAMP},
       state = #{record.state,jdbcType=CHAR},
       loverID = #{record.loverid,jdbcType=VARCHAR},
-      checkinDays = #{record.checkindays,jdbcType=INTEGER}
+      checkinDays = #{record.checkindays,jdbcType=INTEGER},
+      loveIndex = #{record.loveindex,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -212,6 +239,9 @@
       <if test="checkindays != null">
         checkinDays = #{checkindays,jdbcType=INTEGER},
       </if>
+      <if test="loveindex != null">
+        loveIndex = #{loveindex,jdbcType=INTEGER},
+      </if>
     </set>
     where loverGirlID = #{lovergirlid,jdbcType=INTEGER}
       and loverBoyID = #{loverboyid,jdbcType=INTEGER}
@@ -221,7 +251,8 @@
     set loveTime = #{lovetime,jdbcType=TIMESTAMP},
       state = #{state,jdbcType=CHAR},
       loverID = #{loverid,jdbcType=VARCHAR},
-      checkinDays = #{checkindays,jdbcType=INTEGER}
+      checkinDays = #{checkindays,jdbcType=INTEGER},
+      loveIndex = #{loveindex,jdbcType=INTEGER}
     where loverGirlID = #{lovergirlid,jdbcType=INTEGER}
       and loverBoyID = #{loverboyid,jdbcType=INTEGER}
   </update>

@@ -1,13 +1,14 @@
 package org.loversAPP.dao;
 
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.loversAPP.model.LoverShip;
 import org.loversAPP.model.LoverShipExample;
 
+import java.util.List;
+
 public interface LoverShipMapper {
     long countByExample(LoverShipExample example);
-
+    LoverShip selectSelectiveByPrimaryKey(@Param("lovergirlid") Integer lovergirlid, @Param("loverboyid") Integer loverboyid);
     int deleteByExample(LoverShipExample example);
 
     int deleteByPrimaryKey(@Param("lovergirlid") Integer lovergirlid, @Param("loverboyid") Integer loverboyid);

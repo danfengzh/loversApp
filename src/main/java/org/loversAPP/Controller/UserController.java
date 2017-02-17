@@ -66,7 +66,7 @@ public class UserController extends BaseController{
      * 查询所有的用户
      * @return
      */
-    @RequestMapping(value = "getAllUsers",method = RequestMethod.GET,produces = "application/json;charset=utf-8")
+    @RequestMapping(value = "getAllUsers",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
     @ResponseBody
     public FeedBack<List<User>> getAllUsers(){
 
@@ -143,5 +143,55 @@ public class UserController extends BaseController{
             feedBack=new FeedBack<String>("failure","500");
         }
         return feedBack;
+    }
+    @RequestMapping(value ="updateUserNameByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public FeedBack<String> updateUserNameByID(Integer id,String userName){
+        FeedBack<String> feedBack;
+       int count= userService.updateUserNameByID(id,userName);
+       if(count==1){
+           feedBack=new FeedBack<>("success","200",userName);
+       }
+       else {
+           feedBack=new FeedBack<>("failure","400");
+       }
+       return feedBack;
+    }
+    @RequestMapping(value ="getIDByInviteCode",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public FeedBack<Integer> getIDByInviteCode(String inviteCode){
+        FeedBack<Integer> feedBack;
+        Integer id=   userService.getIDByInviteCode(inviteCode);
+        if(id!=null){
+            feedBack=new FeedBack<>("success","200",id);
+        }
+        else {
+            feedBack=new FeedBack<>("failure","500");
+        }
+        return feedBack;
+    }
+
+    /**
+     * 删除用户的时候需要将和该用户有关的信息都进行删除
+     *  1.解除恋爱关系---也就是删除lover_ship关系--附加删除activity_records
+     *  2.删除道具信息
+     *  3.删除宝藏信息
+     *  4.删除dig_history
+     *
+     * @param id
+     * @return
+     */
+    @RequestMapping(value ="deleteUserByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public FeedBack<String> deleteUserByID(Integer id){
+        FeedBack<String> feedBack;
+       Integer count=userService.deleteUserByID(id);
+       if(count==1){
+           feedBack=new FeedBack<>("success","200");
+       }
+       else {
+           feedBack=new FeedBack<>("failure","500");
+       }
+       return feedBack;
     }
 }
