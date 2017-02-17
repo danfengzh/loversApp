@@ -7,12 +7,16 @@ import org.loversAPP.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
+
 /**
- * Created by Administrator on 2017/2/15.
+ * Created by Administrator on 2017/2/17.
  */
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService
+{
+
     @Autowired
     private UserMapper userMapper;
 
@@ -53,6 +57,11 @@ public class UserServiceImpl implements UserService {
         return res;
     }
 
+    @Override
+    public Integer updateSexByID(Integer userID, String sex) {
+        return null;
+    }
+
     private Integer updateUserInfo(User user) {
         return userMapper.updateByPrimaryKeySelective(user);
     }
@@ -79,4 +88,35 @@ public class UserServiceImpl implements UserService {
 
         return userMapper.getAllUsers();
     }
+
+    @Override
+    public Integer updateStepsTodayByID(Integer id, Integer stepsToday) {
+        return null;
+    }
+
+    @Override
+    public Integer updateLocationByID(Integer id, BigDecimal longtitude, BigDecimal latitude) {
+        return null;
+    }
+
+    @Override
+    public Integer updateWexIDByID(Integer userID, String wexID) {
+        return null;
+    }
+
+    @Override
+    public Integer updateQQByID(Integer userID, String qq) {
+        return null;
+    }
+
+    @Override
+    public Integer updateLevelByID(Integer userID, Integer level) {
+        return null;
+    }
+
+    @Override
+    public Integer updateStayus(Integer userId, Integer status) {
+        return null;
+    }
+
 }

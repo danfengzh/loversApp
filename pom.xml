@@ -339,6 +339,24 @@
       <artifactId>hibernate-validator</artifactId>
       <version>5.2.3.Final</version>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/com.mangofactory/swagger-springmvc -->
+    <!-- swagger-springmvc -->
+    <dependency>
+      <groupId>com.mangofactory</groupId>
+      <artifactId>swagger-springmvc</artifactId>
+      <version>1.0.2</version>
+    </dependency>
+    <dependency>
+      <groupId>com.mangofactory</groupId>
+      <artifactId>swagger-models</artifactId>
+      <version>1.0.2</version>
+    </dependency>
+    <dependency>
+      <groupId>com.wordnik</groupId>
+      <artifactId>swagger-annotations</artifactId>
+      <version>1.3.11</version>
+    </dependency>
+    <!-- swagger-springmvc dependencies -->
   </dependencies>
   <build>
     <finalName>loversApp</finalName>

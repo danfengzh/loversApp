@@ -1,7 +1,9 @@
 package org.loversAPP.Controller;
 
+import com.wordnik.swagger.annotations.ApiOperation;
 import org.loversAPP.Controller.base.BaseController;
 import org.loversAPP.Controller.utils.ControllerConstant;
+import org.loversAPP.Controller.utils.InviteCodeCreator;
 import org.loversAPP.Controller.utils.fileUpload;
 import org.loversAPP.DTO.FeedBack;
 import org.loversAPP.model.User;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,6 +34,7 @@ public class UserController extends BaseController{
      * @param userID
      * @return
      */
+    @ApiOperation(value = "根据用户id查询用户个人信息",httpMethod = "POST",produces = "json")
     @RequestMapping(value = "getUserByID",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
     @ResponseBody
     public FeedBack<User> getUserByID(Integer userID){
@@ -52,6 +56,7 @@ public class UserController extends BaseController{
      * @param passWord
      * @return
      */
+    @ApiOperation(value = "根据电话号码和密码查询用户id",httpMethod = "POST",produces = "json")
     @RequestMapping(value = "getIDByPhoneAndPw",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
     @ResponseBody
     public FeedBack<Integer> getIDByPhoneAndPw(String phoneNumber ,String passWord){
@@ -66,6 +71,7 @@ public class UserController extends BaseController{
      * 查询所有的用户
      * @return
      */
+    @ApiOperation(value = "查询所有的用户",httpMethod = "POST",produces = "json")
     @RequestMapping(value = "getAllUsers",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
     @ResponseBody
     public FeedBack<List<User>> getAllUsers(){
@@ -79,13 +85,16 @@ public class UserController extends BaseController{
      * 增加用户
      * @return
      */
+    @ApiOperation(value = "增加用户",httpMethod = "POST",produces = "json")
     @RequestMapping(value = "insertUser",produces = "application/json;charset=utf-8",method = RequestMethod.POST)
     @ResponseBody
     public  FeedBack<String> insertUser(User user){
         FeedBack<String> feedBack;
         //记得对用户的密码进行加密
         String md5pass=  MD5Utils.getMd5(user.getPassword());
+        String inviteCode=InviteCodeCreator.createRandom(true,6);
         user.setPassword(md5pass);
+        user.setInvitecode(inviteCode);
         Integer count= userService.insertUser(user);
         if(count==1){
             feedBack=new FeedBack("OK","200");
@@ -102,6 +111,7 @@ public class UserController extends BaseController{
      * @param password
      * @return
      */
+    @ApiOperation(value = "根据用户id更新密码",httpMethod = "POST",produces = "json")
     @RequestMapping(value ="updatePwByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
     public FeedBack<String> updatePwByID(Integer id,String password){
@@ -124,6 +134,7 @@ public class UserController extends BaseController{
      * @param id  用户id
      * @return
      */
+    @ApiOperation(value = "根据用户id更新头像",httpMethod = "POST",produces = "json")
     @RequestMapping(value ="updateAvatarByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
     public FeedBack<String> updateAvatarByID(MultipartFile avatar , Integer id){
@@ -144,18 +155,19 @@ public class UserController extends BaseController{
         }
         return feedBack;
     }
+    @ApiOperation(value = "根据用户id更新用户名",httpMethod = "POST",produces = "json")
     @RequestMapping(value ="updateUserNameByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
     public FeedBack<String> updateUserNameByID(Integer id,String userName){
         FeedBack<String> feedBack;
-       int count= userService.updateUserNameByID(id,userName);
-       if(count==1){
-           feedBack=new FeedBack<>("success","200",userName);
-       }
-       else {
-           feedBack=new FeedBack<>("failure","400");
-       }
-       return feedBack;
+        int count= userService.updateUserNameByID(id,userName);
+        if(count==1){
+            feedBack=new FeedBack<>("success","200",userName);
+        }
+        else {
+            feedBack=new FeedBack<>("failure","400");
+        }
+        return feedBack;
     }
     @RequestMapping(value ="getIDByInviteCode",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
@@ -178,20 +190,33 @@ public class UserController extends BaseController{
      *  3.删除宝藏信息
      *  4.删除dig_history
      *
-     * @param id
+     * @param userID
      * @return
      */
     @RequestMapping(value ="deleteUserByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
-    public FeedBack<String> deleteUserByID(Integer id){
+    public FeedBack<String> deleteUserByID(@RequestParam("userID") Integer userID){
         FeedBack<String> feedBack;
-       Integer count=userService.deleteUserByID(id);
-       if(count==1){
-           feedBack=new FeedBack<>("success","200");
-       }
-       else {
-           feedBack=new FeedBack<>("failure","500");
-       }
-       return feedBack;
+        Integer count=userService.deleteUserByID(userID);
+        if(count==1){
+            feedBack=new FeedBack<>("success","200");
+        }
+        else {
+            feedBack=new FeedBack<>("failure","500");
+        }
+        return feedBack;
+    }
+    @RequestMapping(value ="updateSexByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public FeedBack<String> updateSexByID(Integer id,String sex){
+        FeedBack<String> feedBack;
+        Integer count=userService.updateSexByID(id,sex);
+        if(count==1){
+            feedBack=new FeedBack<>("success","200");
+        }
+        else {
+            feedBack=new FeedBack<>("failure","500");
+        }
+        return feedBack;
     }
 }
