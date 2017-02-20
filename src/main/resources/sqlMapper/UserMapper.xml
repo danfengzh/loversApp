@@ -17,6 +17,13 @@
     <result column="longtitude" jdbcType="DECIMAL" property="longtitude" />
     <result column="latitude" jdbcType="DECIMAL" property="latitude" />
     <result column="stepsToday" jdbcType="INTEGER" property="stepstoday" />
+    <result column="checkinDays" jdbcType="INTEGER" property="checkindays" />
+    <result column="age" jdbcType="INTEGER" property="age" />
+    <result column="height" jdbcType="INTEGER" property="height" />
+    <result column="weight" jdbcType="INTEGER" property="weight" />
+    <result column="hobby" jdbcType="VARCHAR" property="hobby" />
+    <result column="exp" jdbcType="INTEGER" property="exp" />
+    <result column="backImage" jdbcType="VARCHAR" property="backimage" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -78,7 +85,8 @@
   </sql>
   <sql id="Base_Column_List">
     id, userName, passWord, avator, wexID, qq, phoneNumber, level, signature, inviteCode, 
-    sex, stauts, longtitude, latitude, stepsToday
+    sex, stauts, longtitude, latitude, stepsToday, checkinDays, age, height, weight, 
+    hobby, exp, backImage
   </sql>
   <select id="selectByExample" parameterType="org.loversAPP.model.UserExample" resultMap="BaseResultMap">
     select
@@ -93,6 +101,9 @@
     <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
+  </select>
+  <select id="getAllUsers" resultMap="BaseResultMap">
+    SELECT * FROM user
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -118,16 +129,19 @@
       wexID, qq, phoneNumber, 
       level, signature, inviteCode, 
       sex, stauts, longtitude, 
-      latitude, stepsToday)
+      latitude, stepsToday, checkinDays, 
+      age, height, weight, 
+      hobby, exp, backImage
+      )
     values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{avator,jdbcType=VARCHAR}, 
       #{wexid,jdbcType=VARCHAR}, #{qq,jdbcType=VARCHAR}, #{phonenumber,jdbcType=VARCHAR}, 
       #{level,jdbcType=INTEGER}, #{signature,jdbcType=VARCHAR}, #{invitecode,jdbcType=VARCHAR}, 
       #{sex,jdbcType=VARCHAR}, #{stauts,jdbcType=INTEGER}, #{longtitude,jdbcType=DECIMAL}, 
-      #{latitude,jdbcType=DECIMAL}, #{stepstoday,jdbcType=INTEGER})
+      #{latitude,jdbcType=DECIMAL}, #{stepstoday,jdbcType=INTEGER}, #{checkindays,jdbcType=INTEGER}, 
+      #{age,jdbcType=INTEGER}, #{height,jdbcType=INTEGER}, #{weight,jdbcType=INTEGER}, 
+      #{hobby,jdbcType=VARCHAR}, #{exp,jdbcType=INTEGER}, #{backimage,jdbcType=VARCHAR}
+      )
   </insert>
-  <select id="getAllUsers" resultMap="BaseResultMap">
-    SELECT * FROM user
-  </select>
   <insert id="insertSelective" parameterType="org.loversAPP.model.User">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
@@ -176,6 +190,27 @@
       <if test="stepstoday != null">
         stepsToday,
       </if>
+      <if test="checkindays != null">
+        checkinDays,
+      </if>
+      <if test="age != null">
+        age,
+      </if>
+      <if test="height != null">
+        height,
+      </if>
+      <if test="weight != null">
+        weight,
+      </if>
+      <if test="hobby != null">
+        hobby,
+      </if>
+      <if test="exp != null">
+        exp,
+      </if>
+      <if test="backimage != null">
+        backImage,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="username != null">
@@ -219,6 +254,27 @@
       </if>
       <if test="stepstoday != null">
         #{stepstoday,jdbcType=INTEGER},
+      </if>
+      <if test="checkindays != null">
+        #{checkindays,jdbcType=INTEGER},
+      </if>
+      <if test="age != null">
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="height != null">
+        #{height,jdbcType=INTEGER},
+      </if>
+      <if test="weight != null">
+        #{weight,jdbcType=INTEGER},
+      </if>
+      <if test="hobby != null">
+        #{hobby,jdbcType=VARCHAR},
+      </if>
+      <if test="exp != null">
+        #{exp,jdbcType=INTEGER},
+      </if>
+      <if test="backimage != null">
+        #{backimage,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -276,6 +332,27 @@
       <if test="record.stepstoday != null">
         stepsToday = #{record.stepstoday,jdbcType=INTEGER},
       </if>
+      <if test="record.checkindays != null">
+        checkinDays = #{record.checkindays,jdbcType=INTEGER},
+      </if>
+      <if test="record.age != null">
+        age = #{record.age,jdbcType=INTEGER},
+      </if>
+      <if test="record.height != null">
+        height = #{record.height,jdbcType=INTEGER},
+      </if>
+      <if test="record.weight != null">
+        weight = #{record.weight,jdbcType=INTEGER},
+      </if>
+      <if test="record.hobby != null">
+        hobby = #{record.hobby,jdbcType=VARCHAR},
+      </if>
+      <if test="record.exp != null">
+        exp = #{record.exp,jdbcType=INTEGER},
+      </if>
+      <if test="record.backimage != null">
+        backImage = #{record.backimage,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -297,7 +374,14 @@
       stauts = #{record.stauts,jdbcType=INTEGER},
       longtitude = #{record.longtitude,jdbcType=DECIMAL},
       latitude = #{record.latitude,jdbcType=DECIMAL},
-      stepsToday = #{record.stepstoday,jdbcType=INTEGER}
+      stepsToday = #{record.stepstoday,jdbcType=INTEGER},
+      checkinDays = #{record.checkindays,jdbcType=INTEGER},
+      age = #{record.age,jdbcType=INTEGER},
+      height = #{record.height,jdbcType=INTEGER},
+      weight = #{record.weight,jdbcType=INTEGER},
+      hobby = #{record.hobby,jdbcType=VARCHAR},
+      exp = #{record.exp,jdbcType=INTEGER},
+      backImage = #{record.backimage,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -347,6 +431,27 @@
       <if test="stepstoday != null">
         stepsToday = #{stepstoday,jdbcType=INTEGER},
       </if>
+      <if test="checkindays != null">
+        checkinDays = #{checkindays,jdbcType=INTEGER},
+      </if>
+      <if test="age != null">
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="height != null">
+        height = #{height,jdbcType=INTEGER},
+      </if>
+      <if test="weight != null">
+        weight = #{weight,jdbcType=INTEGER},
+      </if>
+      <if test="hobby != null">
+        hobby = #{hobby,jdbcType=VARCHAR},
+      </if>
+      <if test="exp != null">
+        exp = #{exp,jdbcType=INTEGER},
+      </if>
+      <if test="backimage != null">
+        backImage = #{backimage,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -365,7 +470,14 @@
       stauts = #{stauts,jdbcType=INTEGER},
       longtitude = #{longtitude,jdbcType=DECIMAL},
       latitude = #{latitude,jdbcType=DECIMAL},
-      stepsToday = #{stepstoday,jdbcType=INTEGER}
+      stepsToday = #{stepstoday,jdbcType=INTEGER},
+      checkinDays = #{checkindays,jdbcType=INTEGER},
+      age = #{age,jdbcType=INTEGER},
+      height = #{height,jdbcType=INTEGER},
+      weight = #{weight,jdbcType=INTEGER},
+      hobby = #{hobby,jdbcType=VARCHAR},
+      exp = #{exp,jdbcType=INTEGER},
+      backImage = #{backimage,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

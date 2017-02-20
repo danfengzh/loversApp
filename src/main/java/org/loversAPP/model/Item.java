@@ -9,9 +9,11 @@ public class Item extends BaseModel {
 
     private String itemfunction;
 
-    private Long price;
+    private Long itemprice;
 
     private String itemimage;
+
+    private Integer itemtype;
 
     public Integer getId() {
         return id;
@@ -37,12 +39,12 @@ public class Item extends BaseModel {
         this.itemfunction = itemfunction == null ? null : itemfunction.trim();
     }
 
-    public Long getPrice() {
-        return price;
+    public Long getItemprice() {
+        return itemprice;
     }
 
-    public void setPrice(Long price) {
-        this.price = price;
+    public void setItemprice(Long itemprice) {
+        this.itemprice = itemprice;
     }
 
     public String getItemimage() {
@@ -51,5 +53,13 @@ public class Item extends BaseModel {
 
     public void setItemimage(String itemimage) {
         this.itemimage = itemimage == null ? null : itemimage.trim();
+    }
+
+    public Integer getItemtype() {
+        return itemtype;
+    }
+
+    public void setItemtype(Integer itemtype) {
+        this.itemtype = itemtype;
     }
 }

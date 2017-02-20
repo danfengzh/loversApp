@@ -5,7 +5,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <id column="loverID" jdbcType="VARCHAR" property="loverid" />
     <result column="totalSteps" jdbcType="INTEGER" property="totalsteps" />
-    <result column="Area" jdbcType="DOUBLE" property="area" />
+    <result column="radius" jdbcType="INTEGER" property="radius" />
     <result column="longtitude" jdbcType="DECIMAL" property="longtitude" />
     <result column="latitude" jdbcType="DECIMAL" property="latitude" />
   </resultMap>
@@ -68,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, loverID, totalSteps, Area, longtitude, latitude
+    id, loverID, totalSteps, radius, longtitude, latitude
   </sql>
   <select id="selectByExample" parameterType="org.loversAPP.model.ActivityrecordsExample" resultMap="BaseResultMap">
     select
@@ -106,9 +106,9 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into activityrecords (loverID, totalSteps, Area, 
+    insert into activityrecords (loverID, totalSteps, radius, 
       longtitude, latitude)
-    values (#{loverid,jdbcType=VARCHAR}, #{totalsteps,jdbcType=INTEGER}, #{area,jdbcType=DOUBLE}, 
+    values (#{loverid,jdbcType=VARCHAR}, #{totalsteps,jdbcType=INTEGER}, #{radius,jdbcType=INTEGER}, 
       #{longtitude,jdbcType=DECIMAL}, #{latitude,jdbcType=DECIMAL})
   </insert>
   <insert id="insertSelective" parameterType="org.loversAPP.model.Activityrecords">
@@ -123,8 +123,8 @@
       <if test="totalsteps != null">
         totalSteps,
       </if>
-      <if test="area != null">
-        Area,
+      <if test="radius != null">
+        radius,
       </if>
       <if test="longtitude != null">
         longtitude,
@@ -140,8 +140,8 @@
       <if test="totalsteps != null">
         #{totalsteps,jdbcType=INTEGER},
       </if>
-      <if test="area != null">
-        #{area,jdbcType=DOUBLE},
+      <if test="radius != null">
+        #{radius,jdbcType=INTEGER},
       </if>
       <if test="longtitude != null">
         #{longtitude,jdbcType=DECIMAL},
@@ -169,8 +169,8 @@
       <if test="record.totalsteps != null">
         totalSteps = #{record.totalsteps,jdbcType=INTEGER},
       </if>
-      <if test="record.area != null">
-        Area = #{record.area,jdbcType=DOUBLE},
+      <if test="record.radius != null">
+        radius = #{record.radius,jdbcType=INTEGER},
       </if>
       <if test="record.longtitude != null">
         longtitude = #{record.longtitude,jdbcType=DECIMAL},
@@ -188,7 +188,7 @@
     set id = #{record.id,jdbcType=INTEGER},
       loverID = #{record.loverid,jdbcType=VARCHAR},
       totalSteps = #{record.totalsteps,jdbcType=INTEGER},
-      Area = #{record.area,jdbcType=DOUBLE},
+      radius = #{record.radius,jdbcType=INTEGER},
       longtitude = #{record.longtitude,jdbcType=DECIMAL},
       latitude = #{record.latitude,jdbcType=DECIMAL}
     <if test="_parameter != null">
@@ -201,8 +201,8 @@
       <if test="totalsteps != null">
         totalSteps = #{totalsteps,jdbcType=INTEGER},
       </if>
-      <if test="area != null">
-        Area = #{area,jdbcType=DOUBLE},
+      <if test="radius != null">
+        radius = #{radius,jdbcType=INTEGER},
       </if>
       <if test="longtitude != null">
         longtitude = #{longtitude,jdbcType=DECIMAL},
@@ -217,7 +217,7 @@
   <update id="updateByPrimaryKey" parameterType="org.loversAPP.model.Activityrecords">
     update activityrecords
     set totalSteps = #{totalsteps,jdbcType=INTEGER},
-      Area = #{area,jdbcType=DOUBLE},
+      radius = #{radius,jdbcType=INTEGER},
       longtitude = #{longtitude,jdbcType=DECIMAL},
       latitude = #{latitude,jdbcType=DECIMAL}
     where id = #{id,jdbcType=INTEGER}

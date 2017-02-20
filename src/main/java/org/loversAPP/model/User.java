@@ -34,6 +34,20 @@ public class User extends BaseModel {
 
     private Integer stepstoday;
 
+    private Integer checkindays;
+
+    private Integer age;
+
+    private Integer height;
+
+    private Integer weight;
+
+    private String hobby;
+
+    private Integer exp;
+
+    private String backimage;
+
     public Integer getId() {
         return id;
     }
@@ -152,5 +166,61 @@ public class User extends BaseModel {
 
     public void setStepstoday(Integer stepstoday) {
         this.stepstoday = stepstoday;
+    }
+
+    public Integer getCheckindays() {
+        return checkindays;
+    }
+
+    public void setCheckindays(Integer checkindays) {
+        this.checkindays = checkindays;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public Integer getHeight() {
+        return height;
+    }
+
+    public void setHeight(Integer height) {
+        this.height = height;
+    }
+
+    public Integer getWeight() {
+        return weight;
+    }
+
+    public void setWeight(Integer weight) {
+        this.weight = weight;
+    }
+
+    public String getHobby() {
+        return hobby;
+    }
+
+    public void setHobby(String hobby) {
+        this.hobby = hobby == null ? null : hobby.trim();
+    }
+
+    public Integer getExp() {
+        return exp;
+    }
+
+    public void setExp(Integer exp) {
+        this.exp = exp;
+    }
+
+    public String getBackimage() {
+        return backimage;
+    }
+
+    public void setBackimage(String backimage) {
+        this.backimage = backimage == null ? null : backimage.trim();
     }
 }

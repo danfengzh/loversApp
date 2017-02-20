@@ -10,7 +10,7 @@ public class Activityrecords extends BaseModel {
 
     private Integer totalsteps;
 
-    private Double area;
+    private Integer radius;
 
     private BigDecimal longtitude;
 
@@ -40,12 +40,12 @@ public class Activityrecords extends BaseModel {
         this.totalsteps = totalsteps;
     }
 
-    public Double getArea() {
-        return area;
+    public Integer getRadius() {
+        return radius;
     }
 
-    public void setArea(Double area) {
-        this.area = area;
+    public void setRadius(Integer radius) {
+        this.radius = radius;
     }
 
     public BigDecimal getLongtitude() {

@@ -14,8 +14,6 @@ public class LoverShip extends BaseModel {
 
     private String loverid;
 
-    private Integer checkindays;
-
     private Integer loveindex;
 
     public Integer getLovergirlid() {
@@ -56,14 +54,6 @@ public class LoverShip extends BaseModel {
 
     public void setLoverid(String loverid) {
         this.loverid = loverid == null ? null : loverid.trim();
-    }
-
-    public Integer getCheckindays() {
-        return checkindays;
-    }
-
-    public void setCheckindays(Integer checkindays) {
-        this.checkindays = checkindays;
     }
 
     public Integer getLoveindex() {

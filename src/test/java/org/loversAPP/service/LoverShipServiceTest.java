@@ -1,6 +1,7 @@
 package org.loversAPP.service;
 
 import org.junit.Test;
+import org.loversAPP.model.User;
 import org.loversAPP.service.baseService.baseServiceTest;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -15,6 +16,11 @@ public class LoverShipServiceTest extends baseServiceTest {
 
         loverShipService.QueryLoverShip_HasLoveShip(1,null);
         System.out.println("*****");
+    }
+    @Test
+    public void testHalf(){
+       User user= loverShipService.getHalfByID("sdedgrse",2);
+        System.out.println(user+"********************");
     }
 
 }

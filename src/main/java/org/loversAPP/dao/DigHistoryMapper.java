@@ -18,7 +18,13 @@ public interface DigHistoryMapper {
 
     List<DigHistory> selectByExample(DigHistoryExample example);
 
+    DigHistory selectByPrimaryKey(@Param("id") Integer id, @Param("userid") Integer userid, @Param("treasureid") Integer treasureid);
+
     int updateByExampleSelective(@Param("record") DigHistory record, @Param("example") DigHistoryExample example);
 
     int updateByExample(@Param("record") DigHistory record, @Param("example") DigHistoryExample example);
+
+    int updateByPrimaryKeySelective(DigHistory record);
+
+    int updateByPrimaryKey(DigHistory record);
 }

@@ -1,6 +1,5 @@
 package org.loversAPP.Controller;
 
-import com.wordnik.swagger.annotations.ApiOperation;
 import org.loversAPP.Controller.base.BaseController;
 import org.loversAPP.Controller.utils.ControllerConstant;
 import org.loversAPP.Controller.utils.InviteCodeCreator;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -34,7 +34,7 @@ public class UserController extends BaseController{
      * @param userID
      * @return
      */
-    @ApiOperation(value = "根据用户id查询用户个人信息",httpMethod = "POST",produces = "json")
+
     @RequestMapping(value = "getUserByID",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
     @ResponseBody
     public FeedBack<User> getUserByID(Integer userID){
@@ -56,7 +56,7 @@ public class UserController extends BaseController{
      * @param passWord
      * @return
      */
-    @ApiOperation(value = "根据电话号码和密码查询用户id",httpMethod = "POST",produces = "json")
+
     @RequestMapping(value = "getIDByPhoneAndPw",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
     @ResponseBody
     public FeedBack<Integer> getIDByPhoneAndPw(String phoneNumber ,String passWord){
@@ -71,7 +71,7 @@ public class UserController extends BaseController{
      * 查询所有的用户
      * @return
      */
-    @ApiOperation(value = "查询所有的用户",httpMethod = "POST",produces = "json")
+
     @RequestMapping(value = "getAllUsers",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
     @ResponseBody
     public FeedBack<List<User>> getAllUsers(){
@@ -85,7 +85,7 @@ public class UserController extends BaseController{
      * 增加用户
      * @return
      */
-    @ApiOperation(value = "增加用户",httpMethod = "POST",produces = "json")
+
     @RequestMapping(value = "insertUser",produces = "application/json;charset=utf-8",method = RequestMethod.POST)
     @ResponseBody
     public  FeedBack<String> insertUser(User user){
@@ -111,7 +111,7 @@ public class UserController extends BaseController{
      * @param password
      * @return
      */
-    @ApiOperation(value = "根据用户id更新密码",httpMethod = "POST",produces = "json")
+
     @RequestMapping(value ="updatePwByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
     public FeedBack<String> updatePwByID(Integer id,String password){
@@ -134,7 +134,7 @@ public class UserController extends BaseController{
      * @param id  用户id
      * @return
      */
-    @ApiOperation(value = "根据用户id更新头像",httpMethod = "POST",produces = "json")
+
     @RequestMapping(value ="updateAvatarByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
     public FeedBack<String> updateAvatarByID(MultipartFile avatar , Integer id){
@@ -155,7 +155,7 @@ public class UserController extends BaseController{
         }
         return feedBack;
     }
-    @ApiOperation(value = "根据用户id更新用户名",httpMethod = "POST",produces = "json")
+
     @RequestMapping(value ="updateUserNameByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
     public FeedBack<String> updateUserNameByID(Integer id,String userName){
@@ -213,6 +213,215 @@ public class UserController extends BaseController{
         Integer count=userService.updateSexByID(id,sex);
         if(count==1){
             feedBack=new FeedBack<>("success","200");
+        }
+        else {
+            feedBack=new FeedBack<>("failure","500");
+        }
+        return feedBack;
+    }
+    @RequestMapping(value ="updateSignatureByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public FeedBack<String> updateSignatureByID(Integer id,String signature){
+        FeedBack<String> feedBack;
+        Integer count=userService.updateSignatureByID(id,signature);
+        if(count==1){
+            feedBack=new FeedBack<>("success","200",signature);
+        }
+        else {
+            feedBack=new FeedBack<>("failure","500");
+        }
+        return feedBack;
+    }
+    @RequestMapping(value ="updateSignatureByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public FeedBack<Integer> updateSignatureByID(Integer id,Integer stepsToday){
+        FeedBack<Integer> feedBack;
+        Integer count=userService.updateStepsTodayByID(id,stepsToday);
+        if(count==1){
+            feedBack=new FeedBack<>("success","200",stepsToday);
+        }
+        else {
+            feedBack=new FeedBack<>("failure","500");
+        }
+        return feedBack;
+    }
+
+    @RequestMapping(value ="updateLocationByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public FeedBack<Integer> updateStepsTodayByID(Integer id, BigDecimal longtitude , BigDecimal latitude){
+        FeedBack<Integer> feedBack;
+        class location {
+            Integer longtitud;
+            Integer latitud;
+
+            public Integer getLongtitud() {
+                return longtitud;
+            }
+
+            public void setLongtitud(Integer longtitud) {
+                this.longtitud = longtitud;
+            }
+
+            public Integer getLatitud() {
+                return latitud;
+            }
+
+            public void setLatitud(Integer latitud) {
+                this.latitud = latitud;
+            }
+
+            public location(Integer longtitud, Integer latitud) {
+                this.longtitud = longtitud;
+                this.latitud = latitud;
+            }
+        }
+        Integer count=userService.updateLocationByID(id,longtitude,latitude);
+        if(count==1){
+            feedBack=new FeedBack<>("success","200");
+        }
+        else {
+            feedBack=new FeedBack<>("failure","500");
+        }
+        return feedBack;
+    }
+
+    @RequestMapping(value ="updateWexIDByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public FeedBack<String> updateWexIDByID(Integer id,String wexID ){
+        FeedBack<String> feedBack;
+        int count= userService.updateWexIDByID(id,wexID);
+        if(count==1){
+            feedBack=new FeedBack<>("success","200",wexID);
+        }
+        else {
+            feedBack=new FeedBack<>("failure","500");
+        }
+        return feedBack;
+    }
+    @RequestMapping(value ="updateQQByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public FeedBack<String> updateQQByID(Integer id,String qq ){
+        FeedBack<String> feedBack;
+        int count= userService.updateQQByID(id,qq);
+        if(count==1){
+            feedBack=new FeedBack<>("success","200",qq);
+        }
+        else {
+            feedBack=new FeedBack<>("failure","500");
+        }
+        return feedBack;
+    }
+    @RequestMapping(value ="updateLevelByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public FeedBack<Integer> updateLevelByID(Integer id,Integer level ){
+        FeedBack<Integer> feedBack;
+        int count= userService.updateLevelByID(id,level);
+        if(count==1){
+            feedBack=new FeedBack<>("success","200",level);
+        }
+        else {
+            feedBack=new FeedBack<>("failure","500");
+        }
+        return feedBack;
+    }
+    @RequestMapping(value ="updateStatusByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public FeedBack<Integer> updateStatusByID(Integer id,Integer status ){
+        FeedBack<Integer> feedBack;
+        int count= userService.updateStayus(id,status);
+        if(count==1){
+            feedBack=new FeedBack<>("success","200",status);
+        }
+        else {
+            feedBack=new FeedBack<>("failure","500");
+        }
+        return feedBack;
+    }
+    @RequestMapping(value ="updateCheckinDaysByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public FeedBack<Integer> updateCheckinDaysByID(Integer id,Integer checkinDays ){
+        FeedBack<Integer> feedBack;
+        int count= userService.updateCheckinDaysByID(id,checkinDays);
+        if(count==1){
+            feedBack=new FeedBack<>("success","200",checkinDays);
+        }
+        else {
+            feedBack=new FeedBack<>("failure","500");
+        }
+        return feedBack;
+    }
+    @RequestMapping(value ="updateAgeByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public FeedBack<Integer> updateAgeByID(Integer id,Integer age ){
+        FeedBack<Integer> feedBack;
+        int count= userService.updateAgeByID(id,age);
+        if(count==1){
+            feedBack=new FeedBack<>("success","200",age);
+        }
+        else {
+            feedBack=new FeedBack<>("failure","500");
+        }
+        return feedBack;
+    }
+    @RequestMapping(value ="updateHeightByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public FeedBack<Integer> updateHeightByID(Integer id,Integer height ){
+        FeedBack<Integer> feedBack;
+        int count= userService.updateHeightByID(id,height);
+        if(count==1){
+            feedBack=new FeedBack<>("success","200",height);
+        }
+        else {
+            feedBack=new FeedBack<>("failure","500");
+        }
+        return feedBack;
+    }
+    @RequestMapping(value ="updateWeightByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public FeedBack<Integer> updateWeightByID(Integer id,Integer weight ){
+        FeedBack<Integer> feedBack;
+        int count= userService.updateWeightByID(id,weight);
+        if(count==1){
+            feedBack=new FeedBack<>("success","200",weight);
+        }
+        else {
+            feedBack=new FeedBack<>("failure","500");
+        }
+        return feedBack;
+    }
+    @RequestMapping(value ="updateHobbyByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public FeedBack<String> updateHobbyByID(Integer id,String hobby ){
+        FeedBack<String> feedBack;
+        int count= userService.updateHobbyByID(id,hobby);
+        if(count==1){
+            feedBack=new FeedBack<>("success","200",hobby);
+        }
+        else {
+            feedBack=new FeedBack<>("failure","500");
+        }
+        return feedBack;
+    }
+    @RequestMapping(value ="updateExpByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public FeedBack<Integer> updateExpByID(Integer id,Integer  exp ){
+        FeedBack<Integer> feedBack;
+        int count= userService.updateExpByID(id,exp);
+        if(count==1){
+            feedBack=new FeedBack<>("success","200",exp);
+        }
+        else {
+            feedBack=new FeedBack<>("failure","500");
+        }
+        return feedBack;
+    }
+    @RequestMapping(value ="updateBimgByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public FeedBack<String> updateBimgByID(Integer id,String backImage ){
+        FeedBack<String> feedBack;
+        int count= userService.updateBimgByID(id,backImage);
+        if(count==1){
+            feedBack=new FeedBack<>("success","200",backImage);
         }
         else {
             feedBack=new FeedBack<>("failure","500");

@@ -5,6 +5,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <id column="userID" jdbcType="INTEGER" property="userid" />
     <id column="treasureID" jdbcType="INTEGER" property="treasureid" />
+    <result column="dig_time" jdbcType="TIMESTAMP" property="digTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -65,7 +66,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, userID, treasureID
+    id, userID, treasureID, dig_time
   </sql>
   <select id="selectByExample" parameterType="org.loversAPP.model.DigHistoryExample" resultMap="BaseResultMap">
     select
@@ -80,6 +81,14 @@
     <if test="orderByClause != null">
       order by ${orderByClause}
     </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dig_history
+    where id = #{id,jdbcType=INTEGER}
+      and userID = #{userid,jdbcType=INTEGER}
+      and treasureID = #{treasureid,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="map">
     delete from dig_history
@@ -97,8 +106,10 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into dig_history (userID, treasureID)
-    values (#{userid,jdbcType=INTEGER}, #{treasureid,jdbcType=INTEGER})
+    insert into dig_history (userID, treasureID, dig_time
+      )
+    values (#{userid,jdbcType=INTEGER}, #{treasureid,jdbcType=INTEGER}, #{digTime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="org.loversAPP.model.DigHistory">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -112,6 +123,9 @@
       <if test="treasureid != null">
         treasureID,
       </if>
+      <if test="digTime != null">
+        dig_time,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="userid != null">
@@ -119,6 +133,9 @@
       </if>
       <if test="treasureid != null">
         #{treasureid,jdbcType=INTEGER},
+      </if>
+      <if test="digTime != null">
+        #{digTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -140,6 +157,9 @@
       <if test="record.treasureid != null">
         treasureID = #{record.treasureid,jdbcType=INTEGER},
       </if>
+      <if test="record.digTime != null">
+        dig_time = #{record.digTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -149,9 +169,28 @@
     update dig_history
     set id = #{record.id,jdbcType=INTEGER},
       userID = #{record.userid,jdbcType=INTEGER},
-      treasureID = #{record.treasureid,jdbcType=INTEGER}
+      treasureID = #{record.treasureid,jdbcType=INTEGER},
+      dig_time = #{record.digTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="org.loversAPP.model.DigHistory">
+    update dig_history
+    <set>
+      <if test="digTime != null">
+        dig_time = #{digTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+      and userID = #{userid,jdbcType=INTEGER}
+      and treasureID = #{treasureid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.loversAPP.model.DigHistory">
+    update dig_history
+    set dig_time = #{digTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+      and userID = #{userid,jdbcType=INTEGER}
+      and treasureID = #{treasureid,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -32,5 +32,13 @@ public interface UserService {
     public Integer updateQQByID(Integer userID,String qq );
     public Integer updateLevelByID(Integer userID,Integer  level);
     public Integer updateStayus(Integer userId,Integer status);
+    public Integer updateSignatureByID(Integer userId,String signature);
+    public Integer updateCheckinDaysByID(Integer id,Integer checkinDays);
+    public Integer updateAgeByID(Integer id,Integer age);
+    public Integer updateHeightByID(Integer id,Integer height);
+    public Integer updateWeightByID(Integer id,Integer weight);
+    public Integer updateHobbyByID(Integer id,String weight);
+    public Integer updateExpByID(Integer id,Integer exp);
+    public Integer updateBimgByID(Integer id,String exp);
     List<User> getAllUsers();
 }

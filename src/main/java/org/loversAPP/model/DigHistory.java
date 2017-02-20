@@ -1,5 +1,6 @@
 package org.loversAPP.model;
 
+import java.util.Date;
 import org.loversAPP.base.BaseModel;
 
 public class DigHistory extends BaseModel {
@@ -8,6 +9,8 @@ public class DigHistory extends BaseModel {
     private Integer userid;
 
     private Integer treasureid;
+
+    private Date digTime;
 
     public Integer getId() {
         return id;
@@ -31,5 +34,13 @@ public class DigHistory extends BaseModel {
 
     public void setTreasureid(Integer treasureid) {
         this.treasureid = treasureid;
+    }
+
+    public Date getDigTime() {
+        return digTime;
+    }
+
+    public void setDigTime(Date digTime) {
+        this.digTime = digTime;
     }
 }
