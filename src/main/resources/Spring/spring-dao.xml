@@ -9,8 +9,8 @@
         <!-- 配置连接池属性 -->
         <property name="driverClassName" value="${driverClass}"/>
         <property name="url" value="${jdbcUrl}"/>
-        <property name="username" value="${user}"/>
-        <property name="password" value="${password}"/>
+        <property name="username" value="myuser"/>
+        <property name="password" value="mypassword"/>
         <!-- 配置初始化大小、最小、最大 -->
         <property name="initialSize" value="1" />
         <property name="minIdle" value="1" />

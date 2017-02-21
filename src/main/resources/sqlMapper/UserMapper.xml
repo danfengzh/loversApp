@@ -477,4 +477,7 @@
       backImage = #{backimage,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="getAllUsers" resultMap="BaseResultMap">
+       SELECT * FROM user
+  </select>
 </mapper>

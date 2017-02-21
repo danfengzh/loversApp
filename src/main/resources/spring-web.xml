@@ -36,6 +36,8 @@
             <bean class="org.springframework.http.converter.FormHttpMessageConverter"/>
         </mvc:message-converters>
     </mvc:annotation-driven>
+    <!-- 对静态资源统一进行处理访问-->
+    <mvc:default-servlet-handler/>
     <bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
         <property name="ignoreAcceptHeader" value="false"/>
         <property name="favorPathExtension" value="true"/>
