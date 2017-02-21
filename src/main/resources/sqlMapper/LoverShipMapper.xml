@@ -84,21 +84,12 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="LoverShipIdByID" resultMap="BaseResultMap" parameterType="int">
-    SELECT * FROM lover_ship
-    <where>
-      <if test="id!=null">
-        loverBoyID=#{id}
-        OR loverGirlID=#{id}
-      </if>
-    </where>
-  </select>
   <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
-    select
+    select 
     <include refid="Base_Column_List" />
     from lover_ship
     where loverGirlID = #{lovergirlid,jdbcType=INTEGER}
-    and loverBoyID = #{loverboyid,jdbcType=INTEGER}
+      and loverBoyID = #{loverboyid,jdbcType=INTEGER}
   </select>
   <select id="selectSelectiveByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
     select
@@ -110,6 +101,15 @@
       </if>
       <if test="loverboyid!=null">
         and loverBoyID = #{loverboyid,jdbcType=INTEGER}
+      </if>
+    </where>
+  </select>
+  <select id="LoverShipIdByID" resultMap="BaseResultMap" parameterType="int">
+    SELECT * FROM lover_ship
+    <where>
+      <if test="id!=null">
+        loverBoyID=#{id}
+        OR loverGirlID=#{id}
       </if>
     </where>
   </select>
@@ -210,11 +210,11 @@
   <update id="updateByExample" parameterType="map">
     update lover_ship
     set loverGirlID = #{record.lovergirlid,jdbcType=INTEGER},
-    loverBoyID = #{record.loverboyid,jdbcType=INTEGER},
-    loveTime = #{record.lovetime,jdbcType=TIMESTAMP},
-    state = #{record.state,jdbcType=CHAR},
-    loverID = #{record.loverid,jdbcType=VARCHAR},
-    loveIndex = #{record.loveindex,jdbcType=INTEGER}
+      loverBoyID = #{record.loverboyid,jdbcType=INTEGER},
+      loveTime = #{record.lovetime,jdbcType=TIMESTAMP},
+      state = #{record.state,jdbcType=CHAR},
+      loverID = #{record.loverid,jdbcType=VARCHAR},
+      loveIndex = #{record.loveindex,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -236,7 +236,7 @@
       </if>
     </set>
     where loverGirlID = #{lovergirlid,jdbcType=INTEGER}
-    and loverBoyID = #{loverboyid,jdbcType=INTEGER}
+      and loverBoyID = #{loverboyid,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="org.loversAPP.model.LoverShip">
     update lover_ship

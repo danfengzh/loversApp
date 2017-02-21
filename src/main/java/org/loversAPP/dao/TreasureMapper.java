@@ -1,9 +1,11 @@
 package org.loversAPP.dao;
 
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.loversAPP.model.Treasure;
 import org.loversAPP.model.TreasureExample;
+
+import java.util.List;
+
 
 public interface TreasureMapper {
     long countByExample(TreasureExample example);

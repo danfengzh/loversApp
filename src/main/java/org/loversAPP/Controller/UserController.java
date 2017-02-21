@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -37,7 +36,7 @@ public class UserController extends BaseController{
 
     @RequestMapping(value = "getUserByID",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
     @ResponseBody
-    public FeedBack<User> getUserByID(Integer userID){
+    public FeedBack<User> getUserByID(@RequestParam("id") Integer userID){
         FeedBack<User> feedBack;
         User user=  userService.getUserByID(userID);
         if(user!=null){
@@ -59,8 +58,9 @@ public class UserController extends BaseController{
 
     @RequestMapping(value = "getIDByPhoneAndPw",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
     @ResponseBody
-    public FeedBack<Integer> getIDByPhoneAndPw(String phoneNumber ,String passWord){
-        Integer res= userService.getIDByPhoneAndPw(phoneNumber,passWord);
+    public FeedBack<Integer> getIDByPhoneAndPw(@RequestParam("phoneNumber") String phoneNumber ,@RequestParam("passWord")String passWord){
+        String md5Pass=MD5Utils.getMd5(passWord);
+        Integer res= userService.getIDByPhoneAndPw(phoneNumber,md5Pass);
         FeedBack<Integer> feedBack;
 
         feedBack=new FeedBack<Integer>(FeedBack.OK_STR,"200",res);
@@ -106,7 +106,7 @@ public class UserController extends BaseController{
     }
 
     /**
-     * 根据用户id更新密码
+     * 根据用户id更新密码  ---有问题
      * @param id
      * @param password
      * @return
@@ -114,7 +114,7 @@ public class UserController extends BaseController{
 
     @RequestMapping(value ="updatePwByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
-    public FeedBack<String> updatePwByID(Integer id,String password){
+    public FeedBack<String> updatePwByID(@RequestParam("id") Integer id,@RequestParam("passWord") String password){
         FeedBack<String> feedBack;
         //对用户密码进行更新之后在进行插入
         String md5Pass= MD5Utils.getMd5(password);
@@ -137,28 +137,32 @@ public class UserController extends BaseController{
 
     @RequestMapping(value ="updateAvatarByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
-    public FeedBack<String> updateAvatarByID(MultipartFile avatar , Integer id){
+    public FeedBack<String> updateAvatarByID(MultipartFile avatar,Integer id){
         FeedBack<String> feedBack;
-        //对文件进行保存处理
-        String avatorPath=getMessage(ControllerConstant.userAvatorPath);
-        User user=userService.getUserByID(id);
-        File filePresious=new File(request.getSession().getServletContext().getRealPath(File.separator)+"/"+user.getAvator());
-        if(filePresious.exists()){
-            filePresious.delete();
-        }
-        String newAvatorpath= fileUpload.tacleUpload(avatar,avatorPath,request,user.getPhonenumber());
-        int count=userService.updateAvatarByID(id,newAvatorpath);
-        if (count==1) {
-            feedBack=new FeedBack<String>("success","200",newAvatorpath);
-        } else {
-            feedBack=new FeedBack<String>("failure","500");
-        }
+        
+            //对文件进行保存处理
+            String avatorPath=getMessage(ControllerConstant.userAvatorPath);
+            User user=userService.getUserByID(id);
+            if (user.getAvator()!=null) {
+                File filePresious=new File(request.getSession().getServletContext().getRealPath(File.separator)+"/"+user.getAvator());
+                if(filePresious!=null&&filePresious.exists()){
+                    filePresious.delete();
+                }
+            }
+            String newAvatorpath= fileUpload.tacleUpload(avatar,avatorPath,request,user.getPhonenumber());
+            int count=userService.updateAvatarByID(id,newAvatorpath);
+            if (count==1) {
+                feedBack=new FeedBack<String>("success","200",newAvatorpath);
+            } else {
+                feedBack=new FeedBack<String>("failure","500");
+            }
+
         return feedBack;
     }
 
     @RequestMapping(value ="updateUserNameByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
-    public FeedBack<String> updateUserNameByID(Integer id,String userName){
+    public FeedBack<String> updateUserNameByID(@RequestParam("id") Integer id,@RequestParam("userName") String userName){
         FeedBack<String> feedBack;
         int count= userService.updateUserNameByID(id,userName);
         if(count==1){
@@ -171,7 +175,7 @@ public class UserController extends BaseController{
     }
     @RequestMapping(value ="getIDByInviteCode",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
-    public FeedBack<Integer> getIDByInviteCode(String inviteCode){
+    public FeedBack<Integer> getIDByInviteCode(@RequestParam("inviteCode") String inviteCode){
         FeedBack<Integer> feedBack;
         Integer id=   userService.getIDByInviteCode(inviteCode);
         if(id!=null){
@@ -195,7 +199,7 @@ public class UserController extends BaseController{
      */
     @RequestMapping(value ="deleteUserByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
-    public FeedBack<String> deleteUserByID(@RequestParam("userID") Integer userID){
+    public FeedBack<String> deleteUserByID(@RequestParam("id") Integer userID){
         FeedBack<String> feedBack;
         Integer count=userService.deleteUserByID(userID);
         if(count==1){
@@ -208,7 +212,7 @@ public class UserController extends BaseController{
     }
     @RequestMapping(value ="updateSexByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
-    public FeedBack<String> updateSexByID(Integer id,String sex){
+    public FeedBack<String> updateSexByID(@RequestParam("id") Integer id,@RequestParam("sex") String sex){
         FeedBack<String> feedBack;
         Integer count=userService.updateSexByID(id,sex);
         if(count==1){
@@ -221,7 +225,7 @@ public class UserController extends BaseController{
     }
     @RequestMapping(value ="updateSignatureByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
-    public FeedBack<String> updateSignatureByID(Integer id,String signature){
+    public FeedBack<String> updateSignatureByID(@RequestParam("id") Integer id,@RequestParam("signature") String signature){
         FeedBack<String> feedBack;
         Integer count=userService.updateSignatureByID(id,signature);
         if(count==1){
@@ -232,9 +236,9 @@ public class UserController extends BaseController{
         }
         return feedBack;
     }
-    @RequestMapping(value ="updateSignatureByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @RequestMapping(value ="updateStepsTodayByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
-    public FeedBack<Integer> updateSignatureByID(Integer id,Integer stepsToday){
+    public FeedBack<Integer> updateStepsTodayByID(@RequestParam("id") Integer id,@RequestParam("stepsToday") Integer stepsToday){
         FeedBack<Integer> feedBack;
         Integer count=userService.updateStepsTodayByID(id,stepsToday);
         if(count==1){
@@ -248,36 +252,36 @@ public class UserController extends BaseController{
 
     @RequestMapping(value ="updateLocationByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
-    public FeedBack<Integer> updateStepsTodayByID(Integer id, BigDecimal longtitude , BigDecimal latitude){
-        FeedBack<Integer> feedBack;
+    public FeedBack updateStepsTodayByID(@RequestParam("id") Integer id, @RequestParam("longtitude") String longtitude , @RequestParam("latitude") String latitude){
+        FeedBack feedBack;
         class location {
-            Integer longtitud;
-            Integer latitud;
+            String longtitud;
+            String latitud;
 
-            public Integer getLongtitud() {
+            public String getLongtitud() {
                 return longtitud;
             }
 
-            public void setLongtitud(Integer longtitud) {
+            public void setLongtitud(String longtitud) {
                 this.longtitud = longtitud;
             }
 
-            public Integer getLatitud() {
+            public String getLatitud() {
                 return latitud;
             }
 
-            public void setLatitud(Integer latitud) {
+            public void setLatitud(String latitud) {
                 this.latitud = latitud;
             }
 
-            public location(Integer longtitud, Integer latitud) {
+            public location(String longtitud, String latitud) {
                 this.longtitud = longtitud;
                 this.latitud = latitud;
             }
         }
         Integer count=userService.updateLocationByID(id,longtitude,latitude);
         if(count==1){
-            feedBack=new FeedBack<>("success","200");
+            feedBack=new FeedBack<>("success","200",new location(longtitude,latitude));
         }
         else {
             feedBack=new FeedBack<>("failure","500");
@@ -287,7 +291,7 @@ public class UserController extends BaseController{
 
     @RequestMapping(value ="updateWexIDByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
-    public FeedBack<String> updateWexIDByID(Integer id,String wexID ){
+    public FeedBack<String> updateWexIDByID(@RequestParam("id") Integer id,@RequestParam("wexID") String wexID ){
         FeedBack<String> feedBack;
         int count= userService.updateWexIDByID(id,wexID);
         if(count==1){
@@ -300,7 +304,7 @@ public class UserController extends BaseController{
     }
     @RequestMapping(value ="updateQQByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
-    public FeedBack<String> updateQQByID(Integer id,String qq ){
+    public FeedBack<String> updateQQByID(@RequestParam("id") Integer id,@RequestParam("qq") String qq ){
         FeedBack<String> feedBack;
         int count= userService.updateQQByID(id,qq);
         if(count==1){
@@ -313,7 +317,7 @@ public class UserController extends BaseController{
     }
     @RequestMapping(value ="updateLevelByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
-    public FeedBack<Integer> updateLevelByID(Integer id,Integer level ){
+    public FeedBack<Integer> updateLevelByID(@RequestParam("id") Integer id,@RequestParam("level") Integer level ){
         FeedBack<Integer> feedBack;
         int count= userService.updateLevelByID(id,level);
         if(count==1){
@@ -326,7 +330,7 @@ public class UserController extends BaseController{
     }
     @RequestMapping(value ="updateStatusByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
-    public FeedBack<Integer> updateStatusByID(Integer id,Integer status ){
+    public FeedBack<Integer> updateStatusByID(@RequestParam("id") Integer id,@RequestParam("status") Integer status ){
         FeedBack<Integer> feedBack;
         int count= userService.updateStayus(id,status);
         if(count==1){
@@ -339,7 +343,7 @@ public class UserController extends BaseController{
     }
     @RequestMapping(value ="updateCheckinDaysByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
-    public FeedBack<Integer> updateCheckinDaysByID(Integer id,Integer checkinDays ){
+    public FeedBack<Integer> updateCheckinDaysByID(@RequestParam("id") Integer id,@RequestParam("checkinDays") Integer checkinDays ){
         FeedBack<Integer> feedBack;
         int count= userService.updateCheckinDaysByID(id,checkinDays);
         if(count==1){
@@ -352,7 +356,7 @@ public class UserController extends BaseController{
     }
     @RequestMapping(value ="updateAgeByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
-    public FeedBack<Integer> updateAgeByID(Integer id,Integer age ){
+    public FeedBack<Integer> updateAgeByID(@RequestParam("id") Integer id,@RequestParam("age") Integer age ){
         FeedBack<Integer> feedBack;
         int count= userService.updateAgeByID(id,age);
         if(count==1){
@@ -365,7 +369,7 @@ public class UserController extends BaseController{
     }
     @RequestMapping(value ="updateHeightByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
-    public FeedBack<Integer> updateHeightByID(Integer id,Integer height ){
+    public FeedBack<Integer> updateHeightByID(@RequestParam("id")Integer id,@RequestParam("height") Integer height ){
         FeedBack<Integer> feedBack;
         int count= userService.updateHeightByID(id,height);
         if(count==1){
@@ -378,7 +382,7 @@ public class UserController extends BaseController{
     }
     @RequestMapping(value ="updateWeightByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
-    public FeedBack<Integer> updateWeightByID(Integer id,Integer weight ){
+    public FeedBack<Integer> updateWeightByID(@RequestParam("id")Integer id,@RequestParam("weight") Integer weight ){
         FeedBack<Integer> feedBack;
         int count= userService.updateWeightByID(id,weight);
         if(count==1){
@@ -391,7 +395,7 @@ public class UserController extends BaseController{
     }
     @RequestMapping(value ="updateHobbyByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
-    public FeedBack<String> updateHobbyByID(Integer id,String hobby ){
+    public FeedBack<String> updateHobbyByID(@RequestParam("id") Integer id,@RequestParam("hobby") String hobby ){
         FeedBack<String> feedBack;
         int count= userService.updateHobbyByID(id,hobby);
         if(count==1){
@@ -404,7 +408,7 @@ public class UserController extends BaseController{
     }
     @RequestMapping(value ="updateExpByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
-    public FeedBack<Integer> updateExpByID(Integer id,Integer  exp ){
+    public FeedBack<Integer> updateExpByID(@RequestParam("id") Integer id,@RequestParam("exp") Integer  exp ){
         FeedBack<Integer> feedBack;
         int count= userService.updateExpByID(id,exp);
         if(count==1){
@@ -417,11 +421,21 @@ public class UserController extends BaseController{
     }
     @RequestMapping(value ="updateBimgByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
-    public FeedBack<String> updateBimgByID(Integer id,String backImage ){
+    public FeedBack<String> updateBimgByID(@RequestParam("id") Integer id, @RequestParam("backImage") MultipartFile backImage ){
+        String homePicPath=getMessage(ControllerConstant.userHomePicParg);
+        User user =userService.getUserByID(id);
+        File filePresious= null;
+        if (user.getBackimage()!=null) {
+            filePresious = new File(request.getSession().getServletContext().getRealPath(File.separator)+"/"+user.getBackimage());
+        }
+        if(filePresious!=null&&filePresious.exists()){
+            filePresious.delete();
+        }
+        String newBackPathpath= fileUpload.tacleUpload(backImage,homePicPath,request,user.getPhonenumber());
         FeedBack<String> feedBack;
-        int count= userService.updateBimgByID(id,backImage);
+        int count= userService.updateBimgByID(id,newBackPathpath);
         if(count==1){
-            feedBack=new FeedBack<>("success","200",backImage);
+            feedBack=new FeedBack<>("success","200",newBackPathpath);
         }
         else {
             feedBack=new FeedBack<>("failure","500");

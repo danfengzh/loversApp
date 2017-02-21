@@ -7,7 +7,6 @@ import org.loversAPP.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -25,7 +24,6 @@ public class UserServiceImpl implements UserService
     }
 
     public Integer getIDByPhoneAndPw(String phoneNumber,String Password) {
-
         UserExample userExample=new UserExample();
         userExample.createCriteria().andPhonenumberEqualTo(phoneNumber).andPasswordEqualTo(Password);
         List<User> user=  userMapper.selectByExample(userExample);
@@ -45,7 +43,7 @@ public class UserServiceImpl implements UserService
         User user=new User();
         user.setId(userID);
         user.setPassword(password);
-        Integer res= userMapper.updateByPrimaryKey(user);
+        Integer res= userMapper.updateByPrimaryKeySelective(user);
         return res;
     }
 
@@ -59,7 +57,12 @@ public class UserServiceImpl implements UserService
 
     @Override
     public Integer updateSexByID(Integer userID, String sex) {
-        return null;
+
+        User user=new User();
+        user.setId(userID);
+        user.setSex(sex);
+        Integer res = updateUserInfo(user);
+        return res;
     }
 
     private Integer updateUserInfo(User user) {
@@ -77,7 +80,7 @@ public class UserServiceImpl implements UserService
     public Integer getIDByInviteCode(String inviteCode) {
         UserExample userExample=new UserExample();
         userExample.createCriteria().andInvitecodeEqualTo(inviteCode);
-        return userMapper.selectByExample(userExample).size();
+        return userMapper.selectByExample(userExample).get(0).getId();
     }
 
     public Integer deleteUserByID(Integer userID) {
@@ -99,7 +102,7 @@ public class UserServiceImpl implements UserService
     }
 
     @Override
-    public Integer updateLocationByID(Integer id, BigDecimal longtitude, BigDecimal latitude) {
+        public Integer updateLocationByID(Integer id, String longtitude, String latitude) {
         User user=new User();
         user.setId(id);
         user.setLongtitude(longtitude);

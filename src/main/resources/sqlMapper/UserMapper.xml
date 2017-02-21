@@ -14,8 +14,8 @@
     <result column="inviteCode" jdbcType="VARCHAR" property="invitecode" />
     <result column="sex" jdbcType="VARCHAR" property="sex" />
     <result column="stauts" jdbcType="INTEGER" property="stauts" />
-    <result column="longtitude" jdbcType="DECIMAL" property="longtitude" />
-    <result column="latitude" jdbcType="DECIMAL" property="latitude" />
+    <result column="longtitude" jdbcType="VARCHAR" property="longtitude" />
+    <result column="latitude" jdbcType="VARCHAR" property="latitude" />
     <result column="stepsToday" jdbcType="INTEGER" property="stepstoday" />
     <result column="checkinDays" jdbcType="INTEGER" property="checkindays" />
     <result column="age" jdbcType="INTEGER" property="age" />
@@ -102,9 +102,6 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="getAllUsers" resultMap="BaseResultMap">
-    SELECT * FROM user
-  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
@@ -136,8 +133,8 @@
     values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{avator,jdbcType=VARCHAR}, 
       #{wexid,jdbcType=VARCHAR}, #{qq,jdbcType=VARCHAR}, #{phonenumber,jdbcType=VARCHAR}, 
       #{level,jdbcType=INTEGER}, #{signature,jdbcType=VARCHAR}, #{invitecode,jdbcType=VARCHAR}, 
-      #{sex,jdbcType=VARCHAR}, #{stauts,jdbcType=INTEGER}, #{longtitude,jdbcType=DECIMAL}, 
-      #{latitude,jdbcType=DECIMAL}, #{stepstoday,jdbcType=INTEGER}, #{checkindays,jdbcType=INTEGER}, 
+      #{sex,jdbcType=VARCHAR}, #{stauts,jdbcType=INTEGER}, #{longtitude,jdbcType=VARCHAR}, 
+      #{latitude,jdbcType=VARCHAR}, #{stepstoday,jdbcType=INTEGER}, #{checkindays,jdbcType=INTEGER}, 
       #{age,jdbcType=INTEGER}, #{height,jdbcType=INTEGER}, #{weight,jdbcType=INTEGER}, 
       #{hobby,jdbcType=VARCHAR}, #{exp,jdbcType=INTEGER}, #{backimage,jdbcType=VARCHAR}
       )
@@ -247,10 +244,10 @@
         #{stauts,jdbcType=INTEGER},
       </if>
       <if test="longtitude != null">
-        #{longtitude,jdbcType=DECIMAL},
+        #{longtitude,jdbcType=VARCHAR},
       </if>
       <if test="latitude != null">
-        #{latitude,jdbcType=DECIMAL},
+        #{latitude,jdbcType=VARCHAR},
       </if>
       <if test="stepstoday != null">
         #{stepstoday,jdbcType=INTEGER},
@@ -324,10 +321,10 @@
         stauts = #{record.stauts,jdbcType=INTEGER},
       </if>
       <if test="record.longtitude != null">
-        longtitude = #{record.longtitude,jdbcType=DECIMAL},
+        longtitude = #{record.longtitude,jdbcType=VARCHAR},
       </if>
       <if test="record.latitude != null">
-        latitude = #{record.latitude,jdbcType=DECIMAL},
+        latitude = #{record.latitude,jdbcType=VARCHAR},
       </if>
       <if test="record.stepstoday != null">
         stepsToday = #{record.stepstoday,jdbcType=INTEGER},
@@ -372,8 +369,8 @@
       inviteCode = #{record.invitecode,jdbcType=VARCHAR},
       sex = #{record.sex,jdbcType=VARCHAR},
       stauts = #{record.stauts,jdbcType=INTEGER},
-      longtitude = #{record.longtitude,jdbcType=DECIMAL},
-      latitude = #{record.latitude,jdbcType=DECIMAL},
+      longtitude = #{record.longtitude,jdbcType=VARCHAR},
+      latitude = #{record.latitude,jdbcType=VARCHAR},
       stepsToday = #{record.stepstoday,jdbcType=INTEGER},
       checkinDays = #{record.checkindays,jdbcType=INTEGER},
       age = #{record.age,jdbcType=INTEGER},
@@ -423,10 +420,10 @@
         stauts = #{stauts,jdbcType=INTEGER},
       </if>
       <if test="longtitude != null">
-        longtitude = #{longtitude,jdbcType=DECIMAL},
+        longtitude = #{longtitude,jdbcType=VARCHAR},
       </if>
       <if test="latitude != null">
-        latitude = #{latitude,jdbcType=DECIMAL},
+        latitude = #{latitude,jdbcType=VARCHAR},
       </if>
       <if test="stepstoday != null">
         stepsToday = #{stepstoday,jdbcType=INTEGER},
@@ -468,8 +465,8 @@
       inviteCode = #{invitecode,jdbcType=VARCHAR},
       sex = #{sex,jdbcType=VARCHAR},
       stauts = #{stauts,jdbcType=INTEGER},
-      longtitude = #{longtitude,jdbcType=DECIMAL},
-      latitude = #{latitude,jdbcType=DECIMAL},
+      longtitude = #{longtitude,jdbcType=VARCHAR},
+      latitude = #{latitude,jdbcType=VARCHAR},
       stepsToday = #{stepstoday,jdbcType=INTEGER},
       checkinDays = #{checkindays,jdbcType=INTEGER},
       age = #{age,jdbcType=INTEGER},

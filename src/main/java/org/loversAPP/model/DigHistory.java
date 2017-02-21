@@ -1,7 +1,8 @@
 package org.loversAPP.model;
 
-import java.util.Date;
 import org.loversAPP.base.BaseModel;
+
+import java.util.Date;
 
 public class DigHistory extends BaseModel {
     private Integer id;

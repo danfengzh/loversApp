@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.loversAPP.dao.TreasureMapper">
-  <resultMap id="BaseResultMap" type="org.loversAPP.model.Treasure">
+<mapper namespace="org.loversAPP.dao.CommentReplyMapper">
+  <resultMap id="BaseResultMap" type="org.loversAPP.model.CommentReply">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <id column="userID" jdbcType="INTEGER" property="userid" />
-    <id column="treasureType" jdbcType="INTEGER" property="treasuretype" />
-    <result column="treasureName" jdbcType="VARCHAR" property="treasurename" />
-    <result column="treasureValue" jdbcType="INTEGER" property="treasurevalue" />
-    <result column="longtitude" jdbcType="VARCHAR" property="longtitude" />
-    <result column=" latitude" jdbcType="VARCHAR" property="latitude" />
+    <result column="commentID" jdbcType="INTEGER" property="commentid" />
+    <result column="userID" jdbcType="INTEGER" property="userid" />
+    <result column="replyContent" jdbcType="VARCHAR" property="replycontent" />
+    <result column="replyDate" jdbcType="TIMESTAMP" property="replydate" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -69,15 +67,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, userID, treasureType, treasureName, treasureValue, longtitude, " latitude"
+    id, commentID, userID, replyContent, replyDate
   </sql>
-  <select id="selectByExample" parameterType="org.loversAPP.model.TreasureExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="org.loversAPP.model.CommentReplyExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from treasure
+    from comment_reply
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -85,112 +83,88 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from treasure
+    from comment_reply
     where id = #{id,jdbcType=INTEGER}
-      and userID = #{userid,jdbcType=INTEGER}
-      and treasureType = #{treasuretype,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="map">
-    delete from treasure
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from comment_reply
     where id = #{id,jdbcType=INTEGER}
-      and userID = #{userid,jdbcType=INTEGER}
-      and treasureType = #{treasuretype,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="org.loversAPP.model.TreasureExample">
-    delete from treasure
+  <delete id="deleteByExample" parameterType="org.loversAPP.model.CommentReplyExample">
+    delete from comment_reply
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="org.loversAPP.model.Treasure">
+  <insert id="insert" parameterType="org.loversAPP.model.CommentReply">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into treasure (userID, treasureType, treasureName, 
-      treasureValue, longtitude, " latitude"
-      )
-    values (#{userid,jdbcType=INTEGER}, #{treasuretype,jdbcType=INTEGER}, #{treasurename,jdbcType=VARCHAR}, 
-      #{treasurevalue,jdbcType=INTEGER}, #{longtitude,jdbcType=VARCHAR}, #{latitude,jdbcType=VARCHAR}
-      )
+    insert into comment_reply (commentID, userID, replyContent, 
+      replyDate)
+    values (#{commentid,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{replycontent,jdbcType=VARCHAR}, 
+      #{replydate,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="org.loversAPP.model.Treasure">
+  <insert id="insertSelective" parameterType="org.loversAPP.model.CommentReply">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into treasure
+    insert into comment_reply
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="commentid != null">
+        commentID,
+      </if>
       <if test="userid != null">
         userID,
       </if>
-      <if test="treasuretype != null">
-        treasureType,
+      <if test="replycontent != null">
+        replyContent,
       </if>
-      <if test="treasurename != null">
-        treasureName,
-      </if>
-      <if test="treasurevalue != null">
-        treasureValue,
-      </if>
-      <if test="longtitude != null">
-        longtitude,
-      </if>
-      <if test="latitude != null">
-        " latitude",
+      <if test="replydate != null">
+        replyDate,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="commentid != null">
+        #{commentid,jdbcType=INTEGER},
+      </if>
       <if test="userid != null">
         #{userid,jdbcType=INTEGER},
       </if>
-      <if test="treasuretype != null">
-        #{treasuretype,jdbcType=INTEGER},
+      <if test="replycontent != null">
+        #{replycontent,jdbcType=VARCHAR},
       </if>
-      <if test="treasurename != null">
-        #{treasurename,jdbcType=VARCHAR},
-      </if>
-      <if test="treasurevalue != null">
-        #{treasurevalue,jdbcType=INTEGER},
-      </if>
-      <if test="longtitude != null">
-        #{longtitude,jdbcType=VARCHAR},
-      </if>
-      <if test="latitude != null">
-        #{latitude,jdbcType=VARCHAR},
+      <if test="replydate != null">
+        #{replydate,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="org.loversAPP.model.TreasureExample" resultType="java.lang.Long">
-    select count(*) from treasure
+  <select id="countByExample" parameterType="org.loversAPP.model.CommentReplyExample" resultType="java.lang.Long">
+    select count(*) from comment_reply
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update treasure
+    update comment_reply
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
+      <if test="record.commentid != null">
+        commentID = #{record.commentid,jdbcType=INTEGER},
+      </if>
       <if test="record.userid != null">
         userID = #{record.userid,jdbcType=INTEGER},
       </if>
-      <if test="record.treasuretype != null">
-        treasureType = #{record.treasuretype,jdbcType=INTEGER},
+      <if test="record.replycontent != null">
+        replyContent = #{record.replycontent,jdbcType=VARCHAR},
       </if>
-      <if test="record.treasurename != null">
-        treasureName = #{record.treasurename,jdbcType=VARCHAR},
-      </if>
-      <if test="record.treasurevalue != null">
-        treasureValue = #{record.treasurevalue,jdbcType=INTEGER},
-      </if>
-      <if test="record.longtitude != null">
-        longtitude = #{record.longtitude,jdbcType=VARCHAR},
-      </if>
-      <if test="record.latitude != null">
-        " latitude" = #{record.latitude,jdbcType=VARCHAR},
+      <if test="record.replydate != null">
+        replyDate = #{record.replydate,jdbcType=TIMESTAMP},
       </if>
     </set>
     <if test="_parameter != null">
@@ -198,46 +172,40 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update treasure
+    update comment_reply
     set id = #{record.id,jdbcType=INTEGER},
+      commentID = #{record.commentid,jdbcType=INTEGER},
       userID = #{record.userid,jdbcType=INTEGER},
-      treasureType = #{record.treasuretype,jdbcType=INTEGER},
-      treasureName = #{record.treasurename,jdbcType=VARCHAR},
-      treasureValue = #{record.treasurevalue,jdbcType=INTEGER},
-      longtitude = #{record.longtitude,jdbcType=VARCHAR},
-      " latitude" = #{record.latitude,jdbcType=VARCHAR}
+      replyContent = #{record.replycontent,jdbcType=VARCHAR},
+      replyDate = #{record.replydate,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="org.loversAPP.model.Treasure">
-    update treasure
+  <update id="updateByPrimaryKeySelective" parameterType="org.loversAPP.model.CommentReply">
+    update comment_reply
     <set>
-      <if test="treasurename != null">
-        treasureName = #{treasurename,jdbcType=VARCHAR},
+      <if test="commentid != null">
+        commentID = #{commentid,jdbcType=INTEGER},
       </if>
-      <if test="treasurevalue != null">
-        treasureValue = #{treasurevalue,jdbcType=INTEGER},
+      <if test="userid != null">
+        userID = #{userid,jdbcType=INTEGER},
       </if>
-      <if test="longtitude != null">
-        longtitude = #{longtitude,jdbcType=VARCHAR},
+      <if test="replycontent != null">
+        replyContent = #{replycontent,jdbcType=VARCHAR},
       </if>
-      <if test="latitude != null">
-        " latitude" = #{latitude,jdbcType=VARCHAR},
+      <if test="replydate != null">
+        replyDate = #{replydate,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
-      and userID = #{userid,jdbcType=INTEGER}
-      and treasureType = #{treasuretype,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="org.loversAPP.model.Treasure">
-    update treasure
-    set treasureName = #{treasurename,jdbcType=VARCHAR},
-      treasureValue = #{treasurevalue,jdbcType=INTEGER},
-      longtitude = #{longtitude,jdbcType=VARCHAR},
-      " latitude" = #{latitude,jdbcType=VARCHAR}
+  <update id="updateByPrimaryKey" parameterType="org.loversAPP.model.CommentReply">
+    update comment_reply
+    set commentID = #{commentid,jdbcType=INTEGER},
+      userID = #{userid,jdbcType=INTEGER},
+      replyContent = #{replycontent,jdbcType=VARCHAR},
+      replyDate = #{replydate,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
-      and userID = #{userid,jdbcType=INTEGER}
-      and treasureType = #{treasuretype,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -36,7 +36,8 @@ public class UserServiceTest extends baseServiceTest {
 
     @Test
     public void updatePwByID() throws Exception {
-
+      int count=     userService.updateSexByID(6,"男");
+        System.out.println("*******************");
     }
 
     @Test

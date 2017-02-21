@@ -2,7 +2,6 @@ package org.loversAPP.service;
 
 import org.loversAPP.model.User;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -27,7 +26,7 @@ public interface UserService {
 
     public Integer deleteUserByID(Integer userID);
     public Integer updateStepsTodayByID(Integer id,Integer stepsToday);
-    public Integer updateLocationByID(Integer id, BigDecimal longtitude ,BigDecimal latitude);
+    public Integer updateLocationByID(Integer id, String longtitude ,String latitude);
     public Integer updateWexIDByID(Integer userID,String wexID );
     public Integer updateQQByID(Integer userID,String qq );
     public Integer updateLevelByID(Integer userID,Integer  level);

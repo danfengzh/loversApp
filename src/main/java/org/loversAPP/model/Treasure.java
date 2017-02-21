@@ -1,6 +1,5 @@
 package org.loversAPP.model;
 
-import java.math.BigDecimal;
 import org.loversAPP.base.BaseModel;
 
 public class Treasure extends BaseModel {
@@ -14,9 +13,9 @@ public class Treasure extends BaseModel {
 
     private Integer treasurevalue;
 
-    private BigDecimal longtitude;
+    private String longtitude;
 
-    private BigDecimal latitude;
+    private String latitude;
 
     public Integer getId() {
         return id;
@@ -58,19 +57,19 @@ public class Treasure extends BaseModel {
         this.treasurevalue = treasurevalue;
     }
 
-    public BigDecimal getLongtitude() {
+    public String getLongtitude() {
         return longtitude;
     }
 
-    public void setLongtitude(BigDecimal longtitude) {
-        this.longtitude = longtitude;
+    public void setLongtitude(String longtitude) {
+        this.longtitude = longtitude == null ? null : longtitude.trim();
     }
 
-    public BigDecimal getLatitude() {
+    public String getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(BigDecimal latitude) {
-        this.latitude = latitude;
+    public void setLatitude(String latitude) {
+        this.latitude = latitude == null ? null : latitude.trim();
     }
 }

@@ -1,6 +1,5 @@
 package org.loversAPP.model;
 
-import java.math.BigDecimal;
 import org.loversAPP.base.BaseModel;
 
 public class User extends BaseModel {
@@ -28,9 +27,9 @@ public class User extends BaseModel {
 
     private Integer stauts;
 
-    private BigDecimal longtitude;
+    private String longtitude;
 
-    private BigDecimal latitude;
+    private String latitude;
 
     private Integer stepstoday;
 
@@ -144,20 +143,20 @@ public class User extends BaseModel {
         this.stauts = stauts;
     }
 
-    public BigDecimal getLongtitude() {
+    public String getLongtitude() {
         return longtitude;
     }
 
-    public void setLongtitude(BigDecimal longtitude) {
-        this.longtitude = longtitude;
+    public void setLongtitude(String longtitude) {
+        this.longtitude = longtitude == null ? null : longtitude.trim();
     }
 
-    public BigDecimal getLatitude() {
+    public String getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(BigDecimal latitude) {
-        this.latitude = latitude;
+    public void setLatitude(String latitude) {
+        this.latitude = latitude == null ? null : latitude.trim();
     }
 
     public Integer getStepstoday() {
