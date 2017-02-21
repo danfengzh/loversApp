@@ -480,4 +480,15 @@
   <select id="getAllUsers" resultMap="BaseResultMap">
        SELECT * FROM user
   </select>
+  <select id="getUserByUserNameOrPass" resultMap="BaseResultMap">
+    SELECT userName,phoneNumber FROM user
+    <where>
+      <if test="username!=null and !&quot;&quot;.equals(username.trim())">
+        userName=#{username,jdbcType=VARCHAR}
+      </if>
+      <if test="phoneNum!=null and !&quot;&quot;.equals(phoneNum.trim())">
+       OR phoneNumber=#{phoneNum,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
 </mapper>

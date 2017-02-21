@@ -39,6 +39,13 @@ public class UserServiceImpl implements UserService
         return userMapper.insertSelective(user);
     }
 
+    @Override
+    public User isExistUser(String userName, String password) {
+
+        User user=userMapper.getUserByUserNameOrPass(userName,password);
+        return user;
+    }
+
     public Integer updatePwByID(Integer userID,String password) {
         User user=new User();
         user.setId(userID);
@@ -102,7 +109,7 @@ public class UserServiceImpl implements UserService
     }
 
     @Override
-        public Integer updateLocationByID(Integer id, String longtitude, String latitude) {
+    public Integer updateLocationByID(Integer id, String longtitude, String latitude) {
         User user=new User();
         user.setId(id);
         user.setLongtitude(longtitude);

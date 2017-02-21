@@ -47,7 +47,8 @@ public class UserServiceTest extends baseServiceTest {
 
     @Test
     public void updateUserNameByID() throws Exception {
-
+      User cou= userService.isExistUser("aaabb","13259715262");
+        System.out.println("***************"+cou);
     }
 
     @Test

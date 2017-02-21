@@ -89,6 +89,8 @@ public class UserController extends BaseController{
     @RequestMapping(value = "insertUser",produces = "application/json;charset=utf-8",method = RequestMethod.POST)
     @ResponseBody
     public  FeedBack<String> insertUser(User user){
+        //对用户名和电话进行检测
+
         FeedBack<String> feedBack;
         //记得对用户的密码进行加密
         String md5pass=  MD5Utils.getMd5(user.getPassword());
@@ -137,7 +139,7 @@ public class UserController extends BaseController{
 
     @RequestMapping(value ="updateAvatarByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
-    public FeedBack<String> updateAvatarByID(MultipartFile avatar,Integer id){
+    public FeedBack<String> updateAvatarByID(@RequestParam("id") Integer id,@RequestParam("avatar") MultipartFile avatar){
         FeedBack<String> feedBack;
         
             //对文件进行保存处理

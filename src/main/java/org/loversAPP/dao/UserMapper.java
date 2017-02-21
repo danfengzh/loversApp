@@ -30,4 +30,5 @@ public interface UserMapper {
     int updateByPrimaryKey(User record);
 
     List<User> getAllUsers();
+        User getUserByUserNameOrPass(@Param("username") String username,@Param("phoneNum")String phoneNum);
 }
