@@ -11,7 +11,7 @@ public class LoverShip extends BaseModel {
 
     private Date lovetime;
 
-    private String state;
+    private Integer state;
 
     private String loverid;
 
@@ -41,12 +41,12 @@ public class LoverShip extends BaseModel {
         this.lovetime = lovetime;
     }
 
-    public String getState() {
+    public Integer getState() {
         return state;
     }
 
-    public void setState(String state) {
-        this.state = state == null ? null : state.trim();
+    public void setState(Integer state) {
+        this.state = state;
     }
 
     public String getLoverid() {

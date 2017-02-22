@@ -71,7 +71,7 @@ public class LoverShipServiceImpl implements LoverShipService {
     }
 
     @Override
-    public Integer updateStateByID(String loverID, String state) {
+    public Integer updateStateByID(String loverID, Integer state) {
         LoverShipExample example=new LoverShipExample();
         example.createCriteria().andLoveridEqualTo(loverID);
         LoverShip loverShip=new LoverShip();

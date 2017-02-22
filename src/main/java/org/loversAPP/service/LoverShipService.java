@@ -17,7 +17,7 @@ public interface LoverShipService {
     public List<LoverShip> getAllLoveShips();
     public Integer deleteLoveShipByID(String loverID);
     public Integer updateLoveIndexByID(String loverID,Integer loveIndex);
-    public Integer updateStateByID(String loverID,String state);
+    public Integer updateStateByID(String loverID,Integer state);
     //根据loverID  和 userID获取另一半的信息
     public User getHalfByID(String loverID, Integer Aid);
 }

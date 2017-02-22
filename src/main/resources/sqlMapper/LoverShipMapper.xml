@@ -5,7 +5,7 @@
     <id column="loverGirlID" jdbcType="INTEGER" property="lovergirlid" />
     <id column="loverBoyID" jdbcType="INTEGER" property="loverboyid" />
     <result column="loveTime" jdbcType="TIMESTAMP" property="lovetime" />
-    <result column="state" jdbcType="CHAR" property="state" />
+    <result column="state" jdbcType="INTEGER" property="state" />
     <result column="loverID" jdbcType="VARCHAR" property="loverid" />
     <result column="loveIndex" jdbcType="INTEGER" property="loveindex" />
   </resultMap>
@@ -91,28 +91,6 @@
     where loverGirlID = #{lovergirlid,jdbcType=INTEGER}
       and loverBoyID = #{loverboyid,jdbcType=INTEGER}
   </select>
-  <select id="selectSelectiveByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from lover_ship
-    <where>
-      <if test="lovergirlid!=null">
-        loverGirlID = #{lovergirlid,jdbcType=INTEGER}
-      </if>
-      <if test="loverboyid!=null">
-        and loverBoyID = #{loverboyid,jdbcType=INTEGER}
-      </if>
-    </where>
-  </select>
-  <select id="LoverShipIdByID" resultMap="BaseResultMap" parameterType="int">
-    SELECT * FROM lover_ship
-    <where>
-      <if test="id!=null">
-        loverBoyID=#{id}
-        OR loverGirlID=#{id}
-      </if>
-    </where>
-  </select>
   <delete id="deleteByPrimaryKey" parameterType="map">
     delete from lover_ship
     where loverGirlID = #{lovergirlid,jdbcType=INTEGER}
@@ -129,7 +107,7 @@
       state, loverID, loveIndex
       )
     values (#{lovergirlid,jdbcType=INTEGER}, #{loverboyid,jdbcType=INTEGER}, #{lovetime,jdbcType=TIMESTAMP}, 
-      #{state,jdbcType=CHAR}, #{loverid,jdbcType=VARCHAR}, #{loveindex,jdbcType=INTEGER}
+      #{state,jdbcType=INTEGER}, #{loverid,jdbcType=VARCHAR}, #{loveindex,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="org.loversAPP.model.LoverShip">
@@ -165,7 +143,7 @@
         #{lovetime,jdbcType=TIMESTAMP},
       </if>
       <if test="state != null">
-        #{state,jdbcType=CHAR},
+        #{state,jdbcType=INTEGER},
       </if>
       <if test="loverid != null">
         #{loverid,jdbcType=VARCHAR},
@@ -194,7 +172,7 @@
         loveTime = #{record.lovetime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.state != null">
-        state = #{record.state,jdbcType=CHAR},
+        state = #{record.state,jdbcType=INTEGER},
       </if>
       <if test="record.loverid != null">
         loverID = #{record.loverid,jdbcType=VARCHAR},
@@ -212,7 +190,7 @@
     set loverGirlID = #{record.lovergirlid,jdbcType=INTEGER},
       loverBoyID = #{record.loverboyid,jdbcType=INTEGER},
       loveTime = #{record.lovetime,jdbcType=TIMESTAMP},
-      state = #{record.state,jdbcType=CHAR},
+      state = #{record.state,jdbcType=INTEGER},
       loverID = #{record.loverid,jdbcType=VARCHAR},
       loveIndex = #{record.loveindex,jdbcType=INTEGER}
     <if test="_parameter != null">
@@ -226,7 +204,7 @@
         loveTime = #{lovetime,jdbcType=TIMESTAMP},
       </if>
       <if test="state != null">
-        state = #{state,jdbcType=CHAR},
+        state = #{state,jdbcType=INTEGER},
       </if>
       <if test="loverid != null">
         loverID = #{loverid,jdbcType=VARCHAR},
@@ -241,10 +219,32 @@
   <update id="updateByPrimaryKey" parameterType="org.loversAPP.model.LoverShip">
     update lover_ship
     set loveTime = #{lovetime,jdbcType=TIMESTAMP},
-      state = #{state,jdbcType=CHAR},
+      state = #{state,jdbcType=INTEGER},
       loverID = #{loverid,jdbcType=VARCHAR},
       loveIndex = #{loveindex,jdbcType=INTEGER}
     where loverGirlID = #{lovergirlid,jdbcType=INTEGER}
       and loverBoyID = #{loverboyid,jdbcType=INTEGER}
   </update>
+  <select id="selectSelectiveByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from lover_ship
+    <where>
+      <if test="lovergirlid!=null">
+        loverGirlID = #{lovergirlid,jdbcType=INTEGER}
+      </if>
+      <if test="loverboyid!=null">
+        and loverBoyID = #{loverboyid,jdbcType=INTEGER}
+      </if>
+    </where>
+  </select>
+  <select id="LoverShipIdByID" resultMap="BaseResultMap" parameterType="int">
+    SELECT * FROM lover_ship
+    <where>
+      <if test="id!=null">
+        loverBoyID=#{id}
+        OR loverGirlID=#{id}
+      </if>
+    </where>
+  </select>
 </mapper>

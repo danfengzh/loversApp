@@ -21,8 +21,8 @@ public class fileUpload {
         if(file!=null){
             if(file.getSize()!=0){
 
-                String fileExtendName = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));//文件扩展名
-                String logoImageName = commentRealPath + File.separator+flag+ fileExtendName;
+//                String fileExtendName = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));//文件扩展名
+                String logoImageName = commentRealPath + File.separator+flag;
                 File FILE1 = new File(logoImageName);
                 if (!file.isEmpty()) {
                     try {
@@ -31,7 +31,7 @@ public class fileUpload {
                         e.printStackTrace();
                     }
                 }
-                return path+flag + fileExtendName;
+                return path+flag;
             }
             else
             {

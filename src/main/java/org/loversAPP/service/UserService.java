@@ -15,7 +15,7 @@ public interface UserService {
     public Integer getIDByPhoneAndPw(String phoneNumber ,String passWord);
 
     public Integer insertUser(User user);
-    public User isExistUser(String userName,String password);
+    public User isExistUser(String userName,String phoneNumber);
     public Integer updatePwByID(Integer userID,String password);
 
     public Integer updateAvatarByID(Integer userID,String avator);

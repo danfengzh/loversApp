@@ -168,7 +168,7 @@ public class UserController extends BaseController{
         String newAvatorpath= fileUpload.tacleUpload(avatar,avatorPath,request,MD5Utils.getMd5(user.getPhonenumber()));
         int count=userService.updateAvatarByID(id,newAvatorpath);
         if (count==1) {
-            feedBack=new FeedBack<String>("success","200",newAvatorpath.substring(0,newAvatorpath.indexOf('.')));
+            feedBack=new FeedBack<String>("success","200",newAvatorpath);
         } else {
             feedBack=new FeedBack<String>("failure","500");
         }
@@ -451,7 +451,7 @@ public class UserController extends BaseController{
         FeedBack<String> feedBack;
         int count= userService.updateBimgByID(id,newBackPathpath);
         if(count==1){
-            feedBack=new FeedBack<>("success","200",newBackPathpath.substring(0,newBackPathpath.indexOf('.')));
+            feedBack=new FeedBack<>("success","200",newBackPathpath);
         }
         else {
             feedBack=new FeedBack<>("failure","500");

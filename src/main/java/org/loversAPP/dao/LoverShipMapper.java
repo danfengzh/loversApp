@@ -32,6 +32,6 @@ public interface LoverShipMapper {
     int updateByPrimaryKeySelective(LoverShip record);
 
     int updateByPrimaryKey(LoverShip record);
-   LoverShip  selectSelectiveByPrimaryKey(@Param("lovergirlid") Integer lovergirlid, @Param("loverboyid")Integer loverboyid);
+    LoverShip  selectSelectiveByPrimaryKey(@Param("lovergirlid") Integer lovergirlid, @Param("loverboyid")Integer loverboyid);
     LoverShip  LoverShipIdByID(@Param("id") Integer id);
 }
