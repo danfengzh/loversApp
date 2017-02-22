@@ -15,10 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.File;
 import java.util.List;
-
 /**
  * Created by Administrator on 2017/2/15.
  */
@@ -78,6 +76,14 @@ public class UserController extends BaseController{
 
         FeedBack<List<User>> feedBack;
         List<User> users=userService.getAllUsers();
+        for(User s:users){
+            if (s.getAvator()!=null) {
+                s.setAvator(s.getAvator().substring(0,s.getAvator().indexOf('.')));
+            }
+            if (s.getBackimage()!=null) {
+                s.setBackimage(s.getBackimage().substring(0,s.getBackimage().indexOf('.')));
+            }
+        }
         feedBack=new FeedBack(FeedBack.OK_STR,"200",users);
         return feedBack;
     }
@@ -93,16 +99,24 @@ public class UserController extends BaseController{
 
         FeedBack<String> feedBack;
         //记得对用户的密码进行加密
-        String md5pass=  MD5Utils.getMd5(user.getPassword());
-        String inviteCode=InviteCodeCreator.createRandom(true,6);
-        user.setPassword(md5pass);
-        user.setInvitecode(inviteCode);
-        Integer count= userService.insertUser(user);
-        if(count==1){
-            feedBack=new FeedBack("OK","200");
+        User us=  userService.isExistUser(user.getUsername(),user.getPhonenumber());
+        if(us!=null&&us.getUsername().equals(user.getUsername())){
+            feedBack = new FeedBack("the userName is exits", "101");
+        }
+        else if(us!=null&&us.getPhonenumber().equals(user.getPhonenumber())){
+            feedBack = new FeedBack("the phoneNumer is exits", "102");
         }
         else {
-            feedBack=new FeedBack("FAILURE","500");
+            String md5pass = MD5Utils.getMd5(user.getPassword());
+            String inviteCode = InviteCodeCreator.createRandom(true, 6);
+            user.setPassword(md5pass);
+            user.setInvitecode(inviteCode);
+            Integer count = userService.insertUser(user);
+            if (count == 1) {
+                feedBack = new FeedBack("OK", "200");
+            } else {
+                feedBack = new FeedBack("FAILURE", "500");
+            }
         }
         return feedBack;
     }
@@ -141,23 +155,23 @@ public class UserController extends BaseController{
     @ResponseBody
     public FeedBack<String> updateAvatarByID(@RequestParam("id") Integer id,@RequestParam("avatar") MultipartFile avatar){
         FeedBack<String> feedBack;
-        
-            //对文件进行保存处理
-            String avatorPath=getMessage(ControllerConstant.userAvatorPath);
-            User user=userService.getUserByID(id);
-            if (user.getAvator()!=null) {
-                File filePresious=new File(request.getSession().getServletContext().getRealPath(File.separator)+"/"+user.getAvator());
-                if(filePresious!=null&&filePresious.exists()){
-                    filePresious.delete();
-                }
+
+        //对文件进行保存处理
+        String avatorPath=getMessage(ControllerConstant.userAvatorPath);
+        User user=userService.getUserByID(id);
+        if (user.getAvator()!=null) {
+            File filePresious=new File(request.getSession().getServletContext().getRealPath(File.separator)+"/"+user.getAvator());
+            if(filePresious!=null&&filePresious.exists()){
+                filePresious.delete();
             }
-            String newAvatorpath= fileUpload.tacleUpload(avatar,avatorPath,request,user.getPhonenumber());
-            int count=userService.updateAvatarByID(id,newAvatorpath);
-            if (count==1) {
-                feedBack=new FeedBack<String>("success","200",newAvatorpath);
-            } else {
-                feedBack=new FeedBack<String>("failure","500");
-            }
+        }
+        String newAvatorpath= fileUpload.tacleUpload(avatar,avatorPath,request,MD5Utils.getMd5(user.getPhonenumber()));
+        int count=userService.updateAvatarByID(id,newAvatorpath);
+        if (count==1) {
+            feedBack=new FeedBack<String>("success","200",newAvatorpath.substring(0,newAvatorpath.indexOf('.')));
+        } else {
+            feedBack=new FeedBack<String>("failure","500");
+        }
 
         return feedBack;
     }
@@ -433,11 +447,11 @@ public class UserController extends BaseController{
         if(filePresious!=null&&filePresious.exists()){
             filePresious.delete();
         }
-        String newBackPathpath= fileUpload.tacleUpload(backImage,homePicPath,request,user.getPhonenumber());
+        String newBackPathpath= fileUpload.tacleUpload(backImage,homePicPath,request,MD5Utils.getMd5(user.getPhonenumber()));
         FeedBack<String> feedBack;
         int count= userService.updateBimgByID(id,newBackPathpath);
         if(count==1){
-            feedBack=new FeedBack<>("success","200",newBackPathpath);
+            feedBack=new FeedBack<>("success","200",newBackPathpath.substring(0,newBackPathpath.indexOf('.')));
         }
         else {
             feedBack=new FeedBack<>("failure","500");
