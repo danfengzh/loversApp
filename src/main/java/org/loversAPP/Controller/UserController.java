@@ -80,14 +80,6 @@ public class UserController extends BaseController{
 
         FeedBack<List<User>> feedBack;
         List<User> users=userService.getAllUsers();
-        for(User s:users){
-            if (s.getAvator()!=null) {
-                s.setAvator(s.getAvator().substring(0,s.getAvator().indexOf('.')));
-            }
-            if (s.getBackimage()!=null) {
-                s.setBackimage(s.getBackimage().substring(0,s.getBackimage().indexOf('.')));
-            }
-        }
         feedBack=new FeedBack(FeedBack.OK_STR,"200",users);
         return feedBack;
     }

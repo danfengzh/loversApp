@@ -327,7 +327,20 @@
       <version>5.2.3.Final</version>
     </dependency>
     <!-- https://mvnrepository.com/artifact/com.mangofactory/swagger-springmvc -->
+    <dependency>
+      <groupId>com.microsoft.azure</groupId>
+      <artifactId>applicationinsights-web</artifactId>
+      <!-- or applicationinsights-core for bare API -->
+      <version>[1.0,)</version>
+    </dependency>
   </dependencies>
+  <repositories>
+    <repository>
+      <id>central</id>
+      <name>Central</name>
+      <url>http://repo1.maven.org/maven2</url>
+    </repository>
+  </repositories>
   <build>
     <finalName>loversApp</finalName>
   </build>

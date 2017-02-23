@@ -46,6 +46,12 @@
     </mvc:annotation-driven>
     <!-- 对静态资源统一进行处理访问-->
     <mvc:default-servlet-handler/>
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="com.microsoft.applicationinsights.web.spring.RequestNameHandlerInterceptorAdapter" />
+        </mvc:interceptor>
+    </mvc:interceptors>
     <bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
         <property name="ignoreAcceptHeader" value="false"/>
         <property name="favorPathExtension" value="true"/>
@@ -124,7 +130,7 @@
         <property name="defaultStatusCode" value="500"></property>
     </bean>
     <!-- 扫描web相关的配置-->
-    <context:component-scan base-package="org.loversAPP.Controller"/>
+    <context:component-scan base-package="org.loversAPP.Controller,com.microsoft.applicationinsights.web.spring"/>
     <!-- 创建自定义日期工具类-->
     <bean id="DateConvter" class="org.loversAPP.Controller.utils.DateConvert"/>
     <!-- 第二步： 创建convertion-Service ，并注入dateConvert-->
