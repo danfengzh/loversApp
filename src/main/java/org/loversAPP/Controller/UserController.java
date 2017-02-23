@@ -15,8 +15,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 /**
  * Created by Administrator on 2017/2/15.
  */
@@ -191,11 +195,16 @@ public class UserController extends BaseController{
     }
     @RequestMapping(value ="getUserByInviteCode",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
-    public FeedBack<User> getUserByInviteCode(@RequestParam("inviteCode") String inviteCode){
-        FeedBack<User> feedBack;
+    public FeedBack<Map> getUserByInviteCode(@RequestParam("inviteCode") String inviteCode){
+        FeedBack<Map> feedBack;
         User user=   userService.getUserByInviteCode(inviteCode);
+        Map tempUser=new HashMap();
+        tempUser.put("id",user.getId());
+        tempUser.put("username",user.getUsername());
+        tempUser.put("avator",user.getAvator());
+        tempUser.put("stauts",user.getStauts());
         if(user!=null){
-            feedBack=new FeedBack<>("success","200",user);
+            feedBack=new FeedBack<>("success","200",tempUser);
         }
         else {
             feedBack=new FeedBack<>("failure","500");

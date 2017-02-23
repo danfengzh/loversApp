@@ -169,7 +169,7 @@ public class LoverShipController extends BaseController{
         tempUser.put("username",U.getUsername());
         tempUser.put("avator",U.getAvator());
         if(U!=null){
-            feedBack=new FeedBack<>("200","success",tempUser);
+            feedBack=new FeedBack<>("success","200",tempUser);
         }
         else {
             feedBack=new FeedBack("failure","400");
