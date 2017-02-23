@@ -22,7 +22,7 @@ public interface UserService {
     public Integer updateSexByID(Integer userID,String sex);
     public Integer updateUserNameByID(Integer userID,String userName);
 
-    public Integer getIDByInviteCode(String inviteCode);
+    public User getUserByInviteCode(String inviteCode);
 
     public Integer deleteUserByID(Integer userID);
     public Integer updateStepsTodayByID(Integer id,Integer stepsToday);

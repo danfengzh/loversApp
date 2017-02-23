@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2017/2/20.
@@ -31,13 +33,13 @@ public class LoverShipController extends BaseController{
      *
      * @param loverAID 女生
      * @param loverBID 男生
-     * @param loveTime
+     *
      * @param state
      * @return
      */
     @RequestMapping(value = "/insertLoverShip",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
-    public FeedBack<String> insertLoverShip(@RequestParam("loverAID") Integer loverAID,@RequestParam("loverBID")Integer loverBID,@RequestParam(value = "loveTime",required = false) Date loveTime ,
+    public FeedBack<String> insertLoverShip(@RequestParam("loverAID") Integer loverAID,@RequestParam("loverBID")Integer loverBID,
                                             @RequestParam("state") Integer state){
         FeedBack feedBack;
         LoverShip loverShip=new LoverShip();
@@ -45,7 +47,7 @@ public class LoverShipController extends BaseController{
         loverShip.setLovergirlid(loverAID);
         loverShip.setLoverboyid(loverBID);
         loverShip.setLoverid(UniqueStringGenerate.generateRandomStr(8));
-        loverShip.setLovetime(loveTime);
+        loverShip.setLovetime(new Date());
         int count=loverShipService.insertLoverShip(loverShip);
         if (count==1) {
             feedBack=new FeedBack("success","200");
@@ -79,7 +81,7 @@ public class LoverShipController extends BaseController{
         FeedBack<LoverShip> feedBack;
         LoverShip loverShip=  loverShipService.getLoverShipByID(loverID);
         if(loverShip!=null){
-            feedBack=new FeedBack("failure","400",loverShip);
+            feedBack=new FeedBack("success","200",loverShip);
         }
         else {
             feedBack=new FeedBack("failure","400");
@@ -153,17 +155,35 @@ public class LoverShipController extends BaseController{
      */
     @RequestMapping(value = "/getHalfByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
-    public FeedBack<User> getHalfByID(@RequestParam("loverAID") Integer loverAID,@RequestParam("loverID") String loverID){
+    public FeedBack<Map> getHalfByID(@RequestParam("loverAID") Integer loverAID,@RequestParam("loverID") String loverID){
 
-        FeedBack<User> feedBack;
+        FeedBack<Map> feedBack;
+        //User tempUser=new User();
         User U= loverShipService.getHalfByID(loverID,loverAID);
+//        tempUser.setId(U.getId());
+//        tempUser.setUsername(U.getUsername());
+//        tempUser.setAvator(U.getAvator());
+//        tempUser.setSignature(U.getSignature());
+        Map tempUser=new HashMap();
+        tempUser.put("id",U.getId());
+        tempUser.put("username",U.getUsername());
+        tempUser.put("avator",U.getAvator());
         if(U!=null){
-            feedBack=new FeedBack<>("200","success",U);
+            feedBack=new FeedBack<>("200","success",tempUser);
         }
         else {
             feedBack=new FeedBack("failure","400");
         }
         return feedBack;
     }
-
+    @RequestMapping(value = "/MyTest/Demo",method = RequestMethod.GET,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public User demo(){
+        User user=new User();
+        user.setStauts(0);
+        user.setUsername("孟烨");
+        user.setSex("女");
+        user.setHobby("睡觉 吃饭");
+        return user;
+    }
 }

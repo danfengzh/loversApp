@@ -84,10 +84,10 @@ public class UserServiceImpl implements UserService
         return res;
     }
 
-    public Integer getIDByInviteCode(String inviteCode) {
+    public User getUserByInviteCode(String inviteCode) {
         UserExample userExample=new UserExample();
         userExample.createCriteria().andInvitecodeEqualTo(inviteCode);
-        return userMapper.selectByExample(userExample).get(0).getId();
+        return userMapper.selectByExample(userExample).get(0);
     }
 
     public Integer deleteUserByID(Integer userID) {

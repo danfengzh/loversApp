@@ -189,13 +189,13 @@ public class UserController extends BaseController{
         }
         return feedBack;
     }
-    @RequestMapping(value ="getIDByInviteCode",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @RequestMapping(value ="getUserByInviteCode",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
-    public FeedBack<Integer> getIDByInviteCode(@RequestParam("inviteCode") String inviteCode){
-        FeedBack<Integer> feedBack;
-        Integer id=   userService.getIDByInviteCode(inviteCode);
-        if(id!=null){
-            feedBack=new FeedBack<>("success","200",id);
+    public FeedBack<User> getUserByInviteCode(@RequestParam("inviteCode") String inviteCode){
+        FeedBack<User> feedBack;
+        User user=   userService.getUserByInviteCode(inviteCode);
+        if(user!=null){
+            feedBack=new FeedBack<>("success","200",user);
         }
         else {
             feedBack=new FeedBack<>("failure","500");
