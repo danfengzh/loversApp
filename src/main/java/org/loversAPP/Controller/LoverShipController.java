@@ -1,9 +1,12 @@
 package org.loversAPP.Controller;
 
+import org.loversAPP.Controller.base.BaseController;
 import org.loversAPP.DTO.FeedBack;
 import org.loversAPP.model.LoverShip;
 import org.loversAPP.model.User;
 import org.loversAPP.service.LoverShipService;
+import org.loversAPP.service.UserService;
+import org.loversAPP.utils.UniqueStringGenerate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,16 +16,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Created by Administrator on 2017/2/20.
  */
-@Controller("/loverShip")
-public class LoverShipController {
+@Controller
+@RequestMapping("/loverShip")
+public class LoverShipController extends BaseController{
     @Autowired
     private LoverShipService loverShipService;
-
+    @Autowired
+    private UserService userService;
     /**
      *
      * @param loverAID 女生
@@ -33,14 +37,15 @@ public class LoverShipController {
      */
     @RequestMapping(value = "/insertLoverShip",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
-    public FeedBack<String> insertLoverShip(@RequestParam("loverAID") Integer loverAID,@RequestParam("loverBID")Integer loverBID,@RequestParam("loveTime") Date loveTime ,
+    public FeedBack<String> insertLoverShip(@RequestParam("loverAID") Integer loverAID,@RequestParam("loverBID")Integer loverBID,@RequestParam(value = "loveTime",required = false) Date loveTime ,
                                             @RequestParam("state") Integer state){
         FeedBack feedBack;
         LoverShip loverShip=new LoverShip();
         loverShip.setState(state);
         loverShip.setLovergirlid(loverAID);
         loverShip.setLoverboyid(loverBID);
-        loverShip.setLoverid(UUID.randomUUID().toString());
+        loverShip.setLoverid(UniqueStringGenerate.generateRandomStr(8));
+        loverShip.setLovetime(loveTime);
         int count=loverShipService.insertLoverShip(loverShip);
         if (count==1) {
             feedBack=new FeedBack("success","200");
@@ -70,9 +75,9 @@ public class LoverShipController {
     }
     @RequestMapping(value = "/getLoverShipByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
-    public FeedBack<LoverShip> getLoverShipByID(@RequestParam("loverAID") String loverAID){
+    public FeedBack<LoverShip> getLoverShipByID(@RequestParam("loverID") String loverID){
         FeedBack<LoverShip> feedBack;
-        LoverShip loverShip=  loverShipService.getLoverShipByID(loverAID);
+        LoverShip loverShip=  loverShipService.getLoverShipByID(loverID);
         if(loverShip!=null){
             feedBack=new FeedBack("failure","400",loverShip);
         }
@@ -99,15 +104,21 @@ public class LoverShipController {
     /**
      *   解除恋爱关系
      *   1.用户双方status 都变为0
-     2.Activityrecord 跟loveship表 删除
+         2.Activityrecord 跟loveship表 删除
      * @param loverID
      * @return
      */
     @RequestMapping(value = "/deleteLoveShipByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
-    public FeedBack<LoverShip> deleteLoveShipByID(@RequestParam("loverAID") String loverID){
-
-        return null;
+    public FeedBack<String> deleteLoveShipByID(@RequestParam("loverID") String loverID){
+         FeedBack<String> feedBack;
+        int count= loverShipService.deleteLoveShipByID(loverID);
+        if (count==1) {
+           feedBack=new FeedBack<>("success","200");
+        } else {
+            feedBack=new FeedBack<>("failure","400");
+        }
+        return feedBack;
     }
     @RequestMapping(value = "/updateLoveIndexByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
@@ -147,7 +158,7 @@ public class LoverShipController {
         FeedBack<User> feedBack;
         User U= loverShipService.getHalfByID(loverID,loverAID);
         if(U!=null){
-            feedBack=new FeedBack<>("","",U);
+            feedBack=new FeedBack<>("200","success",U);
         }
         else {
             feedBack=new FeedBack("failure","400");

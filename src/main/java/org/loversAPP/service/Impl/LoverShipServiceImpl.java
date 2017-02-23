@@ -8,6 +8,9 @@ import org.loversAPP.model.User;
 import org.loversAPP.service.LoverShipService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -18,6 +21,7 @@ import java.util.List;
 public class LoverShipServiceImpl implements LoverShipService {
     @Autowired
     private LoverShipMapper loverShipMapper;
+
     @Autowired
     private UserMapper userMapper;
     @Override
@@ -28,8 +32,14 @@ public class LoverShipServiceImpl implements LoverShipService {
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW,isolation = Isolation.DEFAULT)
     public Integer insertLoverShip(LoverShip loverShip) {
-
+        User girl=userMapper.selectByPrimaryKey(loverShip.getLovergirlid());
+        User boy=userMapper.selectByPrimaryKey(loverShip.getLoverboyid());
+        girl.setStauts(1);
+        boy.setStauts(1);
+        userMapper.updateByPrimaryKeySelective(boy);
+        userMapper.updateByPrimaryKeySelective(girl);
         return loverShipMapper.insertSelective(loverShip);
     }
 
@@ -54,10 +64,26 @@ public class LoverShipServiceImpl implements LoverShipService {
         return loverShipMapper.selectByExample(new LoverShipExample());
     }
 
+    /**
+     *    解除恋爱关系
+     *   1.用户双方status 都变为0
+         2.Activityrecord 跟loveship表 删除
+     * @param loverID
+     * @return
+     */
     @Override
+    @Transactional(propagation = Propagation.REQUIRES_NEW,isolation = Isolation.DEFAULT)
     public Integer deleteLoveShipByID(String loverID) {
+
         LoverShipExample loverShipExample=new LoverShipExample();
         loverShipExample.createCriteria().andLoveridEqualTo(loverID);
+        LoverShip loverShip=loverShipMapper.selectByExample(loverShipExample).get(0);
+        User boy=userMapper.selectByPrimaryKey(loverShip.getLoverboyid());
+        User girl=userMapper.selectByPrimaryKey(loverShip.getLovergirlid());
+        boy.setStauts(0);
+        girl.setStauts(0);
+        userMapper.updateByPrimaryKeySelective(boy);
+        userMapper.updateByPrimaryKeySelective(girl);
         return loverShipMapper.deleteByExample(loverShipExample);
     }
 

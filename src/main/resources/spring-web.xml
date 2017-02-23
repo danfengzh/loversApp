@@ -5,7 +5,7 @@
        xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:annation="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
     <annation:config/>
-    <mvc:annotation-driven>
+    <mvc:annotation-driven conversion-service="conversionService">
         <mvc:message-converters>
             <bean class="org.springframework.http.converter.StringHttpMessageConverter"/>
             <bean class="org.springframework.http.converter.ResourceHttpMessageConverter"/>
@@ -117,4 +117,14 @@
     </bean>
     <!-- 扫描web相关的配置-->
     <context:component-scan base-package="org.loversAPP.Controller"/>
+    <!-- 创建自定义日期工具类-->
+    <bean id="DateConvter" class="org.loversAPP.Controller.utils.DateConvert"/>
+    <!-- 第二步： 创建convertion-Service ，并注入dateConvert-->
+    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+        <property name="converters">
+            <set>
+                <ref bean="DateConvter"/>
+            </set>
+        </property>
+    </bean>
 </beans>
