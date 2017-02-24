@@ -333,14 +333,19 @@
       <!-- or applicationinsights-core for bare API -->
       <version>[1.0,)</version>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-redis -->
+    <dependency>
+      <groupId>org.springframework.data</groupId>
+      <artifactId>spring-data-redis</artifactId>
+      <version>1.7.2.RELEASE</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/redis.clients/jedis -->
+    <dependency>
+      <groupId>redis.clients</groupId>
+      <artifactId>jedis</artifactId>
+      <version>2.9.0</version>
+    </dependency>
   </dependencies>
-  <repositories>
-    <repository>
-      <id>central</id>
-      <name>Central</name>
-      <url>http://repo1.maven.org/maven2</url>
-    </repository>
-  </repositories>
   <build>
     <finalName>loversApp</finalName>
   </build>
