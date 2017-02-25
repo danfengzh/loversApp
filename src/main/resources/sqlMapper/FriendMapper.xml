@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.loversAPP.Test.dao.FriendMapper">
-  <resultMap id="BaseResultMap" type="org.loversAPP.Test.model.Friend">
+<mapper namespace="org.loversAPP.dao.FriendMapper">
+  <resultMap id="BaseResultMap" type="org.loversAPP.model.Friend">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="userID" jdbcType="INTEGER" property="userid" />
     <result column="friendID" jdbcType="INTEGER" property="friendid" />
@@ -67,7 +67,7 @@
   <sql id="Base_Column_List">
     id, userID, friendID
   </sql>
-  <select id="selectByExample" parameterType="org.loversAPP.Test.model.FriendExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="org.loversAPP.model.FriendExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -82,7 +82,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from friend
     where id = #{id,jdbcType=INTEGER}
@@ -91,20 +91,20 @@
     delete from friend
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="org.loversAPP.Test.model.FriendExample">
+  <delete id="deleteByExample" parameterType="org.loversAPP.model.FriendExample">
     delete from friend
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="org.loversAPP.Test.model.Friend">
+  <insert id="insert" parameterType="org.loversAPP.model.Friend">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into friend (userID, friendID)
     values (#{userid,jdbcType=INTEGER}, #{friendid,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="org.loversAPP.Test.model.Friend">
+  <insert id="insertSelective" parameterType="org.loversAPP.model.Friend">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -126,7 +126,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="org.loversAPP.Test.model.FriendExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="org.loversAPP.model.FriendExample" resultType="java.lang.Long">
     select count(*) from friend
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -152,13 +152,13 @@
   <update id="updateByExample" parameterType="map">
     update friend
     set id = #{record.id,jdbcType=INTEGER},
-      userID = #{record.userid,jdbcType=INTEGER},
-      friendID = #{record.friendid,jdbcType=INTEGER}
+    userID = #{record.userid,jdbcType=INTEGER},
+    friendID = #{record.friendid,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="org.loversAPP.Test.model.Friend">
+  <update id="updateByPrimaryKeySelective" parameterType="org.loversAPP.model.Friend">
     update friend
     <set>
       <if test="userid != null">
@@ -170,10 +170,48 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="org.loversAPP.Test.model.Friend">
+  <update id="updateByPrimaryKey" parameterType="org.loversAPP.model.Friend">
     update friend
     set userID = #{userid,jdbcType=INTEGER},
       friendID = #{friendid,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <resultMap id="FriendShipResultMap" type="org.loversAPP.DTO.FriendShip" extends="BaseResultMap">
+    <association property="friend" javaType="org.loversAPP.model.User" resultMap="org.loversAPP.dao.UserMapper.BaseResultMap">
+    </association>
+  </resultMap>
+  <select id="getFriendsByUID" resultMap="FriendShipResultMap">
+    SELECT
+    `user`.userName,
+    `user`.`passWord`,
+    `user`.avator,
+    `user`.wexID,
+    `user`.qq,
+    `user`.phoneNumber,
+    `user`.`level`,
+    `user`.signature,
+    `user`.inviteCode,
+    `user`.sex,
+    `user`.stauts,
+    `user`.longtitude,
+    `user`.latitude,
+    `user`.stepsToday,
+    `user`.checkinDays,
+    `user`.age,
+    `user`.height,
+    `user`.weight,
+    `user`.hobby,
+    `user`.exp,
+    `user`.backImage,
+    `user`.id
+    FROM
+    friend ,
+    `user`
+    <where>
+      <if test="userID!=null">
+        friend.userID = `user`.id OR
+        friend.friendID = friend.id
+      </if>
+    </where>
+  </select>
 </mapper>
