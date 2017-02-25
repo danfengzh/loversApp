@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by Administrator on 2017/2/25.
  */
@@ -29,15 +32,15 @@ public class friendController extends BaseController {
     @RequestMapping(value = "/insertFriend",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
     public FeedBack<String> insertFriend(@RequestParam("userID") Integer userID ,@RequestParam("friendID") Integer friendID){
-           FeedBack<String> feedBack;
-          int count= friendService.insertFriend(userID,friendID);
-          if(count==1){
-              feedBack=new FeedBack<>("success","200");
-          }
-          else {
-              feedBack=new FeedBack<>("failure","500");
-          }
-          return feedBack;
+        FeedBack<String> feedBack;
+        int count= friendService.insertFriend(userID,friendID);
+        if(count==1){
+            feedBack=new FeedBack<>("success","200");
+        }
+        else {
+            feedBack=new FeedBack<>("failure","500");
+        }
+        return feedBack;
     }
     @RequestMapping(value = "/deleteFriend",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
@@ -54,15 +57,20 @@ public class friendController extends BaseController {
     }
     @RequestMapping(value = "/getFriendsByUID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
-    public FeedBack<FriendShip> getFriendsByUID(@RequestParam("userID") Integer userID){
-        FeedBack<FriendShip> feedBack;
+    public Map getFriendsByUID(@RequestParam("userID") Integer userID){
+
+        Map hashMap=new HashMap();
         FriendShip friendShip= friendService.getFriendsByUID(userID);
         if(friendShip!=null){
-            feedBack=new FeedBack<>("success","200",friendShip);
+            hashMap.put("code","200");
+            hashMap.put("msg","success");
+            hashMap.put("friend",friendShip.getFriend());
+
         }
         else {
-            feedBack=new FeedBack<>("failure","500");
+            hashMap.put("code","500");
+            hashMap.put("msg","failure");
         }
-        return feedBack;
+        return hashMap;
     }
 }
