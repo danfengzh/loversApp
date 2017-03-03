@@ -6,7 +6,7 @@ import org.loversAPP.dao.ActivityrecordsMapper;
 import org.loversAPP.dao.TextRecordsMapper;
 import org.loversAPP.model.Activityrecords;
 import org.loversAPP.model.ActivityrecordsExample;
-import org.loversAPP.model.dao.PhotoRecordsMapper;
+import org.loversAPP.dao.PhotoRecordsMapper;
 import org.loversAPP.service.ActivityRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +22,7 @@ public class ActivityRecordServiceImpl implements ActivityRecordService{
     private ActivityrecordsMapper activityrecordsMapper;
     @Autowired
     private TextRecordsMapper textRecordsMapper;
+
     @Autowired
     private PhotoRecordsMapper photoRecordsMapper;
     @Override

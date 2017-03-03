@@ -36,7 +36,7 @@ public class activity_recordsController {
     public FeedBack<Integer> getIDByLoverID(String loverID){
         FeedBack feedBack=null;
         int count= activityRecordService.getIDByLoverID(loverID);
-        if(count==1){
+        if(count!=1){
             feedBack=new FeedBack("success","200",count);
         }
         else {
