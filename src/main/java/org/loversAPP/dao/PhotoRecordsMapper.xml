@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.loversAPP.dao.ActivityrecordsMapper">
-  <cache type="org.loversAPP.Cache.RedisCache"/>
-  <resultMap id="BaseResultMap" type="org.loversAPP.model.Activityrecords">
+<mapper namespace="org.loversAPP.Test.dao.PhotoRecordsMapper">
+  <resultMap id="BaseResultMap" type="org.loversAPP.Test.model.PhotoRecords">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <id column="loverID" jdbcType="VARCHAR" property="loverid" />
-    <result column="totalSteps" jdbcType="INTEGER" property="totalsteps" />
-    <result column="radius" jdbcType="INTEGER" property="radius" />
+    <result column="recordsID" jdbcType="INTEGER" property="recordsid" />
+    <result column="userID" jdbcType="INTEGER" property="userid" />
+    <result column="photo" jdbcType="VARCHAR" property="photo" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="publishDate" jdbcType="TIMESTAMP" property="publishdate" />
     <result column="longtitude" jdbcType="VARCHAR" property="longtitude" />
     <result column="latitude" jdbcType="VARCHAR" property="latitude" />
   </resultMap>
@@ -69,15 +70,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, loverID, totalSteps, radius, longtitude, latitude
+    id, recordsID, userID, photo, content, publishDate, longtitude, latitude
   </sql>
-  <select id="selectByExample" parameterType="org.loversAPP.model.ActivityrecordsExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="org.loversAPP.Test.model.PhotoRecordsExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from activityrecords
+    from photo_records
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -85,47 +86,53 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
-    select
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
     <include refid="Base_Column_List" />
-    from activityrecords
+    from photo_records
     where id = #{id,jdbcType=INTEGER}
-    and loverID = #{loverid,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="map">
-    delete from activityrecords
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from photo_records
     where id = #{id,jdbcType=INTEGER}
-      and loverID = #{loverid,jdbcType=VARCHAR}
   </delete>
-  <delete id="deleteByExample" parameterType="org.loversAPP.model.ActivityrecordsExample">
-    delete from activityrecords
+  <delete id="deleteByExample" parameterType="org.loversAPP.Test.model.PhotoRecordsExample">
+    delete from photo_records
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="org.loversAPP.model.Activityrecords">
+  <insert id="insert" parameterType="org.loversAPP.Test.model.PhotoRecords">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into activityrecords (loverID, totalSteps, radius,
-    longtitude, latitude)
-    values (#{loverid,jdbcType=VARCHAR}, #{totalsteps,jdbcType=INTEGER}, #{radius,jdbcType=INTEGER},
-    #{longtitude,jdbcType=VARCHAR}, #{latitude,jdbcType=VARCHAR})
+    insert into photo_records (recordsID, userID, photo, 
+      content, publishDate, longtitude, 
+      latitude)
+    values (#{recordsid,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{photo,jdbcType=VARCHAR}, 
+      #{content,jdbcType=VARCHAR}, #{publishdate,jdbcType=TIMESTAMP}, #{longtitude,jdbcType=VARCHAR}, 
+      #{latitude,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="org.loversAPP.model.Activityrecords">
+  <insert id="insertSelective" parameterType="org.loversAPP.Test.model.PhotoRecords">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into activityrecords
+    insert into photo_records
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="loverid != null">
-        loverID,
+      <if test="recordsid != null">
+        recordsID,
       </if>
-      <if test="totalsteps != null">
-        totalSteps,
+      <if test="userid != null">
+        userID,
       </if>
-      <if test="radius != null">
-        radius,
+      <if test="photo != null">
+        photo,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="publishdate != null">
+        publishDate,
       </if>
       <if test="longtitude != null">
         longtitude,
@@ -135,14 +142,20 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="loverid != null">
-        #{loverid,jdbcType=VARCHAR},
+      <if test="recordsid != null">
+        #{recordsid,jdbcType=INTEGER},
       </if>
-      <if test="totalsteps != null">
-        #{totalsteps,jdbcType=INTEGER},
+      <if test="userid != null">
+        #{userid,jdbcType=INTEGER},
       </if>
-      <if test="radius != null">
-        #{radius,jdbcType=INTEGER},
+      <if test="photo != null">
+        #{photo,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="publishdate != null">
+        #{publishdate,jdbcType=TIMESTAMP},
       </if>
       <if test="longtitude != null">
         #{longtitude,jdbcType=VARCHAR},
@@ -152,26 +165,32 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="org.loversAPP.model.ActivityrecordsExample" resultType="java.lang.Long">
-    select count(*) from activityrecords
+  <select id="countByExample" parameterType="org.loversAPP.Test.model.PhotoRecordsExample" resultType="java.lang.Long">
+    select count(*) from photo_records
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update activityrecords
+    update photo_records
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.loverid != null">
-        loverID = #{record.loverid,jdbcType=VARCHAR},
+      <if test="record.recordsid != null">
+        recordsID = #{record.recordsid,jdbcType=INTEGER},
       </if>
-      <if test="record.totalsteps != null">
-        totalSteps = #{record.totalsteps,jdbcType=INTEGER},
+      <if test="record.userid != null">
+        userID = #{record.userid,jdbcType=INTEGER},
       </if>
-      <if test="record.radius != null">
-        radius = #{record.radius,jdbcType=INTEGER},
+      <if test="record.photo != null">
+        photo = #{record.photo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.content != null">
+        content = #{record.content,jdbcType=VARCHAR},
+      </if>
+      <if test="record.publishdate != null">
+        publishDate = #{record.publishdate,jdbcType=TIMESTAMP},
       </if>
       <if test="record.longtitude != null">
         longtitude = #{record.longtitude,jdbcType=VARCHAR},
@@ -185,25 +204,36 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update activityrecords
+    update photo_records
     set id = #{record.id,jdbcType=INTEGER},
-    loverID = #{record.loverid,jdbcType=VARCHAR},
-    totalSteps = #{record.totalsteps,jdbcType=INTEGER},
-    radius = #{record.radius,jdbcType=INTEGER},
-    longtitude = #{record.longtitude,jdbcType=VARCHAR},
-    latitude = #{record.latitude,jdbcType=VARCHAR}
+      recordsID = #{record.recordsid,jdbcType=INTEGER},
+      userID = #{record.userid,jdbcType=INTEGER},
+      photo = #{record.photo,jdbcType=VARCHAR},
+      content = #{record.content,jdbcType=VARCHAR},
+      publishDate = #{record.publishdate,jdbcType=TIMESTAMP},
+      longtitude = #{record.longtitude,jdbcType=VARCHAR},
+      latitude = #{record.latitude,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="org.loversAPP.model.Activityrecords">
-    update activityrecords
+  <update id="updateByPrimaryKeySelective" parameterType="org.loversAPP.Test.model.PhotoRecords">
+    update photo_records
     <set>
-      <if test="totalsteps != null">
-        totalSteps = #{totalsteps,jdbcType=INTEGER},
+      <if test="recordsid != null">
+        recordsID = #{recordsid,jdbcType=INTEGER},
       </if>
-      <if test="radius != null">
-        radius = #{radius,jdbcType=INTEGER},
+      <if test="userid != null">
+        userID = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="photo != null">
+        photo = #{photo,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="publishdate != null">
+        publishDate = #{publishdate,jdbcType=TIMESTAMP},
       </if>
       <if test="longtitude != null">
         longtitude = #{longtitude,jdbcType=VARCHAR},
@@ -213,41 +243,16 @@
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
-    and loverID = #{loverid,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="org.loversAPP.model.Activityrecords">
-    update activityrecords
-    set totalSteps = #{totalsteps,jdbcType=INTEGER},
-      radius = #{radius,jdbcType=INTEGER},
+  <update id="updateByPrimaryKey" parameterType="org.loversAPP.Test.model.PhotoRecords">
+    update photo_records
+    set recordsID = #{recordsid,jdbcType=INTEGER},
+      userID = #{userid,jdbcType=INTEGER},
+      photo = #{photo,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      publishDate = #{publishdate,jdbcType=TIMESTAMP},
       longtitude = #{longtitude,jdbcType=VARCHAR},
       latitude = #{latitude,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
-      and loverID = #{loverid,jdbcType=VARCHAR}
-  </update>
-  <select id="selectActivityRecords" resultMap="BaseResultMap">
-    SELECT  * FROM activityrecords
-  </select>
-  <update id="updateSelectiveByid" parameterType="java.lang.Integer">
-    update activityrecords
-    <set>
-      <if test="record.loverid != null">
-        loverID = #{record.loverid,jdbcType=VARCHAR},
-      </if>
-      <if test="record.totalsteps != null">
-        totalSteps = #{record.totalsteps,jdbcType=INTEGER},
-      </if>
-      <if test="record.radius != null">
-        radius = #{record.radius,jdbcType=INTEGER},
-      </if>
-      <if test="record.longtitude != null">
-        longtitude = #{record.longtitude,jdbcType=VARCHAR},
-      </if>
-      <if test="record.latitude != null">
-        latitude = #{record.latitude,jdbcType=VARCHAR},
-      </if>
-    </set>
-    <if test="id != null">
-      id=#{id}
-    </if>
   </update>
 </mapper>

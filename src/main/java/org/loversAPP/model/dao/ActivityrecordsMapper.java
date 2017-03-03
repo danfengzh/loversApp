@@ -1,8 +1,8 @@
-package org.loversAPP.dao;
+package org.loversAPP.model.dao;
 
 import org.apache.ibatis.annotations.Param;
-import org.loversAPP.model.Activityrecords;
-import org.loversAPP.model.ActivityrecordsExample;
+import org.loversAPP.Test.model.Activityrecords;
+import org.loversAPP.Test.model.ActivityrecordsExample;
 
 import java.util.List;
 
@@ -28,6 +28,4 @@ public interface ActivityrecordsMapper {
     int updateByPrimaryKeySelective(Activityrecords record);
 
     int updateByPrimaryKey(Activityrecords record);
-    List<Activityrecords> selectActivityRecords();
-    public Integer updateSelectiveByid( Activityrecords activityrecords);
 }
