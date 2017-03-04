@@ -241,7 +241,7 @@ FROM
 	`user`,
 	message
 WHERE
-message.receiverID = #{userID} AND
+message.userID = #{userID} AND
 `user`.id = message.userID
   </select>
 </mapper>

@@ -3,6 +3,7 @@ package org.loversAPP.service;
 import org.loversAPP.DTO.UserMessage;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Administrator on 2017/3/4.
@@ -16,7 +17,7 @@ public interface messageService {
      * @param receiverID
      * @return
      */
-    public UserMessage getMessageByRID(Integer receiverID);
+    public List<UserMessage> getMessageByRID(Integer receiverID);
 
 
     public Integer deleteMessageByID(Integer id);

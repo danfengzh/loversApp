@@ -31,5 +31,5 @@ public interface MessageMapper {
     int updateByPrimaryKeySelective(Message record);
 
     int updateByPrimaryKey(Message record);
-    UserMessage getUserMessageByID(@Param("userID") Integer userID);
+    List<UserMessage> getUserMessageByID(@Param("userID") Integer userID);
 }

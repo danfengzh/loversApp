@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Administrator on 2017/3/4.
@@ -27,7 +28,7 @@ public class messageServiceImpl implements messageService {
     }
 
     @Override
-    public UserMessage getMessageByRID(Integer receiverID) {
+    public List<UserMessage> getMessageByRID(Integer receiverID) {
 
         return messageMapper.getUserMessageByID(receiverID);
     }
