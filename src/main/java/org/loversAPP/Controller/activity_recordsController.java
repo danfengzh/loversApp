@@ -1,5 +1,6 @@
 package org.loversAPP.Controller;
 
+import org.loversAPP.Controller.base.BaseController;
 import org.loversAPP.DTO.FeedBack;
 import org.loversAPP.model.Activityrecords;
 import org.loversAPP.service.ActivityRecordService;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 @RequestMapping("/ActivityRecords")
-public class activity_recordsController {
+public class activity_recordsController extends BaseController {
     @Autowired
     private ActivityRecordService activityRecordService;
     @RequestMapping(value = "/insertRecord",method = RequestMethod.POST,produces ="application/json;charset=utf-8")

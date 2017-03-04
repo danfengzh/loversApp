@@ -224,4 +224,24 @@
       receiverID = #{receiverid,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <resultMap id="UserMessageMap" type="org.loversAPP.DTO.UserMessage" extends="BaseResultMap">
+      <result column="userID" property="user.id"/>
+      <result column="userName" property="user.username"/>
+      <result column="avator" property="user.avator"/>
+  </resultMap>
+  <select id="getUserMessageByID" resultMap="UserMessageMap">
+   SELECT
+	`user`.id userID,
+	`user`.userName,
+	`user`.avator,
+	message.msgType,
+	message.msgDate,
+	message.msgContent
+FROM
+	`user`,
+	message
+WHERE
+message.receiverID = #{userID} AND
+`user`.id = message.userID
+  </select>
 </mapper>

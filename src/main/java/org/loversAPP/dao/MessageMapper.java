@@ -1,6 +1,7 @@
 package org.loversAPP.dao;
 
 import org.apache.ibatis.annotations.Param;
+import org.loversAPP.DTO.UserMessage;
 import org.loversAPP.model.Message;
 import org.loversAPP.model.MessageExample;
 
@@ -30,4 +31,5 @@ public interface MessageMapper {
     int updateByPrimaryKeySelective(Message record);
 
     int updateByPrimaryKey(Message record);
+    UserMessage getUserMessageByID(@Param("userID") Integer userID);
 }
