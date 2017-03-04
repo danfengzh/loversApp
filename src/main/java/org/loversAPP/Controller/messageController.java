@@ -1,6 +1,7 @@
 package org.loversAPP.Controller;
 
 import org.loversAPP.Controller.base.BaseController;
+import org.loversAPP.DTO.FeedBack;
 import org.loversAPP.DTO.UserMessage;
 import org.loversAPP.service.messageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,22 @@ import java.util.*;
 public class messageController extends BaseController {
     @Autowired
     private messageService messageService;
+    @RequestMapping(value = "/insertMessage",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public FeedBack insertMessage(@RequestParam("userID") Integer userID,@RequestParam("receiverID") Integer receiverID ,
+                                  @RequestParam("msgType")String msgType ,
+                                  @RequestParam("msgDate") Date msgDate ,@RequestParam("msgContent") String msgContent){
+        FeedBack feedBack;
+       int count= messageService.insertMessage(userID,receiverID,msgType,msgDate,msgContent);
+       //异步发送消息 给receiver
+        if(count==1){
+            feedBack=new FeedBack("success","200");
+        }
+        else {
+            feedBack=new FeedBack("failure","400");
+        }
+        return feedBack;
+    }
 
     /**
      * 需要自定义map返回数据
