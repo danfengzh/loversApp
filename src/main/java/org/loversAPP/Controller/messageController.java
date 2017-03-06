@@ -6,6 +6,8 @@ import org.loversAPP.DTO.UserMessage;
 import org.loversAPP.Jpush.JpushClientUtil;
 import org.loversAPP.service.messageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,16 +24,25 @@ import java.util.*;
 public class messageController extends BaseController {
     @Autowired
     private messageService messageService;
+    @Autowired
+    @Qualifier("taskExecutor")
+    private TaskExecutor taskExecutor;
+
     @RequestMapping(value = "/insertMessage",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
-    public FeedBack insertMessage(@RequestParam("userID")  Integer userID, @RequestParam("receiverID") Integer receiverID ,
-                                  @RequestParam("msgType")  String msgType ,
-                                  @RequestParam("msgDate") Date msgDate , @RequestParam("msgContent")  String msgContent)
+    public FeedBack insertMessage(@RequestParam("userID")  Integer userID, @RequestParam("receiverID") final Integer receiverID ,
+                                  @RequestParam("msgType") final String msgType ,
+                                  @RequestParam("msgDate") Date msgDate , @RequestParam("msgContent") final String msgContent)
     {
         FeedBack feedBack;
         int count= messageService.insertMessage(userID,receiverID,msgType,msgDate,msgContent);
         //异步发送消息 给receiver----调用极光推送异步完成--
-      JpushClientUtil.sendAnaroidRegisters(String.valueOf(receiverID),msgType,msgContent);
+        taskExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                JpushClientUtil.sendAnaroidRegisters(String.valueOf(receiverID),msgType,msgContent);
+            }
+        });
         if(count==1){
             feedBack=new FeedBack("success","200");
         }
