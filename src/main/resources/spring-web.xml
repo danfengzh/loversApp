@@ -3,7 +3,8 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:annation="http://www.springframework.org/schema/aop"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
     <annation:config/>
     <mvc:annotation-driven conversion-service="conversionService">
         <mvc:message-converters>
@@ -142,4 +143,17 @@
             </set>
         </property>
     </bean>
+    <bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+        <property name="corePoolSize" value="5" /><!--最小线程数 -->
+        <property name="maxPoolSize" value="10" /><!--最大线程数 -->
+        <property name="queueCapacity" value="50" /><!--缓冲队列大小 -->
+        <property name="threadNamePrefix" value="abc-" /><!--线程池中产生的线程名字前缀 -->
+        <property name="keepAliveSeconds" value="30" /><!--线程池中空闲线程的存活时间单位秒 -->
+    </bean>
+    <!-- 支持异步方法执行 -->
+    <task:annotation-driven executor="taskExecutor"/>
+    <task:executor id="myExecutor"
+                   pool-size="5-25"
+                   queue-capacity="100"
+                   rejection-policy="CALLER_RUNS"/>
 </beans>

@@ -25,6 +25,7 @@
             <param-name>contextConfigLocation</param-name>
             <param-value>classpath:spring-web.xml</param-value>
         </init-param>
+        <async-supported>true</async-supported>
     </servlet>
     <servlet-mapping>
         <servlet-name>ServeltDispather</servlet-name>
@@ -46,6 +47,7 @@
     <filter>
         <filter-name>coreFilter</filter-name>
         <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <async-supported>true</async-supported>
         <init-param>
             <param-name>encoding</param-name>
             <param-value>UTF-8</param-value>
@@ -62,6 +64,7 @@
     <filter>
         <filter-name>HiddenHttpMethodFilter</filter-name>
         <filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
+        <async-supported>true</async-supported>
     </filter>
     <filter-mapping>
         <filter-name>HiddenHttpMethodFilter</filter-name>
