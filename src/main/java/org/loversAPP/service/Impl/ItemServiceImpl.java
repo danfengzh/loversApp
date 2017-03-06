@@ -9,6 +9,8 @@ import org.loversAPP.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Created by Administrator on 2017/3/6.
  */
@@ -42,5 +44,10 @@ public class ItemServiceImpl implements ItemService {
         UserItemExample userItemExample=new UserItemExample();
         userItemExample.createCriteria().andUserIdEqualTo(userID);
         return userItemMapper.deleteByExample(userItemExample);
+    }
+
+    @Override
+    public List<Item> getAllItems() {
+        return itemMapper.getAllItems();
     }
 }
