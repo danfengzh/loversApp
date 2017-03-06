@@ -29,5 +29,5 @@ public interface ActivityrecordsMapper {
 
     int updateByPrimaryKey(Activityrecords record);
     List<Activityrecords> selectActivityRecords();
-    public Integer updateSelectiveByid( Activityrecords activityrecords);
+    public Integer updateSelectiveByid(@Param("record") Activityrecords activityrecords);
 }

@@ -5,6 +5,7 @@ import org.loversAPP.Controller.utils.ControllerConstant;
 import org.loversAPP.Controller.utils.InviteCodeCreator;
 import org.loversAPP.Controller.utils.fileUpload;
 import org.loversAPP.DTO.FeedBack;
+import org.loversAPP.DTO.location;
 import org.loversAPP.model.User;
 import org.loversAPP.service.UserService;
 import org.loversAPP.utils.MD5Utils;
@@ -90,12 +91,13 @@ public class UserController extends BaseController{
 
     @RequestMapping(value = "insertUser",produces = "application/json;charset=utf-8",method = RequestMethod.POST)
     @ResponseBody
-    public  FeedBack<String> insertUser(User user){
+    public  FeedBack<Integer> insertUser(User user){
         //对用户名和电话进行检测
 
-        FeedBack<String> feedBack;
+        FeedBack<Integer> feedBack;
         //记得对用户的密码进行加密
         User us=  userService.isExistUser(user.getUsername(),user.getPhonenumber());
+        Integer maxID=userService.getMaxID();
         if(us!=null&&us.getUsername().equals(user.getUsername())){
             feedBack = new FeedBack("the userName is exits", "101");
         }
@@ -109,7 +111,7 @@ public class UserController extends BaseController{
             user.setInvitecode(inviteCode);
             Integer count = userService.insertUser(user);
             if (count == 1) {
-                feedBack = new FeedBack("OK", "200");
+                feedBack = new FeedBack("OK", "200",maxID);
             } else {
                 feedBack = new FeedBack("FAILURE", "500");
             }
@@ -271,31 +273,6 @@ public class UserController extends BaseController{
     @ResponseBody
     public FeedBack updateStepsTodayByID(@RequestParam("id") Integer id, @RequestParam("longtitude") String longtitude , @RequestParam("latitude") String latitude){
         FeedBack feedBack;
-        class location {
-            String longtitud;
-            String latitud;
-
-            public String getLongtitud() {
-                return longtitud;
-            }
-
-            public void setLongtitud(String longtitud) {
-                this.longtitud = longtitud;
-            }
-
-            public String getLatitud() {
-                return latitud;
-            }
-
-            public void setLatitud(String latitud) {
-                this.latitud = latitud;
-            }
-
-            public location(String longtitud, String latitud) {
-                this.longtitud = longtitud;
-                this.latitud = latitud;
-            }
-        }
         Integer count=userService.updateLocationByID(id,longtitude,latitude);
         if(count==1){
             feedBack=new FeedBack<>("success","200",new location(longtitude,latitude));

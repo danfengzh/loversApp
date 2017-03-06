@@ -100,6 +100,11 @@ public class UserServiceImpl implements UserService
     }
 
     @Override
+    public Integer getMaxID() {
+        return userMapper.getMaxID();
+    }
+
+    @Override
     public Integer updateStepsTodayByID(Integer id, Integer stepsToday) {
         User user=new User();
         user.setId(id);

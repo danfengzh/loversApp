@@ -84,7 +84,10 @@ public class ActivityRecordServiceImpl implements ActivityRecordService{
 
     @Override
     public Integer deleteRecordByID(Integer id) {
-        return null;
+
+        ActivityrecordsExample activityrecordsExample=new ActivityrecordsExample();
+        activityrecordsExample.createCriteria().andIdEqualTo(id);
+        return activityrecordsMapper.deleteByExample(activityrecordsExample);
     }
     private Integer updateActivityInfosByid(Activityrecords activityrecords){
 
@@ -121,8 +124,7 @@ public class ActivityRecordServiceImpl implements ActivityRecordService{
 
     @Override
     public FriendText getTextsByRecordsID(Integer textRecoID) {
-
-        return null;
+       return null;
     }
 
     @Override
@@ -135,5 +137,14 @@ public class ActivityRecordServiceImpl implements ActivityRecordService{
     public Integer deletePhotoByID(Integer photoID) {
 
         return null;
+    }
+
+    @Override
+    public Integer updateRadiusByID(Integer id, Integer radius) {
+        Activityrecords activityrecords=new Activityrecords();
+        activityrecords.setId(id);
+        activityrecords.setRadius(radius);
+        updateActivityInfosByid(activityrecords);
+        return updateActivityInfosByid(activityrecords);
     }
 }

@@ -59,5 +59,6 @@ public interface ActivityRecordService {
 
     public Integer deletePhotoByID(Integer photoID);
 
+    public Integer updateRadiusByID(Integer id,Integer radius);
 
 }

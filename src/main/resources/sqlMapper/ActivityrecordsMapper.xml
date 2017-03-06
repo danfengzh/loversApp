@@ -246,8 +246,10 @@
         latitude = #{record.latitude,jdbcType=VARCHAR},
       </if>
     </set>
-    <if test="id != null">
-      id=#{id}
-    </if>
+    <where>
+      <if test="record.id != null">
+        id=#{record.id}
+      </if>
+    </where>
   </update>
 </mapper>

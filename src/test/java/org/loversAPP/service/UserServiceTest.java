@@ -58,7 +58,7 @@ public class UserServiceTest extends baseServiceTest {
 
     @Test
     public void deleteUserByID() throws Exception {
-
+        System.out.println(userService.getMaxID());
     }
 
     @Test

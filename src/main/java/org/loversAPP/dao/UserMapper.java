@@ -31,4 +31,5 @@ public interface UserMapper {
 
     List<User> getAllUsers();
         User getUserByUserNameOrPass(@Param("username") String username,@Param("phoneNum")String phoneNum);
+        Integer getMaxID();
 }

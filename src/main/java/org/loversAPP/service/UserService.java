@@ -40,4 +40,5 @@ public interface UserService {
     public Integer updateExpByID(Integer id,Integer exp);
     public Integer updateBimgByID(Integer id,String exp);
     List<User> getAllUsers();
+    public Integer getMaxID();
 }

@@ -154,4 +154,16 @@ public class messageController extends BaseController {
         }
         return tempMap;
     }
+    @RequestMapping(value = "/deleteMessageByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public FeedBack deleteMessageByID(@RequestParam("id") Integer id){
+        FeedBack feedBack=null;
+        int cos=messageService.deleteMessageByID(id);
+        if(cos==1){
+            feedBack=new FeedBack("success","200");
+        }else{
+            feedBack=new FeedBack("failure","500");
+        }
+        return feedBack;
+    }
 }

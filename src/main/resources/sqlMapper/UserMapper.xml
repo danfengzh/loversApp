@@ -492,4 +492,7 @@
       </if>
     </where>
   </select>
+  <select id="getMaxID" resultType="java.lang.Integer">
+    SELECT MAX(id) FROM `user`;
+  </select>
 </mapper>
