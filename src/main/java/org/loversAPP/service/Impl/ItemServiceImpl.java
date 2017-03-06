@@ -3,6 +3,7 @@ package org.loversAPP.service.Impl;
 import org.loversAPP.dao.ItemMapper;
 import org.loversAPP.dao.UserItemMapper;
 import org.loversAPP.model.Item;
+import org.loversAPP.model.ItemExample;
 import org.loversAPP.model.UserItem;
 import org.loversAPP.model.UserItemExample;
 import org.loversAPP.service.ItemService;
@@ -49,5 +50,16 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public List<Item> getAllItems() {
         return itemMapper.getAllItems();
+    }
+    @Override
+    public List<Item> getItemsByType(Integer itemType) {
+        ItemExample itemExample=new ItemExample();
+        itemExample.createCriteria().andItemtypeEqualTo(itemType);
+        return itemMapper.selectByExample(itemExample);
+    }
+
+    @Override
+    public Item getItemByID(Integer ID) {
+        return itemMapper.selectByPrimaryKey(ID);
     }
 }

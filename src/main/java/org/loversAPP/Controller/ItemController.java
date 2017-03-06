@@ -16,6 +16,7 @@ import java.util.List;
  * Created by Administrator on 2017/3/6.
  */
 @Controller
+@RequestMapping("/item")
 public class ItemController extends BaseController {
     @Autowired
     private ItemService itemService;
@@ -60,6 +61,18 @@ public class ItemController extends BaseController {
     public FeedBack<Item> getAllItems( ){
         FeedBack feedBack=null;
         List<Item> items=itemService.getAllItems();
+        if(items!=null){
+            feedBack=new FeedBack("success","200",items);
+        }else {
+            feedBack=new FeedBack("failure","400");
+        }
+        return feedBack;
+    }
+    @RequestMapping(value = "/getItemByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public FeedBack<Item> getItemByID( Integer id){
+        FeedBack feedBack=null;
+        Item items=itemService.getItemByID(id);
         if(items!=null){
             feedBack=new FeedBack("success","200",items);
         }else {

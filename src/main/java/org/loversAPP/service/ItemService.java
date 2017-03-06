@@ -14,4 +14,7 @@ public interface ItemService {
 
     public Integer deleteUserItemByID(Integer userID);
     public List<Item> getAllItems();
+    public List<Item> getItemsByType(Integer itemType);
+
+    public Item getItemByID(Integer ID);
 }
