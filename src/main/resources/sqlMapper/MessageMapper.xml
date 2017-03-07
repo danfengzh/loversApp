@@ -231,18 +231,21 @@
   </resultMap>
   <select id="getUserMessageByID" resultMap="UserMessageMap">
    SELECT
-	`user`.id userID,
-	`user`.userName,
-	`user`.avator,
-	message.msgType,
-	message.msgDate,
-	message.msgContent
+message.id,
+message.userID,
+message.msgType,
+message.msgDate,
+message.msgContent,
+message.receiverID,
+`user`.userName,
+`user`.avator
 FROM
-	`user`,
-	message
+message ,
+`user`
 WHERE
-message.userID = #{userID} AND
-`user`.id = message.userID
+message.userID =#{userID} AND
+message.receiverID = `user`.id
+
   </select>
   <select id="getUserMessageByRecID" resultMap="UserMessageMap">
     SELECT
