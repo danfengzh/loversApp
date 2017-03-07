@@ -1,5 +1,6 @@
 package org.loversAPP.service.Impl;
 
+import com.lowagie.text.ListItem;
 import org.loversAPP.dao.ItemMapper;
 import org.loversAPP.dao.UserItemMapper;
 import org.loversAPP.model.Item;
@@ -61,5 +62,21 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public Item getItemByID(Integer ID) {
         return itemMapper.selectByPrimaryKey(ID);
+    }
+
+    @Override
+    public Integer deleteItemByID(Integer itemId) {
+        return itemMapper.deleteByPrimaryKey(itemId);
+    }
+
+    /**
+     * 根据用户id来获取道具
+     * @param usID
+     * @return
+     */
+    @Override
+    public List<Item> getItemsByUID(Integer usID) {
+
+        return itemMapper.getItemsByUID(usID);
     }
 }

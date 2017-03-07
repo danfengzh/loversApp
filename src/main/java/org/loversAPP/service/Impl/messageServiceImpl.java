@@ -37,4 +37,13 @@ public class messageServiceImpl implements messageService {
     public Integer deleteMessageByID(Integer id) {
         return null;
     }
+
+    /**
+     *  根据接收者用户id查看消息
+     * @return
+     */
+    @Override
+    public List<UserMessage> getMessageByRecID(Integer recID) {
+        return messageMapper.getUserMessageByRecID(recID);
+    }
 }

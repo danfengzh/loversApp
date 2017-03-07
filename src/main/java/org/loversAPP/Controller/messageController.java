@@ -3,7 +3,9 @@ package org.loversAPP.Controller;
 import org.loversAPP.Controller.base.BaseController;
 import org.loversAPP.DTO.FeedBack;
 import org.loversAPP.DTO.UserMessage;
+import org.loversAPP.DTO.urMessage;
 import org.loversAPP.Jpush.JpushClientUtil;
+import org.loversAPP.service.UserService;
 import org.loversAPP.service.messageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -25,22 +27,27 @@ public class messageController extends BaseController {
     @Autowired
     private messageService messageService;
     @Autowired
+    private UserService userService;
+    @Autowired
     @Qualifier("taskExecutor")
     private TaskExecutor taskExecutor;
 
     @RequestMapping(value = "/insertMessage",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
-    public FeedBack insertMessage(@RequestParam("userID")  Integer userID, @RequestParam("receiverID") final Integer receiverID ,
+    public FeedBack insertMessage(@RequestParam("userID")  Integer userID, @RequestParam("id") final Integer receiverID ,
                                   @RequestParam("msgType") final String msgType ,
-                                  @RequestParam("msgDate") Date msgDate , @RequestParam("msgContent") final String msgContent)
+                                  @RequestParam("msgContent") final String msgContent)
     {
+        Date msgDate=new Date();
         FeedBack feedBack;
         int count= messageService.insertMessage(userID,receiverID,msgType,msgDate,msgContent);
+        final int staus=userService.getUserByID(receiverID).getStauts();
         //异步发送消息 给receiver----调用极光推送异步完成--
         taskExecutor.execute(new Runnable() {
             @Override
             public void run() {
-                JpushClientUtil.sendAnaroidRegisters(String.valueOf(receiverID),msgType,msgContent);
+                JpushClientUtil.sendDynatic(String.valueOf(receiverID),String.valueOf(staus),"你有一条消息提醒","tips",
+                        msgType,msgContent);
             }
         });
         if(count==1){
@@ -55,85 +62,42 @@ public class messageController extends BaseController {
 
     /**
      * 需要自定义map返回数据
-     * @param receiverID
+     * @param id
      * @return
      */
+    @RequestMapping(value = "/getMessageByUID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public Map getMessageByUID(@RequestParam("id") Integer id){
+        Map tempMap=new HashMap();
+        List<UserMessage> userMessage= messageService.getMessageByRID(id);
+        getAutoDefineMsg(tempMap, userMessage);
+        return tempMap;
+    }
+    @RequestMapping(value = "/deleteMessageByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public FeedBack deleteMessageByID(@RequestParam("id") Integer id){
+        FeedBack feedBack=null;
+        int cos=messageService.deleteMessageByID(id);
+        if(cos==1){
+            feedBack=new FeedBack("success","200");
+        }else{
+            feedBack=new FeedBack("failure","500");
+        }
+        return feedBack;
+    }
     @RequestMapping(value = "/getMessageByRID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
-    public Map getMessageByRID(@RequestParam("receiverID") Integer receiverID){
+    public Map getMessageByRID(@RequestParam("id") Integer id){
         Map tempMap=new HashMap();
-        class  userMessage{
-            private String userName;
-            private Integer userID;
-            private String avatar;
-            private String msgType;
-            private Date msgDate;
-            private String msgContent;
+        List<UserMessage> userMessage= messageService.getMessageByRecID(id);
+        getAutoDefineMsg(tempMap, userMessage);
+        return tempMap;
+    }
 
-            public String getUserName() {
-                return userName;
-            }
-
-            public void setUserName(String userName) {
-                this.userName = userName;
-            }
-
-            public Integer getUserID() {
-                return userID;
-            }
-
-            public void setUserID(Integer userID) {
-                this.userID = userID;
-            }
-
-            public String getAvatar() {
-                return avatar;
-            }
-
-            public void setAvatar(String avatar) {
-                this.avatar = avatar;
-            }
-
-            public String getMsgType() {
-                return msgType;
-            }
-
-            public void setMsgType(String msgType) {
-                this.msgType = msgType;
-            }
-
-            public Date getMsgDate() {
-                return msgDate;
-            }
-
-            public void setMsgDate(Date msgDate) {
-                this.msgDate = msgDate;
-            }
-
-            public String getMsgContent() {
-                return msgContent;
-            }
-
-            public void setMsgContent(String msgContent) {
-                this.msgContent = msgContent;
-            }
-
-            public userMessage(String userName, Integer userID, String avatar, String msgType, Date msgDate, String msgContent) {
-                this.userName = userName;
-                this.userID = userID;
-                this.avatar = avatar;
-                this.msgType = msgType;
-                this.msgDate = msgDate;
-                this.msgContent = msgContent;
-            }
-
-            public userMessage() {
-            }
-        }
-        List<UserMessage> userMessage= messageService.getMessageByRID(receiverID);
-        List<userMessage> myusers=new ArrayList<>();
+    private void getAutoDefineMsg(Map tempMap, List<UserMessage> userMessage) {
+        List<urMessage> myusers=new ArrayList<>();
         for (UserMessage m:userMessage){
-            userMessage userMess=new userMessage();
+            urMessage userMess=new urMessage();
             userMess.setUserID(m.getUser().getId());
             userMess.setUserName(m.getUser().getUsername());
             userMess.setAvatar(m.getUser().getAvator());
@@ -150,20 +114,6 @@ public class messageController extends BaseController {
         else {
             tempMap.put("code","400");
             tempMap.put("msg","failure");
-            tempMap.put("data",myusers);
         }
-        return tempMap;
-    }
-    @RequestMapping(value = "/deleteMessageByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
-    @ResponseBody
-    public FeedBack deleteMessageByID(@RequestParam("id") Integer id){
-        FeedBack feedBack=null;
-        int cos=messageService.deleteMessageByID(id);
-        if(cos==1){
-            feedBack=new FeedBack("success","200");
-        }else{
-            feedBack=new FeedBack("failure","500");
-        }
-        return feedBack;
     }
 }

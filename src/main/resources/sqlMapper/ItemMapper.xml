@@ -227,4 +227,13 @@
   <select id="getAllItems" resultMap="BaseResultMap">
     SELECT * FROM  item
   </select>
+  <select id="getItemsByUID" resultMap="BaseResultMap">
+    SELECT *
+FROM
+item
+INNER JOIN user_item ON user_item.item_id = item.id
+WHERE
+user_item.user_id=#{userID}
+
+  </select>
 </mapper>

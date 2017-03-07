@@ -13,7 +13,7 @@ public interface messageService {
     public Integer insertMessage(Integer userID , Integer receiverID , String msgType , Date msgDate ,String msgContent);
 
     /**
-     * 2.message表和user表联合查询receiver的所有消息)
+     * 2.message表和user表联合查询receiver的所有消息)  查看消息都发给了谁
      * @param receiverID
      * @return
      */
@@ -21,4 +21,6 @@ public interface messageService {
 
 
     public Integer deleteMessageByID(Integer id);
+
+    public List<UserMessage> getMessageByRecID(Integer recID);
 }

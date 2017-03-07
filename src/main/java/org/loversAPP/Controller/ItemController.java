@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
@@ -46,10 +47,10 @@ public class ItemController extends BaseController {
     }
     @RequestMapping(value = "/deleteUserItemByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
-    public FeedBack deleteUserItemByID(Integer userID ){
+    public FeedBack deleteUserItemByID(@RequestParam("id") Integer id ){
         FeedBack feedBack=null;
-        int cos=itemService.deleteUserItemByID( userID);
-        if(cos==1){
+        int cos=itemService.deleteUserItemByID( id);
+        if(cos>=1){
             feedBack=new FeedBack("success","200");
         }else {
             feedBack=new FeedBack("failure","400");
@@ -73,6 +74,42 @@ public class ItemController extends BaseController {
     public FeedBack<Item> getItemByID( Integer id){
         FeedBack feedBack=null;
         Item items=itemService.getItemByID(id);
+        if(items!=null){
+            feedBack=new FeedBack("success","200",items);
+        }else {
+            feedBack=new FeedBack("failure","400");
+        }
+        return feedBack;
+    }
+    @RequestMapping(value = "/deleteItemByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public FeedBack deleteItemByID( Integer id){
+        FeedBack feedBack=null;
+        int cos=itemService.deleteItemByID(id);
+        if(cos==1){
+            feedBack=new FeedBack("success","200");
+        }else {
+            feedBack=new FeedBack("failure","400");
+        }
+        return feedBack;
+    }
+    @RequestMapping(value = "/getItemsByUID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public FeedBack getItemsByUID( @RequestParam("userID") Integer userID){
+        FeedBack feedBack=null;
+        List<Item> items=itemService.getItemsByUID(userID);
+        if(items!=null){
+            feedBack=new FeedBack("success","200",items);
+        }else {
+            feedBack=new FeedBack("failure","400");
+        }
+        return feedBack;
+    }
+    @RequestMapping(value = "/getItemsByType",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public FeedBack<Item> getItemsByType(@RequestParam("itemType") Integer itemType){
+        FeedBack feedBack=null;
+        List<Item> items=itemService.getItemsByType(itemType);
         if(items!=null){
             feedBack=new FeedBack("success","200",items);
         }else {

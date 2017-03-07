@@ -97,7 +97,7 @@ public class UserController extends BaseController{
         FeedBack<Integer> feedBack;
         //记得对用户的密码进行加密
         User us=  userService.isExistUser(user.getUsername(),user.getPhonenumber());
-        Integer maxID=userService.getMaxID();
+
         if(us!=null&&us.getUsername().equals(user.getUsername())){
             feedBack = new FeedBack("the userName is exits", "101");
         }
@@ -110,6 +110,7 @@ public class UserController extends BaseController{
             user.setPassword(md5pass);
             user.setInvitecode(inviteCode);
             Integer count = userService.insertUser(user);
+            Integer maxID=userService.getUserByInviteCode(inviteCode).getId();
             if (count == 1) {
                 feedBack = new FeedBack("OK", "200",maxID);
             } else {
@@ -198,9 +199,11 @@ public class UserController extends BaseController{
         tempUser.put("avator",user.getAvator());
         tempUser.put("stauts",user.getStauts());
         if(user!=null){
+            tempUser.put("isAvailable",0);
             feedBack=new FeedBack<>("success","200",tempUser);
         }
         else {
+            tempUser.put("isAvailable",1);
             feedBack=new FeedBack<>("failure","500");
         }
         return feedBack;

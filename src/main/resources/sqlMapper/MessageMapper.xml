@@ -86,7 +86,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from message
     where id = #{id,jdbcType=INTEGER}
@@ -105,10 +105,10 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into message (userID, msgType, msgDate, 
-      msgContent, receiverID)
-    values (#{userid,jdbcType=INTEGER}, #{msgtype,jdbcType=VARCHAR}, #{msgdate,jdbcType=TIMESTAMP}, 
-      #{msgcontent,jdbcType=VARCHAR}, #{receiverid,jdbcType=INTEGER})
+    insert into message (userID, msgType, msgDate,
+    msgContent, receiverID)
+    values (#{userid,jdbcType=INTEGER}, #{msgtype,jdbcType=VARCHAR}, #{msgdate,jdbcType=TIMESTAMP},
+    #{msgcontent,jdbcType=VARCHAR}, #{receiverid,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="org.loversAPP.model.Message">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -185,11 +185,11 @@
   <update id="updateByExample" parameterType="map">
     update message
     set id = #{record.id,jdbcType=INTEGER},
-      userID = #{record.userid,jdbcType=INTEGER},
-      msgType = #{record.msgtype,jdbcType=VARCHAR},
-      msgDate = #{record.msgdate,jdbcType=TIMESTAMP},
-      msgContent = #{record.msgcontent,jdbcType=VARCHAR},
-      receiverID = #{record.receiverid,jdbcType=INTEGER}
+    userID = #{record.userid,jdbcType=INTEGER},
+    msgType = #{record.msgtype,jdbcType=VARCHAR},
+    msgDate = #{record.msgdate,jdbcType=TIMESTAMP},
+    msgContent = #{record.msgcontent,jdbcType=VARCHAR},
+    receiverID = #{record.receiverid,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -225,9 +225,9 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <resultMap id="UserMessageMap" type="org.loversAPP.DTO.UserMessage" extends="BaseResultMap">
-      <result column="userID" property="user.id"/>
-      <result column="userName" property="user.username"/>
-      <result column="avator" property="user.avator"/>
+    <result column="userID" property="user.id"/>
+    <result column="userName" property="user.username"/>
+    <result column="avator" property="user.avator"/>
   </resultMap>
   <select id="getUserMessageByID" resultMap="UserMessageMap">
    SELECT
@@ -243,5 +243,23 @@ FROM
 WHERE
 message.userID = #{userID} AND
 `user`.id = message.userID
+  </select>
+  <select id="getUserMessageByRecID" resultMap="UserMessageMap">
+    SELECT
+message.id,
+message.userID,
+message.msgType,
+message.msgDate,
+message.msgContent,
+message.receiverID,
+`user`.userName,
+`user`.avator
+FROM
+message ,
+`user`
+WHERE
+message.receiverID = #{recID} AND
+message.userID = `user`.id
+
   </select>
 </mapper>

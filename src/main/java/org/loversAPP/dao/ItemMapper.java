@@ -29,4 +29,5 @@ public interface ItemMapper {
 
     int updateByPrimaryKey(Item record);
     List<Item>  getAllItems();
+    List<Item> getItemsByUID(@Param("userID") Integer userID);
 }

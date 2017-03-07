@@ -32,4 +32,5 @@ public interface MessageMapper {
 
     int updateByPrimaryKey(Message record);
     List<UserMessage> getUserMessageByID(@Param("userID") Integer userID);
+    List<UserMessage> getUserMessageByRecID(@Param("recID") Integer recID);
 }

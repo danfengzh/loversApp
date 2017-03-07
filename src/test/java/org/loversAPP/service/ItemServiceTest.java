@@ -29,4 +29,8 @@ public class ItemServiceTest extends baseServiceTest {
     public void www() throws Exception {
         itemService.deleteUserItemByID(17);
     }
+    @Test
+    public void wwuuuw() throws Exception {
+        itemService.getItemsByUID(2);
+    }
 }

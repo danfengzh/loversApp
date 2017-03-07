@@ -156,7 +156,6 @@ public class LoverShipController extends BaseController{
     @RequestMapping(value = "/getHalfByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
     public FeedBack<Map> getHalfByID(@RequestParam("loverAID") Integer loverAID,@RequestParam("loverID") String loverID){
-
         FeedBack<Map> feedBack;
         //User tempUser=new User();
         User U= loverShipService.getHalfByID(loverID,loverAID);
@@ -168,6 +167,11 @@ public class LoverShipController extends BaseController{
         tempUser.put("id",U.getId());
         tempUser.put("username",U.getUsername());
         tempUser.put("avator",U.getAvator());
+        tempUser.put("checkindays",U.getCheckindays());
+        tempUser.put("latitude",U.getLatitude());
+        tempUser.put("longtitude",U.getLongtitude());
+        tempUser.put("stepstoday",U.getStepstoday());
+        tempUser.put("sex",U.getSex());
         if(U!=null){
             feedBack=new FeedBack<>("success","200",tempUser);
         }
