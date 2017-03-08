@@ -47,7 +47,7 @@
             <td>${item.itemprice}</td>
             <td><img src="<%=path%>/${item.itemimage}"></td>
             <td>${item.itemtype}</td>
-            <td><a href="<%=path%>/deleteItemByID/${item.id}">删除</a></td>
+            <td><a href="<%=path%>/item/deleteItemByID/${item.id}">删除</a></td>
         </tr>
     </c:forEach>
     </tbody>
