@@ -1,15 +1,17 @@
 package org.loversAPP.Controller;
 
 import org.loversAPP.Controller.base.BaseController;
+import org.loversAPP.Controller.utils.ControllerConstant;
+import org.loversAPP.Controller.utils.fileUpload;
 import org.loversAPP.DTO.FeedBack;
 import org.loversAPP.model.Item;
 import org.loversAPP.service.ItemService;
+import org.loversAPP.utils.MD5Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -23,9 +25,11 @@ public class ItemController extends BaseController {
     private ItemService itemService;
     @RequestMapping(value = "/insertItem",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
-    public FeedBack insertItem(String itemName ,String itemFunction ,Long price ,String itemImage,Integer itemType){
+    public FeedBack insertItem(String itemName , String itemFunction , Long price , MultipartFile itemImage, Integer itemType){
         FeedBack feedBack=null;
-        int cos=itemService.insertItem(itemName,itemFunction,price,itemImage,itemType);
+        String itemImagePath=getMessage(ControllerConstant.ItemImagePath);
+        String imagePath= fileUpload.tacleUpload(itemImage,itemImagePath,request, MD5Utils.getMd5(itemName));
+        int cos=itemService.insertItem(itemName,itemFunction,price,imagePath,itemType);
         if(cos==1){
             feedBack=new FeedBack("success","200");
         }else {
@@ -69,6 +73,17 @@ public class ItemController extends BaseController {
         }
         return feedBack;
     }
+    @RequestMapping(value = "/getAllItemsPage",method = RequestMethod.GET)
+    public String getItemsPage(ModelMap modelMap){
+        List<Item> items=itemService.getAllItems();
+        modelMap.addAttribute("items",items);
+        return "manage";
+    }
+    @RequestMapping(value = "/AddItemPage",method = RequestMethod.GET)
+    public String AddItemPage(){
+
+        return "AddItem";
+    }
     @RequestMapping(value = "/getItemByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
     public FeedBack<Item> getItemByID( Integer id){
@@ -81,9 +96,9 @@ public class ItemController extends BaseController {
         }
         return feedBack;
     }
-    @RequestMapping(value = "/deleteItemByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @RequestMapping(value = "/deleteItemByID/{id}",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
-    public FeedBack deleteItemByID( Integer id){
+    public FeedBack deleteItemByID(@PathVariable("id") Integer id){
         FeedBack feedBack=null;
         int cos=itemService.deleteItemByID(id);
         if(cos==1){
