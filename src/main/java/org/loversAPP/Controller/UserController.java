@@ -6,9 +6,12 @@ import org.loversAPP.Controller.utils.InviteCodeCreator;
 import org.loversAPP.Controller.utils.fileUpload;
 import org.loversAPP.DTO.FeedBack;
 import org.loversAPP.DTO.location;
+import org.loversAPP.model.LoverShip;
 import org.loversAPP.model.User;
+import org.loversAPP.service.LoverShipService;
 import org.loversAPP.service.UserService;
 import org.loversAPP.utils.MD5Utils;
+import org.loversAPP.utils.UniqueStringGenerate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +34,8 @@ import java.util.Map;
 public class UserController extends BaseController{
     @Autowired
     private UserService userService;
-
+    @Autowired
+    private LoverShipService loverShipService;
     /**
      * 根据用户id查询用户个人信息
      * @param userID
@@ -188,22 +193,36 @@ public class UserController extends BaseController{
         }
         return feedBack;
     }
+
+    /**
+     * 对此方法进行改进，主要看isAvailable 是否为1，如果为1，返回成功并且执行insertLoverShip操作，如果为0，返回失败
+     * @param inviteCode
+     * @return
+     */
     @RequestMapping(value ="getUserByInviteCode",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
-    public FeedBack<Map> getUserByInviteCode(@RequestParam("inviteCode") String inviteCode){
+    public FeedBack<Map> getUserByInviteCode(@RequestParam("inviteCode") String inviteCode,@RequestParam("id") Integer id){
         FeedBack<Map> feedBack;
         User user=   userService.getUserByInviteCode(inviteCode);
+
         Map tempUser=new HashMap();
         tempUser.put("id",user.getId());
         tempUser.put("username",user.getUsername());
         tempUser.put("avator",user.getAvator());
         tempUser.put("stauts",user.getStauts());
         if(user!=null){
-            tempUser.put("isAvailable",0);
+            tempUser.put("isAvailable",1);
+            LoverShip loverShip=new LoverShip();
+            loverShip.setState(1);
+            loverShip.setLovergirlid(id);
+            loverShip.setLoverboyid(user.getId());
+            loverShip.setLoverid(UniqueStringGenerate.generateRandomStr(8));
+            loverShip.setLovetime(new Date());
+            int count=loverShipService.insertLoverShip(loverShip);
             feedBack=new FeedBack<>("success","200",tempUser);
         }
         else {
-            tempUser.put("isAvailable",1);
+            tempUser.put("isAvailable",0);
             feedBack=new FeedBack<>("failure","500");
         }
         return feedBack;

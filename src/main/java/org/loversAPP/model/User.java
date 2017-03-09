@@ -47,6 +47,8 @@ public class User extends BaseModel {
 
     private String backimage;
 
+    private Integer isavailable;
+
     public Integer getId() {
         return id;
     }
@@ -221,5 +223,13 @@ public class User extends BaseModel {
 
     public void setBackimage(String backimage) {
         this.backimage = backimage == null ? null : backimage.trim();
+    }
+
+    public Integer getIsavailable() {
+        return isavailable;
+    }
+
+    public void setIsavailable(Integer isavailable) {
+        this.isavailable = isavailable;
     }
 }

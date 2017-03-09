@@ -96,7 +96,7 @@ public class ItemController extends BaseController {
         }
         return feedBack;
     }
-    @RequestMapping(value = "/deleteItemByID/{id}",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @RequestMapping(value = "/deleteItemByID/{id}",method = RequestMethod.GET,produces ="application/json;charset=utf-8")
     @ResponseBody
     public FeedBack deleteItemByID(@PathVariable("id") Integer id){
         FeedBack feedBack=null;

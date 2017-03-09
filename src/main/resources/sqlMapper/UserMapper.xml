@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.loversAPP.dao.UserMapper">
-  <cache type="org.loversAPP.Cache.RedisCache"/>
   <resultMap id="BaseResultMap" type="org.loversAPP.model.User">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="userName" jdbcType="VARCHAR" property="username" />
@@ -25,6 +24,7 @@
     <result column="hobby" jdbcType="VARCHAR" property="hobby" />
     <result column="exp" jdbcType="INTEGER" property="exp" />
     <result column="backImage" jdbcType="VARCHAR" property="backimage" />
+    <result column="isAvailable" jdbcType="INTEGER" property="isavailable" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -87,7 +87,7 @@
   <sql id="Base_Column_List">
     id, userName, passWord, avator, wexID, qq, phoneNumber, level, signature, inviteCode, 
     sex, stauts, longtitude, latitude, stepsToday, checkinDays, age, height, weight, 
-    hobby, exp, backImage
+    hobby, exp, backImage, isAvailable
   </sql>
   <select id="selectByExample" parameterType="org.loversAPP.model.UserExample" resultMap="BaseResultMap">
     select
@@ -129,16 +129,16 @@
       sex, stauts, longtitude, 
       latitude, stepsToday, checkinDays, 
       age, height, weight, 
-      hobby, exp, backImage
-      )
+      hobby, exp, backImage, 
+      isAvailable)
     values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{avator,jdbcType=VARCHAR}, 
       #{wexid,jdbcType=VARCHAR}, #{qq,jdbcType=VARCHAR}, #{phonenumber,jdbcType=VARCHAR}, 
       #{level,jdbcType=INTEGER}, #{signature,jdbcType=VARCHAR}, #{invitecode,jdbcType=VARCHAR}, 
       #{sex,jdbcType=VARCHAR}, #{stauts,jdbcType=INTEGER}, #{longtitude,jdbcType=VARCHAR}, 
       #{latitude,jdbcType=VARCHAR}, #{stepstoday,jdbcType=INTEGER}, #{checkindays,jdbcType=INTEGER}, 
       #{age,jdbcType=INTEGER}, #{height,jdbcType=INTEGER}, #{weight,jdbcType=INTEGER}, 
-      #{hobby,jdbcType=VARCHAR}, #{exp,jdbcType=INTEGER}, #{backimage,jdbcType=VARCHAR}
-      )
+      #{hobby,jdbcType=VARCHAR}, #{exp,jdbcType=INTEGER}, #{backimage,jdbcType=VARCHAR}, 
+      #{isavailable,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="org.loversAPP.model.User">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -209,6 +209,9 @@
       <if test="backimage != null">
         backImage,
       </if>
+      <if test="isavailable != null">
+        isAvailable,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="username != null">
@@ -273,6 +276,9 @@
       </if>
       <if test="backimage != null">
         #{backimage,jdbcType=VARCHAR},
+      </if>
+      <if test="isavailable != null">
+        #{isavailable,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -351,6 +357,9 @@
       <if test="record.backimage != null">
         backImage = #{record.backimage,jdbcType=VARCHAR},
       </if>
+      <if test="record.isavailable != null">
+        isAvailable = #{record.isavailable,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -379,7 +388,8 @@
       weight = #{record.weight,jdbcType=INTEGER},
       hobby = #{record.hobby,jdbcType=VARCHAR},
       exp = #{record.exp,jdbcType=INTEGER},
-      backImage = #{record.backimage,jdbcType=VARCHAR}
+      backImage = #{record.backimage,jdbcType=VARCHAR},
+      isAvailable = #{record.isavailable,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -450,6 +460,9 @@
       <if test="backimage != null">
         backImage = #{backimage,jdbcType=VARCHAR},
       </if>
+      <if test="isavailable != null">
+        isAvailable = #{isavailable,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -475,11 +488,12 @@
       weight = #{weight,jdbcType=INTEGER},
       hobby = #{hobby,jdbcType=VARCHAR},
       exp = #{exp,jdbcType=INTEGER},
-      backImage = #{backimage,jdbcType=VARCHAR}
+      backImage = #{backimage,jdbcType=VARCHAR},
+      isAvailable = #{isavailable,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="getAllUsers" resultMap="BaseResultMap">
-       SELECT * FROM user
+    SELECT * FROM user
   </select>
   <select id="getUserByUserNameOrPass" resultMap="BaseResultMap">
     SELECT userName,phoneNumber FROM user
@@ -488,7 +502,7 @@
         userName=#{username,jdbcType=VARCHAR}
       </if>
       <if test="phoneNum!=null and !&quot;&quot;.equals(phoneNum.trim())">
-       OR phoneNumber=#{phoneNum,jdbcType=VARCHAR}
+        OR phoneNumber=#{phoneNum,jdbcType=VARCHAR}
       </if>
     </where>
   </select>

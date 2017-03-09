@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.loversAPP.Test.dao.TextRecordsMapper">
-  <resultMap id="BaseResultMap" type="org.loversAPP.Test.model.TextRecords">
+<mapper namespace="org.loversAPP.dao.TextRecordsMapper">
+  <resultMap id="BaseResultMap" type="org.loversAPP.model.TextRecords">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="recordsID" jdbcType="INTEGER" property="recordsid" />
     <result column="userID" jdbcType="INTEGER" property="userid" />
@@ -71,7 +71,7 @@
   <sql id="Base_Column_List">
     id, recordsID, userID, text, publishDate, longtitude, latitude
   </sql>
-  <select id="selectByExample" parameterType="org.loversAPP.Test.model.TextRecordsExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="org.loversAPP.model.TextRecordsExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -95,13 +95,13 @@
     delete from text_records
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="org.loversAPP.Test.model.TextRecordsExample">
+  <delete id="deleteByExample" parameterType="org.loversAPP.model.TextRecordsExample">
     delete from text_records
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="org.loversAPP.Test.model.TextRecords">
+  <insert id="insert" parameterType="org.loversAPP.model.TextRecords">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -112,7 +112,7 @@
       #{publishdate,jdbcType=TIMESTAMP}, #{longtitude,jdbcType=VARCHAR}, #{latitude,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="org.loversAPP.Test.model.TextRecords">
+  <insert id="insertSelective" parameterType="org.loversAPP.model.TextRecords">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -158,7 +158,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="org.loversAPP.Test.model.TextRecordsExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="org.loversAPP.model.TextRecordsExample" resultType="java.lang.Long">
     select count(*) from text_records
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -206,7 +206,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="org.loversAPP.Test.model.TextRecords">
+  <update id="updateByPrimaryKeySelective" parameterType="org.loversAPP.model.TextRecords">
     update text_records
     <set>
       <if test="recordsid != null">
@@ -230,7 +230,7 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="org.loversAPP.Test.model.TextRecords">
+  <update id="updateByPrimaryKey" parameterType="org.loversAPP.model.TextRecords">
     update text_records
     set recordsID = #{recordsid,jdbcType=INTEGER},
       userID = #{userid,jdbcType=INTEGER},

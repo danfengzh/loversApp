@@ -1553,6 +1553,66 @@ public class UserExample {
             addCriterion("backImage not between", value1, value2, "backimage");
             return (Criteria) this;
         }
+
+        public Criteria andIsavailableIsNull() {
+            addCriterion("isAvailable is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsavailableIsNotNull() {
+            addCriterion("isAvailable is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsavailableEqualTo(Integer value) {
+            addCriterion("isAvailable =", value, "isavailable");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsavailableNotEqualTo(Integer value) {
+            addCriterion("isAvailable <>", value, "isavailable");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsavailableGreaterThan(Integer value) {
+            addCriterion("isAvailable >", value, "isavailable");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsavailableGreaterThanOrEqualTo(Integer value) {
+            addCriterion("isAvailable >=", value, "isavailable");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsavailableLessThan(Integer value) {
+            addCriterion("isAvailable <", value, "isavailable");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsavailableLessThanOrEqualTo(Integer value) {
+            addCriterion("isAvailable <=", value, "isavailable");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsavailableIn(List<Integer> values) {
+            addCriterion("isAvailable in", values, "isavailable");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsavailableNotIn(List<Integer> values) {
+            addCriterion("isAvailable not in", values, "isavailable");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsavailableBetween(Integer value1, Integer value2) {
+            addCriterion("isAvailable between", value1, value2, "isavailable");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsavailableNotBetween(Integer value1, Integer value2) {
+            addCriterion("isAvailable not between", value1, value2, "isavailable");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

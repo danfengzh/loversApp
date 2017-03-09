@@ -1,10 +1,11 @@
 package org.loversAPP.dao;
 
 import org.apache.ibatis.annotations.Param;
-import org.loversAPP.Test.model.PhotoRecords;
-import org.loversAPP.Test.model.PhotoRecordsExample;
+import org.loversAPP.model.PhotoRecordsExample;
+import org.loversAPP.model.PhotoRecords;
 
 import java.util.List;
+
 
 public interface PhotoRecordsMapper {
     long countByExample(PhotoRecordsExample example);

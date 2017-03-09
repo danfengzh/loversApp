@@ -1,8 +1,8 @@
 package org.loversAPP.dao;
 
 import org.apache.ibatis.annotations.Param;
-import org.loversAPP.Test.model.TextRecords;
-import org.loversAPP.Test.model.TextRecordsExample;
+import org.loversAPP.model.TextRecords;
+import org.loversAPP.model.TextRecordsExample;
 
 import java.util.List;
 
