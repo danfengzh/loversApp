@@ -509,7 +509,7 @@
   <select id="getMaxID" resultType="java.lang.Integer">
     SELECT MAX(id) FROM `user`;
   </select>
-  <select id="getInviteCodeByID">
+  <select id="getInviteCodeByID" resultType="java.lang.String">
     SELECT
 `user`.inviteCode
 FROM `user`

@@ -214,7 +214,8 @@ public class UserController extends BaseController{
             tempUser.put("isAvailable",1);
             //同时需要检测loverShip是否可用 --也就是邀请者的id是否在loverShip里面已经有了
             String loverID=  loverShipService.getloveIDByID(user.getId());
-            if(loverID!=null){
+            String lovserID2=loverShipService.getloveIDByID(id);
+            if(loverID==null&&lovserID2==null){
                 LoverShip loverShip=new LoverShip();
                 loverShip.setState(1);
                 loverShip.setLovergirlid(id);
@@ -224,7 +225,7 @@ public class UserController extends BaseController{
                 int count=loverShipService.insertLoverShip(loverShip);
                 feedBack=new FeedBack<>("success","200",tempUser);
             }else {
-                feedBack=new FeedBack<>("failure","500");
+                feedBack=new FeedBack<>("failure","201");
             }
         }
         else {

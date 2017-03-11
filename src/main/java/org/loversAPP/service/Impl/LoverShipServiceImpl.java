@@ -45,7 +45,13 @@ public class LoverShipServiceImpl implements LoverShipService {
 
     @Override
     public String getloveIDByID(Integer id) {
-        return loverShipMapper.LoverShipIdByID(id).getLoverid();
+        LoverShip loverShip=loverShipMapper.LoverShipIdByID(id);
+        if(loverShip!=null){
+            return loverShip.getLoverid();
+        }
+        else {
+            return null;
+        }
     }
 
     @Override
@@ -67,7 +73,7 @@ public class LoverShipServiceImpl implements LoverShipService {
     /**
      *    解除恋爱关系
      *   1.用户双方status 都变为0
-         2.Activityrecord 跟loveship表 删除
+     2.Activityrecord 跟loveship表 删除
      * @param loverID
      * @return
      */
