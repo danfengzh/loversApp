@@ -11,7 +11,6 @@ public interface UserService {
 
     public User getUserByID(Integer userID);
 
-
     public Integer getIDByPhoneAndPw(String phoneNumber ,String passWord);
 
     public Integer insertUser(User user);
@@ -41,4 +40,5 @@ public interface UserService {
     public Integer updateBimgByID(Integer id,String exp);
     List<User> getAllUsers();
     public Integer getMaxID();
+    public String getInviteCodeByID(Integer ID);
 }

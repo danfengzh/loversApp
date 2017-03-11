@@ -105,6 +105,12 @@ public class UserServiceImpl implements UserService
     }
 
     @Override
+    public String getInviteCodeByID(Integer id) {
+
+        return userMapper.getInviteCodeByID(id) ;
+    }
+
+    @Override
     public Integer updateStepsTodayByID(Integer id, Integer stepsToday) {
         User user=new User();
         user.setId(id);

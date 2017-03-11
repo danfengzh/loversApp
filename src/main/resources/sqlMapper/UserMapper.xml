@@ -85,8 +85,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, userName, passWord, avator, wexID, qq, phoneNumber, level, signature, inviteCode, 
-    sex, stauts, longtitude, latitude, stepsToday, checkinDays, age, height, weight, 
+    id, userName, passWord, avator, wexID, qq, phoneNumber, level, signature, inviteCode,
+    sex, stauts, longtitude, latitude, stepsToday, checkinDays, age, height, weight,
     hobby, exp, backImage, isAvailable
   </sql>
   <select id="selectByExample" parameterType="org.loversAPP.model.UserExample" resultMap="BaseResultMap">
@@ -104,7 +104,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from user
     where id = #{id,jdbcType=INTEGER}
@@ -123,22 +123,22 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into user (userName, passWord, avator, 
-      wexID, qq, phoneNumber, 
-      level, signature, inviteCode, 
-      sex, stauts, longtitude, 
-      latitude, stepsToday, checkinDays, 
-      age, height, weight, 
-      hobby, exp, backImage, 
-      isAvailable)
-    values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{avator,jdbcType=VARCHAR}, 
-      #{wexid,jdbcType=VARCHAR}, #{qq,jdbcType=VARCHAR}, #{phonenumber,jdbcType=VARCHAR}, 
-      #{level,jdbcType=INTEGER}, #{signature,jdbcType=VARCHAR}, #{invitecode,jdbcType=VARCHAR}, 
-      #{sex,jdbcType=VARCHAR}, #{stauts,jdbcType=INTEGER}, #{longtitude,jdbcType=VARCHAR}, 
-      #{latitude,jdbcType=VARCHAR}, #{stepstoday,jdbcType=INTEGER}, #{checkindays,jdbcType=INTEGER}, 
-      #{age,jdbcType=INTEGER}, #{height,jdbcType=INTEGER}, #{weight,jdbcType=INTEGER}, 
-      #{hobby,jdbcType=VARCHAR}, #{exp,jdbcType=INTEGER}, #{backimage,jdbcType=VARCHAR}, 
-      #{isavailable,jdbcType=INTEGER})
+    insert into user (userName, passWord, avator,
+    wexID, qq, phoneNumber,
+    level, signature, inviteCode,
+    sex, stauts, longtitude,
+    latitude, stepsToday, checkinDays,
+    age, height, weight,
+    hobby, exp, backImage,
+    isAvailable)
+    values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{avator,jdbcType=VARCHAR},
+    #{wexid,jdbcType=VARCHAR}, #{qq,jdbcType=VARCHAR}, #{phonenumber,jdbcType=VARCHAR},
+    #{level,jdbcType=INTEGER}, #{signature,jdbcType=VARCHAR}, #{invitecode,jdbcType=VARCHAR},
+    #{sex,jdbcType=VARCHAR}, #{stauts,jdbcType=INTEGER}, #{longtitude,jdbcType=VARCHAR},
+    #{latitude,jdbcType=VARCHAR}, #{stepstoday,jdbcType=INTEGER}, #{checkindays,jdbcType=INTEGER},
+    #{age,jdbcType=INTEGER}, #{height,jdbcType=INTEGER}, #{weight,jdbcType=INTEGER},
+    #{hobby,jdbcType=VARCHAR}, #{exp,jdbcType=INTEGER}, #{backimage,jdbcType=VARCHAR},
+    #{isavailable,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="org.loversAPP.model.User">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -368,28 +368,28 @@
   <update id="updateByExample" parameterType="map">
     update user
     set id = #{record.id,jdbcType=INTEGER},
-      userName = #{record.username,jdbcType=VARCHAR},
-      passWord = #{record.password,jdbcType=VARCHAR},
-      avator = #{record.avator,jdbcType=VARCHAR},
-      wexID = #{record.wexid,jdbcType=VARCHAR},
-      qq = #{record.qq,jdbcType=VARCHAR},
-      phoneNumber = #{record.phonenumber,jdbcType=VARCHAR},
-      level = #{record.level,jdbcType=INTEGER},
-      signature = #{record.signature,jdbcType=VARCHAR},
-      inviteCode = #{record.invitecode,jdbcType=VARCHAR},
-      sex = #{record.sex,jdbcType=VARCHAR},
-      stauts = #{record.stauts,jdbcType=INTEGER},
-      longtitude = #{record.longtitude,jdbcType=VARCHAR},
-      latitude = #{record.latitude,jdbcType=VARCHAR},
-      stepsToday = #{record.stepstoday,jdbcType=INTEGER},
-      checkinDays = #{record.checkindays,jdbcType=INTEGER},
-      age = #{record.age,jdbcType=INTEGER},
-      height = #{record.height,jdbcType=INTEGER},
-      weight = #{record.weight,jdbcType=INTEGER},
-      hobby = #{record.hobby,jdbcType=VARCHAR},
-      exp = #{record.exp,jdbcType=INTEGER},
-      backImage = #{record.backimage,jdbcType=VARCHAR},
-      isAvailable = #{record.isavailable,jdbcType=INTEGER}
+    userName = #{record.username,jdbcType=VARCHAR},
+    passWord = #{record.password,jdbcType=VARCHAR},
+    avator = #{record.avator,jdbcType=VARCHAR},
+    wexID = #{record.wexid,jdbcType=VARCHAR},
+    qq = #{record.qq,jdbcType=VARCHAR},
+    phoneNumber = #{record.phonenumber,jdbcType=VARCHAR},
+    level = #{record.level,jdbcType=INTEGER},
+    signature = #{record.signature,jdbcType=VARCHAR},
+    inviteCode = #{record.invitecode,jdbcType=VARCHAR},
+    sex = #{record.sex,jdbcType=VARCHAR},
+    stauts = #{record.stauts,jdbcType=INTEGER},
+    longtitude = #{record.longtitude,jdbcType=VARCHAR},
+    latitude = #{record.latitude,jdbcType=VARCHAR},
+    stepsToday = #{record.stepstoday,jdbcType=INTEGER},
+    checkinDays = #{record.checkindays,jdbcType=INTEGER},
+    age = #{record.age,jdbcType=INTEGER},
+    height = #{record.height,jdbcType=INTEGER},
+    weight = #{record.weight,jdbcType=INTEGER},
+    hobby = #{record.hobby,jdbcType=VARCHAR},
+    exp = #{record.exp,jdbcType=INTEGER},
+    backImage = #{record.backimage,jdbcType=VARCHAR},
+    isAvailable = #{record.isavailable,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -508,5 +508,12 @@
   </select>
   <select id="getMaxID" resultType="java.lang.Integer">
     SELECT MAX(id) FROM `user`;
+  </select>
+  <select id="getInviteCodeByID">
+    SELECT
+`user`.inviteCode
+FROM `user`
+WHERE
+`user`.id=#{id}
   </select>
 </mapper>

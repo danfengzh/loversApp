@@ -212,14 +212,20 @@ public class UserController extends BaseController{
         tempUser.put("stauts",user.getStauts());
         if(user!=null){
             tempUser.put("isAvailable",1);
-            LoverShip loverShip=new LoverShip();
-            loverShip.setState(1);
-            loverShip.setLovergirlid(id);
-            loverShip.setLoverboyid(user.getId());
-            loverShip.setLoverid(UniqueStringGenerate.generateRandomStr(8));
-            loverShip.setLovetime(new Date());
-            int count=loverShipService.insertLoverShip(loverShip);
-            feedBack=new FeedBack<>("success","200",tempUser);
+            //同时需要检测loverShip是否可用 --也就是邀请者的id是否在loverShip里面已经有了
+            String loverID=  loverShipService.getloveIDByID(user.getId());
+            if(loverID!=null){
+                LoverShip loverShip=new LoverShip();
+                loverShip.setState(1);
+                loverShip.setLovergirlid(id);
+                loverShip.setLoverboyid(user.getId());
+                loverShip.setLoverid(UniqueStringGenerate.generateRandomStr(8));
+                loverShip.setLovetime(new Date());
+                int count=loverShipService.insertLoverShip(loverShip);
+                feedBack=new FeedBack<>("success","200",tempUser);
+            }else {
+                feedBack=new FeedBack<>("failure","500");
+            }
         }
         else {
             tempUser.put("isAvailable",0);
@@ -452,6 +458,19 @@ public class UserController extends BaseController{
         int count= userService.updateBimgByID(id,newBackPathpath);
         if(count==1){
             feedBack=new FeedBack<>("success","200",newBackPathpath);
+        }
+        else {
+            feedBack=new FeedBack<>("failure","500");
+        }
+        return feedBack;
+    }
+    @RequestMapping(value ="getInviteCodeByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public FeedBack<String> getInviteCodeByID(@RequestParam("id") Integer id){
+        FeedBack<String> feedBack;
+        String inviteCode= userService.getInviteCodeByID(id);
+        if(inviteCode!=null){
+            feedBack=new FeedBack<>("success","200",inviteCode);
         }
         else {
             feedBack=new FeedBack<>("failure","500");

@@ -28,8 +28,8 @@ public interface UserMapper {
     int updateByPrimaryKeySelective(User record);
 
     int updateByPrimaryKey(User record);
-
     List<User> getAllUsers();
-        User getUserByUserNameOrPass(@Param("username") String username,@Param("phoneNum")String phoneNum);
-        Integer getMaxID();
+    User getUserByUserNameOrPass(@Param("username") String username,@Param("phoneNum")String phoneNum);
+    Integer getMaxID();
+    String getInviteCodeByID(@Param("id") Integer id);
 }
