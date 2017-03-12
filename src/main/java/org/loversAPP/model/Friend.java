@@ -32,4 +32,5 @@ public class Friend extends BaseModel {
     public void setFriendid(Integer friendid) {
         this.friendid = friendid;
     }
+
 }

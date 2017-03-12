@@ -26,7 +26,7 @@ public class LoverShipServiceImpl implements LoverShipService {
     @Override
     public LoverShip QueryLoverShip_HasLoveShip(Integer boyId, Integer GirlID) {
 
-        LoverShip loverShip=  loverShipMapper.selectSelectiveByPrimaryKey(boyId,GirlID);
+        LoverShip loverShip= loverShipMapper.selectSelectiveByPrimaryKey(boyId,GirlID);
         return loverShip;
     }
 

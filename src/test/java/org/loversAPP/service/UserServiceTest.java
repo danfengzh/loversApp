@@ -53,7 +53,7 @@ public class UserServiceTest extends baseServiceTest {
 
     @Test
     public void getIDByInviteCode() throws Exception {
-
+        System.out.println();
     }
 
     @Test

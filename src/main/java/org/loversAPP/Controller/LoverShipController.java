@@ -190,4 +190,6 @@ public class LoverShipController extends BaseController{
         user.setHobby("睡觉 吃饭");
         return user;
     }
+
+
 }

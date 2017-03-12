@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.loversAPP.dao.LoverSigninMapper">
+  <resultMap id="BaseResultMap" type="org.loversAPP.model.LoverSignin">
+    <result column="userid" jdbcType="INTEGER" property="userid" />
+    <result column="halfID" jdbcType="INTEGER" property="halfid" />
+    <result column="signinTime" jdbcType="VARCHAR" property="signintime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    userid, halfID, signinTime
+  </sql>
+  <select id="selectByExample" parameterType="org.loversAPP.model.LoverSigninExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from lover_signin
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="org.loversAPP.model.LoverSigninExample">
+    delete from lover_signin
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="org.loversAPP.model.LoverSignin">
+    insert into lover_signin (userid, halfID, signinTime
+      )
+    values (#{userid,jdbcType=INTEGER}, #{halfid,jdbcType=INTEGER}, #{signintime,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="org.loversAPP.model.LoverSignin">
+    insert into lover_signin
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userid != null">
+        userid,
+      </if>
+      <if test="halfid != null">
+        halfID,
+      </if>
+      <if test="signintime != null">
+        signinTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userid != null">
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="halfid != null">
+        #{halfid,jdbcType=INTEGER},
+      </if>
+      <if test="signintime != null">
+        #{signintime,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.loversAPP.model.LoverSigninExample" resultType="java.lang.Long">
+    select count(*) from lover_signin
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <select id="selectHasSianToday" resultType="java.lang.Integer">
+    SELECT COUNT(*) FROM LoverApp.lover_signin WHERE halfID=#{halfid} and signintime=#{signintime}
+  </select>
+  <select id="selectHasSianTodayAnother" resultType="java.lang.Integer">
+    SELECT COUNT(*) FROM LoverApp.lover_signin WHERE userid=#{userid} and signintime=#{signintime}
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update lover_signin
+    <set>
+      <if test="record.userid != null">
+        userid = #{record.userid,jdbcType=INTEGER},
+      </if>
+      <if test="record.halfid != null">
+        halfID = #{record.halfid,jdbcType=INTEGER},
+      </if>
+      <if test="record.signintime != null">
+        signinTime = #{record.signintime,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update lover_signin
+    set userid = #{record.userid,jdbcType=INTEGER},
+      halfID = #{record.halfid,jdbcType=INTEGER},
+      signinTime = #{record.signintime,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

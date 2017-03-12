@@ -6,10 +6,6 @@ import org.loversAPP.model.LoverShipExample;
 
 import java.util.List;
 
-
-
-
-
 public interface LoverShipMapper {
     long countByExample(LoverShipExample example);
 
@@ -34,4 +30,5 @@ public interface LoverShipMapper {
     int updateByPrimaryKey(LoverShip record);
     LoverShip  selectSelectiveByPrimaryKey(@Param("lovergirlid") Integer lovergirlid, @Param("loverboyid")Integer loverboyid);
     LoverShip  LoverShipIdByID(@Param("id") Integer id);
+
 }
