@@ -553,6 +553,136 @@ public class TreasureExample {
             addCriterion("\" latitude\" not between", value1, value2, "latitude");
             return (Criteria) this;
         }
+
+        public Criteria andTreasurecodeIsNull() {
+            addCriterion("treasureCode is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTreasurecodeIsNotNull() {
+            addCriterion("treasureCode is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTreasurecodeEqualTo(Integer value) {
+            addCriterion("treasureCode =", value, "treasurecode");
+            return (Criteria) this;
+        }
+
+        public Criteria andTreasurecodeNotEqualTo(Integer value) {
+            addCriterion("treasureCode <>", value, "treasurecode");
+            return (Criteria) this;
+        }
+
+        public Criteria andTreasurecodeGreaterThan(Integer value) {
+            addCriterion("treasureCode >", value, "treasurecode");
+            return (Criteria) this;
+        }
+
+        public Criteria andTreasurecodeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("treasureCode >=", value, "treasurecode");
+            return (Criteria) this;
+        }
+
+        public Criteria andTreasurecodeLessThan(Integer value) {
+            addCriterion("treasureCode <", value, "treasurecode");
+            return (Criteria) this;
+        }
+
+        public Criteria andTreasurecodeLessThanOrEqualTo(Integer value) {
+            addCriterion("treasureCode <=", value, "treasurecode");
+            return (Criteria) this;
+        }
+
+        public Criteria andTreasurecodeIn(List<Integer> values) {
+            addCriterion("treasureCode in", values, "treasurecode");
+            return (Criteria) this;
+        }
+
+        public Criteria andTreasurecodeNotIn(List<Integer> values) {
+            addCriterion("treasureCode not in", values, "treasurecode");
+            return (Criteria) this;
+        }
+
+        public Criteria andTreasurecodeBetween(Integer value1, Integer value2) {
+            addCriterion("treasureCode between", value1, value2, "treasurecode");
+            return (Criteria) this;
+        }
+
+        public Criteria andTreasurecodeNotBetween(Integer value1, Integer value2) {
+            addCriterion("treasureCode not between", value1, value2, "treasurecode");
+            return (Criteria) this;
+        }
+
+        public Criteria andMoneyIsNull() {
+            addCriterion("money is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMoneyIsNotNull() {
+            addCriterion("money is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMoneyEqualTo(String value) {
+            addCriterion("money =", value, "money");
+            return (Criteria) this;
+        }
+
+        public Criteria andMoneyNotEqualTo(String value) {
+            addCriterion("money <>", value, "money");
+            return (Criteria) this;
+        }
+
+        public Criteria andMoneyGreaterThan(String value) {
+            addCriterion("money >", value, "money");
+            return (Criteria) this;
+        }
+
+        public Criteria andMoneyGreaterThanOrEqualTo(String value) {
+            addCriterion("money >=", value, "money");
+            return (Criteria) this;
+        }
+
+        public Criteria andMoneyLessThan(String value) {
+            addCriterion("money <", value, "money");
+            return (Criteria) this;
+        }
+
+        public Criteria andMoneyLessThanOrEqualTo(String value) {
+            addCriterion("money <=", value, "money");
+            return (Criteria) this;
+        }
+
+        public Criteria andMoneyLike(String value) {
+            addCriterion("money like", value, "money");
+            return (Criteria) this;
+        }
+
+        public Criteria andMoneyNotLike(String value) {
+            addCriterion("money not like", value, "money");
+            return (Criteria) this;
+        }
+
+        public Criteria andMoneyIn(List<String> values) {
+            addCriterion("money in", values, "money");
+            return (Criteria) this;
+        }
+
+        public Criteria andMoneyNotIn(List<String> values) {
+            addCriterion("money not in", values, "money");
+            return (Criteria) this;
+        }
+
+        public Criteria andMoneyBetween(String value1, String value2) {
+            addCriterion("money between", value1, value2, "money");
+            return (Criteria) this;
+        }
+
+        public Criteria andMoneyNotBetween(String value1, String value2) {
+            addCriterion("money not between", value1, value2, "money");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

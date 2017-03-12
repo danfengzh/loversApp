@@ -17,6 +17,10 @@ public class Treasure extends BaseModel {
 
     private String latitude;
 
+    private Integer treasurecode;
+
+    private String money;
+
     public Integer getId() {
         return id;
     }
@@ -71,5 +75,21 @@ public class Treasure extends BaseModel {
 
     public void setLatitude(String latitude) {
         this.latitude = latitude == null ? null : latitude.trim();
+    }
+
+    public Integer getTreasurecode() {
+        return treasurecode;
+    }
+
+    public void setTreasurecode(Integer treasurecode) {
+        this.treasurecode = treasurecode;
+    }
+
+    public String getMoney() {
+        return money;
+    }
+
+    public void setMoney(String money) {
+        this.money = money == null ? null : money.trim();
     }
 }
