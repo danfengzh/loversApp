@@ -41,4 +41,5 @@ public interface UserService {
     List<User> getAllUsers();
     public Integer getMaxID();
     public String getInviteCodeByID(Integer ID);
+    public Integer updateMoneyByID(Integer userID,Integer money);
 }

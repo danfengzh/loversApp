@@ -6,10 +6,12 @@ import org.loversAPP.Controller.utils.InviteCodeCreator;
 import org.loversAPP.Controller.utils.fileUpload;
 import org.loversAPP.DTO.FeedBack;
 import org.loversAPP.DTO.location;
+import org.loversAPP.Jpush.JpushClientUtil;
 import org.loversAPP.model.LoverShip;
 import org.loversAPP.model.User;
 import org.loversAPP.service.LoverShipService;
 import org.loversAPP.service.UserService;
+import org.loversAPP.service.messageService;
 import org.loversAPP.utils.MD5Utils;
 import org.loversAPP.utils.UniqueStringGenerate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Administrator on 2017/2/15.
@@ -36,6 +36,8 @@ public class UserController extends BaseController{
     private UserService userService;
     @Autowired
     private LoverShipService loverShipService;
+    @Autowired
+    private messageService messageService;
     /**
      * 根据用户id查询用户个人信息
      * @param userID
@@ -114,6 +116,7 @@ public class UserController extends BaseController{
             String inviteCode = InviteCodeCreator.createRandom(true, 6);
             user.setPassword(md5pass);
             user.setInvitecode(inviteCode);
+            user.setRegdate(new Date());
             Integer count = userService.insertUser(user);
             Integer maxID=userService.getUserByInviteCode(inviteCode).getId();
             if (count == 1) {
@@ -201,35 +204,35 @@ public class UserController extends BaseController{
      */
     @RequestMapping(value ="getUserByInviteCode",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
-    public FeedBack<Map> getUserByInviteCode(@RequestParam("inviteCode") String inviteCode,@RequestParam("id") Integer id){
-        FeedBack<Map> feedBack;
-        User user=   userService.getUserByInviteCode(inviteCode);
-
-        Map tempUser=new HashMap();
-        tempUser.put("id",user.getId());
-        tempUser.put("username",user.getUsername());
-        tempUser.put("avator",user.getAvator());
-        tempUser.put("stauts",user.getStauts());
+    public FeedBack<Integer> getUserByInviteCode(@RequestParam("inviteCode") String inviteCode,@RequestParam("id") Integer id){
+        FeedBack<Integer> feedBack;
+        final User user=   userService.getUserByInviteCode(inviteCode);
         if(user!=null){
-            tempUser.put("isAvailable",1);
+
             //同时需要检测loverShip是否可用 --也就是邀请者的id是否在loverShip里面已经有了
             String loverID=  loverShipService.getloveIDByID(user.getId());
             String lovserID2=loverShipService.getloveIDByID(id);
-            if(loverID==null&&lovserID2==null){
+            //同时插入消息 方便发送
+            int flag=  messageService.insertMessage(id,user.getId(),"1",new Date(),"匹配成功");
+
+            //给被邀请者发消息
+            int cos = JpushClientUtil.sendDynatic(String.valueOf(user.getId()), String.valueOf(user.getId()), "你有一条消息提醒", "tips",
+                    "1", "匹配成功");
+
+            if(cos==1&&loverID==null&&lovserID2==null){
                 LoverShip loverShip=new LoverShip();
                 loverShip.setState(1);
-                loverShip.setLovergirlid(id);
-                loverShip.setLoverboyid(user.getId());
+                loverShip.setLovergirlid(id);//邀请人id
+                loverShip.setLoverboyid(user.getId());//被邀请人id
                 loverShip.setLoverid(UniqueStringGenerate.generateRandomStr(8));
                 loverShip.setLovetime(new Date());
                 int count=loverShipService.insertLoverShip(loverShip);
-                feedBack=new FeedBack<>("success","200",tempUser);
+                feedBack=new FeedBack<>("success","200",id);
             }else {
                 feedBack=new FeedBack<>("failure","201");
             }
         }
         else {
-            tempUser.put("isAvailable",0);
             feedBack=new FeedBack<>("failure","500");
         }
         return feedBack;
@@ -472,6 +475,19 @@ public class UserController extends BaseController{
         String inviteCode= userService.getInviteCodeByID(id);
         if(inviteCode!=null){
             feedBack=new FeedBack<>("success","200",inviteCode);
+        }
+        else {
+            feedBack=new FeedBack<>("failure","500");
+        }
+        return feedBack;
+    }
+    @RequestMapping(value ="updateMoneyByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public FeedBack<Integer> updateMoneyByID(@RequestParam("id") Integer id,@RequestParam("money") Integer  money ){
+        FeedBack<Integer> feedBack;
+        int count= userService.updateMoneyByID(id,money);
+        if(count==1){
+            feedBack=new FeedBack<>("success","200",money);
         }
         else {
             feedBack=new FeedBack<>("failure","500");

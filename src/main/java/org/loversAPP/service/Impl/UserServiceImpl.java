@@ -111,6 +111,15 @@ public class UserServiceImpl implements UserService
     }
 
     @Override
+    public Integer updateMoneyByID(Integer userID,Integer money) {
+        User user=new User();
+        user.setId(userID);
+        user.setMoney(money);
+        Integer res = updateUserInfo(user);
+        return res;
+    }
+
+    @Override
     public Integer updateStepsTodayByID(Integer id, Integer stepsToday) {
         User user=new User();
         user.setId(id);

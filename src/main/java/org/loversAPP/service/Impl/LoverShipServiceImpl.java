@@ -21,7 +21,6 @@ import java.util.List;
 public class LoverShipServiceImpl implements LoverShipService {
     @Autowired
     private LoverShipMapper loverShipMapper;
-
     @Autowired
     private UserMapper userMapper;
     @Override
@@ -34,13 +33,20 @@ public class LoverShipServiceImpl implements LoverShipService {
     @Override
     @Transactional(propagation = Propagation.REQUIRES_NEW,isolation = Isolation.DEFAULT)
     public Integer insertLoverShip(LoverShip loverShip) {
-        User girl=userMapper.selectByPrimaryKey(loverShip.getLovergirlid());
-        User boy=userMapper.selectByPrimaryKey(loverShip.getLoverboyid());
-        girl.setStauts(1);
-        boy.setStauts(1);
-        userMapper.updateByPrimaryKeySelective(boy);
-        userMapper.updateByPrimaryKeySelective(girl);
-        return loverShipMapper.insertSelective(loverShip);
+        final User girl=userMapper.selectByPrimaryKey(loverShip.getLovergirlid());//邀请者
+        final User boy=userMapper.selectByPrimaryKey(loverShip.getLoverboyid());//被邀请者
+        if (girl!=null&&boy!=null) {
+            girl.setStauts(1);
+            boy.setStauts(1);
+            userMapper.updateByPrimaryKeySelective(boy);
+            userMapper.updateByPrimaryKeySelective(girl);
+            return loverShipMapper.insertSelective(loverShip);
+        }
+        else {
+            return -1;
+        }
+
+
     }
 
     @Override
