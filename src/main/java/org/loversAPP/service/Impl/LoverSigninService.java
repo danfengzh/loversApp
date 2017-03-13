@@ -1,10 +1,12 @@
 package org.loversAPP.service.Impl;
 
 import org.loversAPP.Controller.utils.DateUtil;
+import org.loversAPP.DTO.FeedBack;
 import org.loversAPP.dao.LoverShipMapper;
 import org.loversAPP.dao.LoverSigninMapper;
 import org.loversAPP.model.LoverShip;
 import org.loversAPP.model.LoverSignin;
+import org.loversAPP.model.LoverSigninExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -51,20 +53,54 @@ public class LoverSigninService {
      * @return
      */
     @Transactional(propagation = Propagation.REQUIRES_NEW,isolation = Isolation.DEFAULT)
-    public Integer insertLoverSignin(Integer halfID){
-        //仅仅一方进行签到
-        LoverSignin loverSignin=new LoverSignin();
-        //先判断自己今天是否已经签过到了，如果签了就不做任何处理
-        loverSignin.setSignintime(DateUtil.getDay());
-        loverSignin.setHalfid(halfID);
-        if (loverSigninMapper.selectHasSianToday(loverSignin)==0) {
-            loverSignin.setHalfid(halfID);
-            loverSignin.setSignintime(DateUtil.getDay());
-            int  count = loverSigninMapper.insertSelective(loverSignin);
-            return count;
-        } else {
-            return 0;
+    public FeedBack<String> insertLoverSignin(Integer halfID){
+        FeedBack<String> feedBack;
+        LoverShip loverShip=loverShipMapper.LoverShipIdByID(halfID);
+        Integer anotherID;//另一半的id
+        if(halfID.equals(loverShip.getLoverboyid())){
+            anotherID=loverShip.getLovergirlid();
+        }
+        else {
+            anotherID=loverShip.getLoverboyid();
         }
 
+        //仅仅一方进行签到
+        LoverSignin loverSignin1=new LoverSignin();
+        //先判断自己今天是否已经签过到了，如果签了就不做任何处理
+        loverSignin1.setSignintime(DateUtil.getDay());
+        loverSignin1.setHalfid(halfID);
+        LoverSignin loverSignin2=new LoverSignin();
+        loverSignin2.setSignintime(DateUtil.getDay());
+        loverSignin2.setHalfid(anotherID);
+        LoverSignin result1=loverSigninMapper.selectSianToday(loverSignin1);
+        LoverSignin result2=loverSigninMapper.selectSianToday(loverSignin2);
+        if(result1!=null||result2!=null){
+            //anotherID  已经在halfid的w位置上进行签到，那么 就让当前的id在userid上进行签到
+            //有一个人已经完成了签到，置于是halfID还是userid目前不知道---这种限定下已经签到 肯定是 halfID
+            LoverSigninExample loverSigninExample=new LoverSigninExample();
+            if(result1!=null&&result1.getHalfid().equals(halfID)){
+                loverSignin1.setUserid(anotherID);
+                loverSigninExample.createCriteria().andHalfidEqualTo(halfID);
+            }
+            else if(result2!=null&&result2.getHalfid().equals(halfID)){
+                loverSignin1.setUserid(anotherID);
+                loverSigninExample.createCriteria().andHalfidEqualTo(halfID);
+            }
+            else {
+                loverSignin1.setUserid(halfID);
+                loverSigninExample.createCriteria().andHalfidEqualTo(anotherID);
+            }
+            loverSignin1.setHalfid(null);
+            loverSigninExample.createCriteria().andHalfidEqualTo(halfID);
+            loverSigninMapper.updateByExampleSelective(loverSignin1,loverSigninExample);
+            feedBack=new FeedBack<>("success","200");
+        }
+        else {
+            //没有人进行签到。。。。。。--直接将它插入数据库里面
+            //默认插入为halfID
+            loverSigninMapper.insertSelective(loverSignin1);
+            feedBack=new FeedBack<>("success","201");
+        }
+        return feedBack;
     }
 }

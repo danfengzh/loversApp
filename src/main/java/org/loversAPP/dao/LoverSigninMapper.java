@@ -22,4 +22,5 @@ public interface LoverSigninMapper {
     int updateByExample(@Param("record") LoverSignin record, @Param("example") LoverSigninExample example);
     int selectHasSianToday(LoverSignin loverSignin);
     int selectHasSianTodayAnother(LoverSignin loverSignin);
+    LoverSignin selectSianToday(LoverSignin loverSignin);
 }

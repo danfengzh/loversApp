@@ -130,6 +130,17 @@
   <select id="selectHasSianTodayAnother" resultType="java.lang.Integer">
     SELECT COUNT(*) FROM LoverApp.lover_signin WHERE userid=#{userid} and signintime=#{signintime}
   </select>
+  <select id="selectSianToday" resultType="org.loversAPP.model.LoverSignin">
+    SELECT
+lover_signin.halfID halfid,
+lover_signin.userid
+FROM `lover_signin`
+WHERE
+lover_signin.userid=#{halfid} OR
+lover_signin.halfID=#{halfid} AND
+lover_signin.signinTime=#{signintime}
+
+  </select>
   <update id="updateByExampleSelective" parameterType="map">
     update lover_signin
     <set>
@@ -150,8 +161,8 @@
   <update id="updateByExample" parameterType="map">
     update lover_signin
     set userid = #{record.userid,jdbcType=INTEGER},
-      halfID = #{record.halfid,jdbcType=INTEGER},
-      signinTime = #{record.signintime,jdbcType=VARCHAR}
+    halfID = #{record.halfid,jdbcType=INTEGER},
+    signinTime = #{record.signintime,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>

@@ -4,6 +4,7 @@ import org.loversAPP.Controller.base.BaseController;
 import org.loversAPP.DTO.FeedBack;
 import org.loversAPP.model.LoverShip;
 import org.loversAPP.model.User;
+import org.loversAPP.service.Impl.LoverSigninService;
 import org.loversAPP.service.LoverShipService;
 import org.loversAPP.service.UserService;
 import org.loversAPP.utils.UniqueStringGenerate;
@@ -29,6 +30,8 @@ public class LoverShipController extends BaseController{
     private LoverShipService loverShipService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private LoverSigninService loverSigninService;
     /**
      *
      * @param loverAID 女生
@@ -106,17 +109,17 @@ public class LoverShipController extends BaseController{
     /**
      *   解除恋爱关系
      *   1.用户双方status 都变为0
-         2.Activityrecord 跟loveship表 删除
+     2.Activityrecord 跟loveship表 删除
      * @param loverID
      * @return
      */
     @RequestMapping(value = "/deleteLoveShipByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
     public FeedBack<String> deleteLoveShipByID(@RequestParam("loverID") String loverID){
-         FeedBack<String> feedBack;
+        FeedBack<String> feedBack;
         int count= loverShipService.deleteLoveShipByID(loverID);
         if (count==1) {
-           feedBack=new FeedBack<>("success","200");
+            feedBack=new FeedBack<>("success","200");
         } else {
             feedBack=new FeedBack<>("failure","400");
         }
@@ -180,16 +183,16 @@ public class LoverShipController extends BaseController{
         }
         return feedBack;
     }
-    @RequestMapping(value = "/MyTest/Demo",method = RequestMethod.GET,produces ="application/json;charset=utf-8")
+
+    /**
+     *
+     * @param halfID
+     * @return
+     */
+    @RequestMapping(value = "insertLoverSignin",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
-    public User demo(){
-        User user=new User();
-        user.setStauts(0);
-        user.setUsername("孟烨");
-        user.setSex("女");
-        user.setHobby("睡觉 吃饭");
-        return user;
+    public FeedBack<String> insertLoverSignin(@RequestParam("halfID") Integer halfID){
+        FeedBack feedBack=   loverSigninService.insertLoverSignin(halfID);
+        return feedBack;
     }
-
-
 }

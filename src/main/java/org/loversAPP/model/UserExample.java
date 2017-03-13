@@ -1,6 +1,7 @@
 package org.loversAPP.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class UserExample {
@@ -1554,63 +1555,123 @@ public class UserExample {
             return (Criteria) this;
         }
 
-        public Criteria andIsavailableIsNull() {
-            addCriterion("isAvailable is null");
+        public Criteria andMoneyIsNull() {
+            addCriterion("money is null");
             return (Criteria) this;
         }
 
-        public Criteria andIsavailableIsNotNull() {
-            addCriterion("isAvailable is not null");
+        public Criteria andMoneyIsNotNull() {
+            addCriterion("money is not null");
             return (Criteria) this;
         }
 
-        public Criteria andIsavailableEqualTo(Integer value) {
-            addCriterion("isAvailable =", value, "isavailable");
+        public Criteria andMoneyEqualTo(Integer value) {
+            addCriterion("money =", value, "money");
             return (Criteria) this;
         }
 
-        public Criteria andIsavailableNotEqualTo(Integer value) {
-            addCriterion("isAvailable <>", value, "isavailable");
+        public Criteria andMoneyNotEqualTo(Integer value) {
+            addCriterion("money <>", value, "money");
             return (Criteria) this;
         }
 
-        public Criteria andIsavailableGreaterThan(Integer value) {
-            addCriterion("isAvailable >", value, "isavailable");
+        public Criteria andMoneyGreaterThan(Integer value) {
+            addCriterion("money >", value, "money");
             return (Criteria) this;
         }
 
-        public Criteria andIsavailableGreaterThanOrEqualTo(Integer value) {
-            addCriterion("isAvailable >=", value, "isavailable");
+        public Criteria andMoneyGreaterThanOrEqualTo(Integer value) {
+            addCriterion("money >=", value, "money");
             return (Criteria) this;
         }
 
-        public Criteria andIsavailableLessThan(Integer value) {
-            addCriterion("isAvailable <", value, "isavailable");
+        public Criteria andMoneyLessThan(Integer value) {
+            addCriterion("money <", value, "money");
             return (Criteria) this;
         }
 
-        public Criteria andIsavailableLessThanOrEqualTo(Integer value) {
-            addCriterion("isAvailable <=", value, "isavailable");
+        public Criteria andMoneyLessThanOrEqualTo(Integer value) {
+            addCriterion("money <=", value, "money");
             return (Criteria) this;
         }
 
-        public Criteria andIsavailableIn(List<Integer> values) {
-            addCriterion("isAvailable in", values, "isavailable");
+        public Criteria andMoneyIn(List<Integer> values) {
+            addCriterion("money in", values, "money");
             return (Criteria) this;
         }
 
-        public Criteria andIsavailableNotIn(List<Integer> values) {
-            addCriterion("isAvailable not in", values, "isavailable");
+        public Criteria andMoneyNotIn(List<Integer> values) {
+            addCriterion("money not in", values, "money");
             return (Criteria) this;
         }
 
-        public Criteria andIsavailableBetween(Integer value1, Integer value2) {
-            addCriterion("isAvailable between", value1, value2, "isavailable");
+        public Criteria andMoneyBetween(Integer value1, Integer value2) {
+            addCriterion("money between", value1, value2, "money");
             return (Criteria) this;
         }
 
-        public Criteria andIsavailableNotBetween(Integer value1, Integer value2) {
-            addCriterion("isAvailable not between", value1, value2, "isavailable");
+        public Criteria andMoneyNotBetween(Integer value1, Integer value2) {
+            addCriterion("money not between", value1, value2, "money");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegdateIsNull() {
+            addCriterion("regDate is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegdateIsNotNull() {
+            addCriterion("regDate is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegdateEqualTo(Date value) {
+            addCriterion("regDate =", value, "regdate");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegdateNotEqualTo(Date value) {
+            addCriterion("regDate <>", value, "regdate");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegdateGreaterThan(Date value) {
+            addCriterion("regDate >", value, "regdate");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegdateGreaterThanOrEqualTo(Date value) {
+            addCriterion("regDate >=", value, "regdate");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegdateLessThan(Date value) {
+            addCriterion("regDate <", value, "regdate");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegdateLessThanOrEqualTo(Date value) {
+            addCriterion("regDate <=", value, "regdate");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegdateIn(List<Date> values) {
+            addCriterion("regDate in", values, "regdate");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegdateNotIn(List<Date> values) {
+            addCriterion("regDate not in", values, "regdate");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegdateBetween(Date value1, Date value2) {
+            addCriterion("regDate between", value1, value2, "regdate");
+            return (Criteria) this;
+        }
+
+        public Criteria andRegdateNotBetween(Date value1, Date value2) {
+            addCriterion("regDate not between", value1, value2, "regdate");
             return (Criteria) this;
         }
     }

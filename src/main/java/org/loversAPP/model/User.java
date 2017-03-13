@@ -2,6 +2,8 @@ package org.loversAPP.model;
 
 import org.loversAPP.base.BaseModel;
 
+import java.util.Date;
+
 public class User extends BaseModel {
     private Integer id;
 
@@ -47,7 +49,9 @@ public class User extends BaseModel {
 
     private String backimage;
 
-    private Integer isavailable;
+    private Integer money;
+
+    private Date regdate;
 
     public Integer getId() {
         return id;
@@ -225,11 +229,19 @@ public class User extends BaseModel {
         this.backimage = backimage == null ? null : backimage.trim();
     }
 
-    public Integer getIsavailable() {
-        return isavailable;
+    public Integer getMoney() {
+        return money;
     }
 
-    public void setIsavailable(Integer isavailable) {
-        this.isavailable = isavailable;
+    public void setMoney(Integer money) {
+        this.money = money;
+    }
+
+    public Date getRegdate() {
+        return regdate;
+    }
+
+    public void setRegdate(Date regdate) {
+        this.regdate = regdate;
     }
 }
