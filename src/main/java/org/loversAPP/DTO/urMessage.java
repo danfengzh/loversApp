@@ -1,11 +1,12 @@
 package org.loversAPP.DTO;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by Administrator on 2017/3/7.
  */
-public class urMessage {
+public class urMessage implements Serializable {
     private String userName;
     private Integer userID;
     private String avatar;

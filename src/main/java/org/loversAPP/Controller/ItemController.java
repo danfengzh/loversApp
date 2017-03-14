@@ -132,4 +132,9 @@ public class ItemController extends BaseController {
         }
         return feedBack;
     }
+    @RequestMapping(value = "/insertPhoto",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public FeedBack<String> insertPhoto(){
+        return null;
+    }
 }

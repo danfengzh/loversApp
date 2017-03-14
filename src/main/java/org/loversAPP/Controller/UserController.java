@@ -7,6 +7,7 @@ import org.loversAPP.Controller.utils.fileUpload;
 import org.loversAPP.DTO.FeedBack;
 import org.loversAPP.DTO.location;
 import org.loversAPP.Jpush.JpushClientUtil;
+import org.loversAPP.model.FinishStatus;
 import org.loversAPP.model.LoverShip;
 import org.loversAPP.model.User;
 import org.loversAPP.service.LoverShipService;
@@ -21,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-
+import org.loversAPP.service.finishStatusService;
 import java.io.File;
 import java.util.Date;
 import java.util.List;
@@ -38,6 +39,8 @@ public class UserController extends BaseController{
     private LoverShipService loverShipService;
     @Autowired
     private messageService messageService;
+    @Autowired
+    private finishStatusService finishStatusService;
     /**
      * 根据用户id查询用户个人信息
      * @param userID
@@ -118,7 +121,9 @@ public class UserController extends BaseController{
             user.setInvitecode(inviteCode);
             user.setRegdate(new Date());
             Integer count = userService.insertUser(user);
+
             Integer maxID=userService.getUserByInviteCode(inviteCode).getId();
+            finishStatusService.finishStatus(maxID);
             if (count == 1) {
                 feedBack = new FeedBack("OK", "200",maxID);
             } else {
@@ -127,7 +132,25 @@ public class UserController extends BaseController{
         }
         return feedBack;
     }
+    @RequestMapping(value ="getFinishStatusByUID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public FeedBack<FinishStatus> getFinishStatusByUID(Integer id){
+        FeedBack<FinishStatus> feedBack;
+        FinishStatus finishStatus= finishStatusService.getFinishStatusByUID(id);
+        if(finishStatus!=null){
+            feedBack=new FeedBack<>("success","200",finishStatus);
+        }else{
+            feedBack=new FeedBack<>("failure","500");
+        }
+        return feedBack;
+    }
+    @RequestMapping(value ="setFinishStatusByUID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public FeedBack<Integer>  setFinishStatusByUID(Integer id,Integer status){
 
+        int res= finishStatusService.setFinishStatusByUID(id,status);
+        return new FeedBack<>("success","200",status);
+    }
     /**
      * 根据用户id更新密码  ---有问题
      * @param id
