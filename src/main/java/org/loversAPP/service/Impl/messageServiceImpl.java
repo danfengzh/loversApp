@@ -24,6 +24,7 @@ public class messageServiceImpl implements messageService {
         message.setReceiverid(receiverID);
         message.setMsgtype(msgType);
         message.setMsgcontent(msgContent);
+        message.setMsgdate(new Date());
         return messageMapper.insert(message);
     }
 

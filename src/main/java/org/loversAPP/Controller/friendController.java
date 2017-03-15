@@ -2,7 +2,7 @@ package org.loversAPP.Controller;
 
 import org.loversAPP.Controller.base.BaseController;
 import org.loversAPP.DTO.FeedBack;
-import org.loversAPP.DTO.FriendShip;
+import org.loversAPP.DTO.TinyUser;
 import org.loversAPP.service.friendService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -60,11 +61,11 @@ public class friendController extends BaseController {
     public Map getFriendsByUID(@RequestParam("userID") Integer userID){
 
         Map hashMap=new HashMap();
-        FriendShip friendShip= friendService.getFriendsByUID(userID);
-        if(friendShip!=null){
+        List<TinyUser> tinyUsers= friendService.getAllTinyUser(userID);
+        if(tinyUsers!=null){
             hashMap.put("code","200");
             hashMap.put("msg","success");
-            hashMap.put("friend",friendShip.getFriend());
+            hashMap.put("friend",tinyUsers);
 
         }
         else {

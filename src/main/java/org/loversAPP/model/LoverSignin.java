@@ -3,18 +3,18 @@ package org.loversAPP.model;
 import org.loversAPP.base.BaseModel;
 
 public class LoverSignin extends BaseModel {
-    private Integer userid;
+    private Integer id;
 
     private Integer halfid;
 
     private String signintime;
 
-    public Integer getUserid() {
-        return userid;
+    public Integer getId() {
+        return id;
     }
 
-    public void setUserid(Integer userid) {
-        this.userid = userid;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Integer getHalfid() {

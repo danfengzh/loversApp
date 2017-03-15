@@ -73,7 +73,11 @@ public class LoverShipServiceImpl implements LoverShipService {
 
     @Override
     public List<LoverShip> getAllLoveShips() {
-        return loverShipMapper.selectByExample(new LoverShipExample());
+
+
+        LoverShipExample loverShipExample=new LoverShipExample();
+        loverShipExample.setOrderByClause("loveindex DESC");
+        return loverShipMapper.selectByExample(loverShipExample);
     }
 
     /**

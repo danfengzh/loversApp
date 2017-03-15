@@ -98,7 +98,7 @@ public class LoverShipController extends BaseController{
         FeedBack<LoverShip> feedBack;
         List<LoverShip> loverShip=  loverShipService.getAllLoveShips();
         if(loverShip!=null){
-            feedBack=new FeedBack("failure","400",loverShip);
+            feedBack=new FeedBack("success","200",loverShip);
         }
         else {
             feedBack=new FeedBack("failure","400");

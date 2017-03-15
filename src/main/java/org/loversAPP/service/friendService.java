@@ -1,6 +1,9 @@
 package org.loversAPP.service;
 
 import org.loversAPP.DTO.FriendShip;
+import org.loversAPP.DTO.TinyUser;
+
+import java.util.List;
 
 /**
  * Created by Administrator on 2017/2/25.
@@ -17,4 +20,6 @@ public interface friendService {
      * @return
      */
     public FriendShip getFriendsByUID(Integer userID);
+
+    public List<TinyUser> getAllTinyUser(int userid);
 }

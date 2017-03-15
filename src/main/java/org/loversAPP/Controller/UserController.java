@@ -230,19 +230,23 @@ public class UserController extends BaseController{
     public FeedBack<Integer> getUserByInviteCode(@RequestParam("inviteCode") String inviteCode,@RequestParam("id") Integer id){
         FeedBack<Integer> feedBack;
         final User user=   userService.getUserByInviteCode(inviteCode);
-        if(user!=null){
+        if(user!=null)
+        {
 
             //同时需要检测loverShip是否可用 --也就是邀请者的id是否在loverShip里面已经有了
             String loverID=  loverShipService.getloveIDByID(user.getId());
             String lovserID2=loverShipService.getloveIDByID(id);
             //同时插入消息 方便发送
-            int flag=  messageService.insertMessage(id,user.getId(),"1",new Date(),"匹配成功");
 
-            //给被邀请者发消息
-            int cos = JpushClientUtil.sendDynatic(String.valueOf(user.getId()), String.valueOf(user.getId()), "你有一条消息提醒", "tips",
-                    "1", "匹配成功");
-
-            if(cos==1&&loverID==null&&lovserID2==null){
+            if(loverID==null&&lovserID2==null)
+            {     //给被邀请者发消息
+                int flag=  messageService.insertMessage(id,user.getId(),"1",new Date(),"匹配成功");
+                try {
+                    JpushClientUtil.sendDynatic(String.valueOf(user.getId()), String.valueOf(user.getId()), "你有一条消息提醒", "tips",
+                            "1", "匹配成功");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 LoverShip loverShip=new LoverShip();
                 loverShip.setState(1);
                 loverShip.setLovergirlid(id);//邀请人id
@@ -251,11 +255,14 @@ public class UserController extends BaseController{
                 loverShip.setLovetime(new Date());
                 int count=loverShipService.insertLoverShip(loverShip);
                 feedBack=new FeedBack<>("success","200",id);
-            }else {
+            }
+            else
+            {
                 feedBack=new FeedBack<>("failure","201");
             }
         }
-        else {
+        else
+        {
             feedBack=new FeedBack<>("failure","500");
         }
         return feedBack;

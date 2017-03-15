@@ -215,4 +215,19 @@
       </if>
     </where>
   </select>
+  <select id="getAllTinyUser" resultType="org.loversAPP.DTO.TinyUser">
+       SELECT
+`user`.userName,
+`user`.avator,
+`user`.id userID,
+`user`.signature
+FROM
+friend ,
+`user`
+WHERE
+friend.friendID = `user`.id AND
+friend.userID =#{id}
+
+
+    </select>
 </mapper>

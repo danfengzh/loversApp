@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.loversAPP.dao.LoverSigninMapper">
   <resultMap id="BaseResultMap" type="org.loversAPP.model.LoverSignin">
-    <result column="userid" jdbcType="INTEGER" property="userid" />
+    <result column="id" jdbcType="INTEGER" property="id" />
     <result column="halfID" jdbcType="INTEGER" property="halfid" />
     <result column="signinTime" jdbcType="VARCHAR" property="signintime" />
   </resultMap>
@@ -65,7 +65,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    userid, halfID, signinTime
+    id, halfID, signinTime
   </sql>
   <select id="selectByExample" parameterType="org.loversAPP.model.LoverSigninExample" resultMap="BaseResultMap">
     select
@@ -88,17 +88,18 @@
     </if>
   </delete>
   <insert id="insert" parameterType="org.loversAPP.model.LoverSignin">
-    insert into lover_signin (userid, halfID, signinTime
-      )
-    values (#{userid,jdbcType=INTEGER}, #{halfid,jdbcType=INTEGER}, #{signintime,jdbcType=VARCHAR}
-      )
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into lover_signin (halfID, signinTime)
+    values (#{halfid,jdbcType=INTEGER}, #{signintime,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="org.loversAPP.model.LoverSignin">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into lover_signin
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="userid != null">
-        userid,
-      </if>
       <if test="halfid != null">
         halfID,
       </if>
@@ -107,9 +108,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="userid != null">
-        #{userid,jdbcType=INTEGER},
-      </if>
       <if test="halfid != null">
         #{halfid,jdbcType=INTEGER},
       </if>
@@ -118,34 +116,11 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="org.loversAPP.model.LoverSigninExample" resultType="java.lang.Long">
-    select count(*) from lover_signin
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  <select id="selectHasSianToday" resultType="java.lang.Integer">
-    SELECT COUNT(*) FROM LoverApp.lover_signin WHERE halfID=#{halfid} and signintime=#{signintime}
-  </select>
-  <select id="selectHasSianTodayAnother" resultType="java.lang.Integer">
-    SELECT COUNT(*) FROM LoverApp.lover_signin WHERE userid=#{userid} and signintime=#{signintime}
-  </select>
-  <select id="selectSianToday" resultType="org.loversAPP.model.LoverSignin">
-    SELECT
-lover_signin.halfID halfid,
-lover_signin.userid
-FROM `lover_signin`
-WHERE
-lover_signin.userid=#{halfid} OR
-lover_signin.halfID=#{halfid} AND
-lover_signin.signinTime=#{signintime}
-
-  </select>
   <update id="updateByExampleSelective" parameterType="map">
     update lover_signin
     <set>
-      <if test="record.userid != null">
-        userid = #{record.userid,jdbcType=INTEGER},
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
       </if>
       <if test="record.halfid != null">
         halfID = #{record.halfid,jdbcType=INTEGER},
@@ -160,11 +135,37 @@ lover_signin.signinTime=#{signintime}
   </update>
   <update id="updateByExample" parameterType="map">
     update lover_signin
-    set userid = #{record.userid,jdbcType=INTEGER},
-    halfID = #{record.halfid,jdbcType=INTEGER},
-    signinTime = #{record.signintime,jdbcType=VARCHAR}
+    set id = #{record.id,jdbcType=INTEGER},
+      halfID = #{record.halfid,jdbcType=INTEGER},
+      signinTime = #{record.signintime,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
+  <select id="countByExample" parameterType="org.loversAPP.model.LoverSigninExample" resultType="java.lang.Long">
+    select count(*) from lover_signin
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <select id="selectHasSianToday" resultType="java.lang.Integer">
+    SELECT COUNT(*) FROM LoverApp.lover_signin WHERE halfID=#{halfid} and signintime=#{signintime}
+  </select>
+  <select id="selectHasSianTodayAnother" resultType="java.lang.Integer">
+    SELECT COUNT(*) FROM LoverApp.lover_signin WHERE userid=#{userid} and signintime=#{signintime}
+  </select>
+  <select id="selectSianToday" resultType="org.loversAPP.model.LoverSignin">
+    SELECT
+    lover_signin.halfID halfid,
+    lover_signin.id
+    FROM `lover_signin`
+    <where>
+      <if test="halfid!=null and signintime!=null">
+        lover_signin.halfID = #{halfid} AND
+        lover_signin.signinTime = #{signintime} OR
+        lover_signin.id =#{halfid} AND
+        lover_signin.signinTime=#{signintime}
+      </if>
+    </where>
+  </select>
 </mapper>

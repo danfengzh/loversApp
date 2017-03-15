@@ -40,7 +40,7 @@ public class LoverSigninService {
                 anotherID=loverShip.getLoverboyid();
             }
             LoverSignin tempLoverSign=new LoverSignin();
-            tempLoverSign.setUserid(anotherID);
+            tempLoverSign.setId(anotherID);
             tempLoverSign.setSignintime(DateUtil.getDay());
             return loverSigninMapper.selectHasSianTodayAnother(tempLoverSign);
         }
@@ -74,32 +74,45 @@ public class LoverSigninService {
         loverSignin2.setHalfid(anotherID);
         LoverSignin result1=loverSigninMapper.selectSianToday(loverSignin1);
         LoverSignin result2=loverSigninMapper.selectSianToday(loverSignin2);
+        //快速失败
+        if(result1!=null&&result2!=null){
+            //双方都已经签到
+            feedBack=new FeedBack<>("success","205");
+            return feedBack;
+        }
+        System.out.println(result2+"****************"+result1);
         if(result1!=null||result2!=null){
             //anotherID  已经在halfid的w位置上进行签到，那么 就让当前的id在userid上进行签到
             //有一个人已经完成了签到，置于是halfID还是userid目前不知道---这种限定下已经签到 肯定是 halfID
             LoverSigninExample loverSigninExample=new LoverSigninExample();
             if(result1!=null&&result1.getHalfid().equals(halfID)){
-                loverSignin1.setUserid(anotherID);
+                loverSignin1.setId(anotherID);
                 loverSigninExample.createCriteria().andHalfidEqualTo(halfID);
+                //一方重复签到
+                feedBack=new FeedBack<>("success","206");
+                return feedBack;
             }
             else if(result2!=null&&result2.getHalfid().equals(halfID)){
-                loverSignin1.setUserid(anotherID);
+                loverSignin1.setId(anotherID);
                 loverSigninExample.createCriteria().andHalfidEqualTo(halfID);
+                //一方重复签到
+                feedBack=new FeedBack<>("success","206");
+                return feedBack;
             }
             else {
-                loverSignin1.setUserid(halfID);
+                loverSignin1.setId(halfID);
                 loverSigninExample.createCriteria().andHalfidEqualTo(anotherID);
             }
             loverSignin1.setHalfid(null);
             loverSigninExample.createCriteria().andHalfidEqualTo(halfID);
             loverSigninMapper.updateByExampleSelective(loverSignin1,loverSigninExample);
-            feedBack=new FeedBack<>("success","200");
+            feedBack=new FeedBack<>("success","203");
         }
         else {
             //没有人进行签到。。。。。。--直接将它插入数据库里面
             //默认插入为halfID
             loverSigninMapper.insertSelective(loverSignin1);
-            feedBack=new FeedBack<>("success","201");
+            feedBack=new FeedBack<>("success","202");
         }
         return feedBack;
     }

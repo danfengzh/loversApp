@@ -1,12 +1,15 @@
 package org.loversAPP.service.Impl;
 
 import org.loversAPP.DTO.FriendShip;
+import org.loversAPP.DTO.TinyUser;
 import org.loversAPP.dao.FriendMapper;
 import org.loversAPP.model.Friend;
 import org.loversAPP.model.FriendExample;
 import org.loversAPP.service.friendService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * Created by Administrator on 2017/2/25.
@@ -35,7 +38,12 @@ public class friendServiceImpl implements friendService {
      * @return
      */
     @Override
-        public FriendShip getFriendsByUID(Integer userID) {
+    public FriendShip getFriendsByUID(Integer userID) {
         return friendMapper.getFriendsByUID(userID);
+    }
+
+    @Override
+    public List<TinyUser> getAllTinyUser(int userid) {
+        return friendMapper.getAllTinyUser(userid);
     }
 }
