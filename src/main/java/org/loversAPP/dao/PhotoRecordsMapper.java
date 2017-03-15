@@ -1,6 +1,7 @@
 package org.loversAPP.dao;
 
 import org.apache.ibatis.annotations.Param;
+import org.loversAPP.DTO.UserPhoto;
 import org.loversAPP.model.PhotoRecordsExample;
 import org.loversAPP.model.PhotoRecords;
 
@@ -29,4 +30,6 @@ public interface PhotoRecordsMapper {
     int updateByPrimaryKeySelective(PhotoRecords record);
 
     int updateByPrimaryKey(PhotoRecords record);
+    List<UserPhoto> getPhotosByUserID(Integer userid);
+    public List<UserPhoto> getPhotosByRecordsID (Integer recoiD);
 }

@@ -87,7 +87,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from photo_records
     where id = #{id,jdbcType=INTEGER}
@@ -106,12 +106,12 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into photo_records (recordsID, userID, photo, 
-      content, publishDate, longtitude, 
-      latitude)
-    values (#{recordsid,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{photo,jdbcType=VARCHAR}, 
-      #{content,jdbcType=VARCHAR}, #{publishdate,jdbcType=TIMESTAMP}, #{longtitude,jdbcType=VARCHAR}, 
-      #{latitude,jdbcType=VARCHAR})
+    insert into photo_records (recordsID, userID, photo,
+    content, publishDate, longtitude,
+    latitude)
+    values (#{recordsid,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{photo,jdbcType=VARCHAR},
+    #{content,jdbcType=VARCHAR}, #{publishdate,jdbcType=TIMESTAMP}, #{longtitude,jdbcType=VARCHAR},
+    #{latitude,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="org.loversAPP.model.PhotoRecords">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -171,6 +171,41 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
+  <select id="getPhotosByUserID" resultType="org.loversAPP.DTO.UserPhoto">
+SELECT
+`user`.userName,
+`user`.avator,
+photo_records.photo,
+photo_records.content,
+photo_records.publishDate,
+photo_records.longtitude,
+photo_records.latitude
+FROM
+photo_records ,
+`user`
+WHERE
+photo_records.userID = `user`.id AND
+photo_records.userID=#{userid}
+
+
+    </select>
+  <select id="getPhotosByRecordsID" resultType="org.loversAPP.DTO.UserPhoto">
+    SELECT
+`user`.userName,
+`user`.avator,
+photo_records.photo,
+photo_records.content,
+photo_records.publishDate,
+photo_records.longtitude,
+photo_records.latitude
+FROM
+photo_records ,
+`user`
+WHERE
+photo_records.userID = `user`.id AND
+photo_records.recordsID=#{recoiD}
+
+  </select>
   <update id="updateByExampleSelective" parameterType="map">
     update photo_records
     <set>
@@ -206,13 +241,13 @@
   <update id="updateByExample" parameterType="map">
     update photo_records
     set id = #{record.id,jdbcType=INTEGER},
-      recordsID = #{record.recordsid,jdbcType=INTEGER},
-      userID = #{record.userid,jdbcType=INTEGER},
-      photo = #{record.photo,jdbcType=VARCHAR},
-      content = #{record.content,jdbcType=VARCHAR},
-      publishDate = #{record.publishdate,jdbcType=TIMESTAMP},
-      longtitude = #{record.longtitude,jdbcType=VARCHAR},
-      latitude = #{record.latitude,jdbcType=VARCHAR}
+    recordsID = #{record.recordsid,jdbcType=INTEGER},
+    userID = #{record.userid,jdbcType=INTEGER},
+    photo = #{record.photo,jdbcType=VARCHAR},
+    content = #{record.content,jdbcType=VARCHAR},
+    publishDate = #{record.publishdate,jdbcType=TIMESTAMP},
+    longtitude = #{record.longtitude,jdbcType=VARCHAR},
+    latitude = #{record.latitude,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>

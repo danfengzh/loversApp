@@ -19,5 +19,5 @@ public interface LoverShipService {
     public Integer updateLoveIndexByID(String loverID,Integer loveIndex);
     public Integer updateStateByID(String loverID,Integer state);
     //根据loverID  和 userID获取另一半的信息
-    public User getHalfByID(String loverID, Integer Aid);
+    public User getHalfByID(Integer Aid);
 }

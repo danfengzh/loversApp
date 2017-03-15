@@ -153,15 +153,14 @@ public class LoverShipController extends BaseController{
     /**
      *
      * @param loverAID 任意一方id
-     * @param loverID loverID
      * @return
      */
     @RequestMapping(value = "/getHalfByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
-    public FeedBack<Map> getHalfByID(@RequestParam("loverAID") Integer loverAID,@RequestParam("loverID") String loverID){
+    public FeedBack<Map> getHalfByID(@RequestParam("loverAID") Integer loverAID){
         FeedBack<Map> feedBack;
         //User tempUser=new User();
-        User U= loverShipService.getHalfByID(loverID,loverAID);
+        User U= loverShipService.getHalfByID(loverAID);
 //        tempUser.setId(U.getId());
 //        tempUser.setUsername(U.getUsername());
 //        tempUser.setAvator(U.getAvator());

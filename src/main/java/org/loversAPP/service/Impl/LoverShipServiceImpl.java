@@ -123,15 +123,14 @@ public class LoverShipServiceImpl implements LoverShipService {
 
     /**
      *   获取另一半的信息
-     * @param loverID
-     * @param Aid
+     *
      * @return
      */
     @Override
-    public User getHalfByID(String loverID, Integer Aid) {
+    public User getHalfByID(Integer loverID) {
         User half;
-        LoverShip loverShip=loverShipMapper.LoverShipIdByID(Aid);
-        if(loverShip.getLoverboyid()==Aid){
+        LoverShip loverShip=loverShipMapper.LoverShipIdByID(loverID);
+        if(loverShip.getLoverboyid().equals(loverID)){
             half=userMapper.selectByPrimaryKey(loverShip.getLovergirlid());
         }
         else {

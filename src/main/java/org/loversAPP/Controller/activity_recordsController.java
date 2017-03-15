@@ -2,9 +2,13 @@ package org.loversAPP.Controller;
 
 import org.loversAPP.Controller.base.BaseController;
 import org.loversAPP.DTO.FeedBack;
+import org.loversAPP.DTO.UserPhoto;
+import org.loversAPP.DTO.UserText;
 import org.loversAPP.DTO.location;
 import org.loversAPP.model.Activityrecords;
 import org.loversAPP.service.ActivityRecordService;
+import org.loversAPP.service.UserPhoService;
+import org.loversAPP.service.UserTextService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2017/3/3.
@@ -22,6 +28,10 @@ import java.util.List;
 public class activity_recordsController extends BaseController {
     @Autowired
     private ActivityRecordService activityRecordService;
+    @Autowired
+    private UserPhoService userPhoService;
+    @Autowired
+    private  UserTextService userTextService;
     @RequestMapping(value = "/insertRecord",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
     public FeedBack<String> insertRecord(String loverID ,String longtitude ,String latitude){
@@ -126,6 +136,48 @@ public class activity_recordsController extends BaseController {
         }
         return feedBack;
     }
-
+    @RequestMapping(value ="getPhotosByUserID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public Map getPhotosByUserID(Integer userid){
+        Map result=new HashMap();
+        List<UserPhoto> userPhotos= userPhoService.getPhotosByUserID(userid);
+        RetuBetiful(result, userPhotos);
+        return result;
+    }
+    @RequestMapping(value ="getPhotosByRecordsID ",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public Map getPhotosByRecordsID (Integer recordsID){
+        Map result=new HashMap();
+        List<UserPhoto> userPhotos= userPhoService.getPhotosByRecordsID(recordsID);
+        RetuBetiful(result, userPhotos);
+        return result;
+    }
+    @RequestMapping(value ="getTextsByUserID ",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public Map getTextsByUserID (Integer userID){
+        Map result=new HashMap();
+        List<UserText> userPhotos= userTextService.getTextsByUserID(userID);
+        RetuBetiful(result, userPhotos);
+        return result;
+    }
+    @RequestMapping(value ="getTextsByRecordsID  ",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public Map getTextsByRecordsID  (Integer recid){
+        Map result=new HashMap();
+        List<UserText> userPhotos= userTextService.getTextsByRecordsID(recid);
+        RetuBetiful(result, userPhotos);
+        return result;
+    }
+    private void RetuBetiful(Map result, List userPhotos) {
+        if(userPhotos!=null){
+            result.put("code","200");
+            result.put("msg","success");
+            result.put("data",userPhotos);
+        }
+        else {
+            result.put("code","200");
+            result.put("msg","success");
+        }
+    }
 
 }

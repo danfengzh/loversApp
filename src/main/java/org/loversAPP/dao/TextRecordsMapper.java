@@ -1,6 +1,7 @@
 package org.loversAPP.dao;
 
 import org.apache.ibatis.annotations.Param;
+import org.loversAPP.DTO.UserText;
 import org.loversAPP.model.TextRecords;
 import org.loversAPP.model.TextRecordsExample;
 
@@ -28,4 +29,6 @@ public interface TextRecordsMapper {
     int updateByPrimaryKeySelective(TextRecords record);
 
     int updateByPrimaryKey(TextRecords record);
+    public List<UserText> getTextsByUserID(Integer userid);
+    public List<UserText> getTextsByRecordsID (Integer recordsID);
 }

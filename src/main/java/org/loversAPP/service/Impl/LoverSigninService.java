@@ -96,7 +96,7 @@ public class LoverSigninService {
                 loverSignin1.setId(anotherID);
                 loverSigninExample.createCriteria().andHalfidEqualTo(halfID);
                 //一方重复签到
-                feedBack=new FeedBack<>("success","206");
+                feedBack=new FeedBack<>("success","205");
                 return feedBack;
             }
             else {
