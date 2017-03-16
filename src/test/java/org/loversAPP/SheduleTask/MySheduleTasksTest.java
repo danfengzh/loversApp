@@ -13,11 +13,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration(locations = {"classpath:Spring/SheduleTask.xml"})
 public class MySheduleTasksTest {
     @Autowired
-    private MyJobTask myJobTask;
+    private JobService jobService;
     @Test
     public void myMethod() throws Exception {
 
-        myJobTask.job1();
+        jobService.job1();
 
     }
 

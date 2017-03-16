@@ -22,4 +22,5 @@ public interface friendService {
     public FriendShip getFriendsByUID(Integer userID);
 
     public List<TinyUser> getAllTinyUser(int userid);
+    public int checkIsFollowed(int userid,int friendID);
 }

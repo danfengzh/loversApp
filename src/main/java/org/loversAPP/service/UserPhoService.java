@@ -20,4 +20,6 @@ public interface UserPhoService {
     public List<UserPhoto> getPhotosByUserID(Integer userid);
     public List<UserPhoto> getPhotosByRecordsID (Integer recoiD);
     public Integer deletePhotoByID(Integer id);
+
+    public int deletePhotoByID(int id);
 }

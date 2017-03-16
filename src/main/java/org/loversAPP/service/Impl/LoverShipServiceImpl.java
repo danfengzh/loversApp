@@ -1,5 +1,7 @@
 package org.loversAPP.service.Impl;
 
+import org.loversAPP.DTO.FriendIDs;
+import org.loversAPP.DTO.SuperLoverInfo;
 import org.loversAPP.dao.LoverShipMapper;
 import org.loversAPP.dao.UserMapper;
 import org.loversAPP.model.LoverShip;
@@ -137,5 +139,16 @@ public class LoverShipServiceImpl implements LoverShipService {
             half=userMapper.selectByPrimaryKey(loverShip.getLoverboyid());
         }
         return half;
+    }
+
+    @Override
+    public List<SuperLoverInfo> getAllSuperLoverInfo() {
+        List<FriendIDs> friendIDss=getAllFriendIS();
+        return null;
+    }
+
+    @Override
+    public List<FriendIDs> getAllFriendIS() {
+        return loverShipMapper.getAllFriendIS();
     }
 }

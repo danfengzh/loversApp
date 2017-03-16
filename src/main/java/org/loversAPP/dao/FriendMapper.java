@@ -33,4 +33,8 @@ public interface FriendMapper {
     FriendShip getFriendsByUID(@Param("userID") Integer userID);
 
     List<TinyUser> getAllTinyUser(Integer id);
+    public int selectIsFollowed(@Param("userid") Integer userid,@Param("friendID")Integer friendID);
+
+
+
 }

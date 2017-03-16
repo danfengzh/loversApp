@@ -32,6 +32,6 @@ public class UserTextServiceImpl implements UserTextService {
 
     @Override
     public Integer deleteTextByID(Integer id) {
-        return null;
+        return textRecordsMapper.deleteByPrimaryKey(id);
     }
 }

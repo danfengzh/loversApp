@@ -86,11 +86,11 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from lover_ship
     where loverGirlID = #{lovergirlid,jdbcType=INTEGER}
-      and loverBoyID = #{loverboyid,jdbcType=INTEGER}
+    and loverBoyID = #{loverboyid,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="map">
     delete from lover_ship
@@ -189,11 +189,11 @@
   <update id="updateByExample" parameterType="map">
     update lover_ship
     set loverGirlID = #{record.lovergirlid,jdbcType=INTEGER},
-      loverBoyID = #{record.loverboyid,jdbcType=INTEGER},
-      loveTime = #{record.lovetime,jdbcType=TIMESTAMP},
-      state = #{record.state,jdbcType=INTEGER},
-      loverID = #{record.loverid,jdbcType=VARCHAR},
-      loveIndex = #{record.loveindex,jdbcType=INTEGER}
+    loverBoyID = #{record.loverboyid,jdbcType=INTEGER},
+    loveTime = #{record.lovetime,jdbcType=TIMESTAMP},
+    state = #{record.state,jdbcType=INTEGER},
+    loverID = #{record.loverid,jdbcType=VARCHAR},
+    loveIndex = #{record.loveindex,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -215,7 +215,7 @@
       </if>
     </set>
     where loverGirlID = #{lovergirlid,jdbcType=INTEGER}
-      and loverBoyID = #{loverboyid,jdbcType=INTEGER}
+    and loverBoyID = #{loverboyid,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="org.loversAPP.model.LoverShip">
     update lover_ship
@@ -247,5 +247,12 @@
         OR loverGirlID=#{id}
       </if>
     </where>
+  </select>
+  <select id="getAllFriendIS" resultType="org.loversAPP.DTO.FriendIDs">
+    SELECT
+    lover_ship.loverGirlID,
+    lover_ship.loverBoyID
+    FROM `lover_ship`
+
   </select>
 </mapper>

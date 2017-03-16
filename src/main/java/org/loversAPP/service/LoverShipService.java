@@ -1,5 +1,7 @@
 package org.loversAPP.service;
 
+import org.loversAPP.DTO.FriendIDs;
+import org.loversAPP.DTO.SuperLoverInfo;
 import org.loversAPP.model.LoverShip;
 import org.loversAPP.model.User;
 
@@ -20,4 +22,7 @@ public interface LoverShipService {
     public Integer updateStateByID(String loverID,Integer state);
     //根据loverID  和 userID获取另一半的信息
     public User getHalfByID(Integer Aid);
+
+    public List<SuperLoverInfo> getAllSuperLoverInfo();
+    public List<FriendIDs> getAllFriendIS();
 }

@@ -152,7 +152,7 @@ public class activity_recordsController extends BaseController {
         RetuBetiful(result, userPhotos);
         return result;
     }
-    @RequestMapping(value ="getTextsByUserID ",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @RequestMapping(value ="getTextsByUserID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
     public Map getTextsByUserID (Integer userID){
         Map result=new HashMap();
@@ -160,7 +160,7 @@ public class activity_recordsController extends BaseController {
         RetuBetiful(result, userPhotos);
         return result;
     }
-    @RequestMapping(value ="getTextsByRecordsID  ",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @RequestMapping(value ="getTextsByRecordsID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
     public Map getTextsByRecordsID  (Integer recid){
         Map result=new HashMap();
@@ -179,5 +179,30 @@ public class activity_recordsController extends BaseController {
             result.put("msg","success");
         }
     }
-
+    @RequestMapping(value ="deleteTextByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public FeedBack deleteTextByID(@RequestParam("id") Integer id){
+        FeedBack feedBack;
+        Integer cout=userTextService.deleteTextByID(id);
+        if(cout==1){
+            feedBack=new FeedBack<>("success","200");
+        }
+        else {
+            feedBack=new FeedBack<>("failure","400");
+        }
+        return feedBack;
+    }
+    @RequestMapping(value ="deletePhotoByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public FeedBack deletePhotoByID(@RequestParam("id") Integer id){
+        FeedBack feedBack;
+        Integer cout=userPhoService.deletePhotoByID(id);
+        if(cout==1){
+            feedBack=new FeedBack<>("success","200");
+        }
+        else {
+            feedBack=new FeedBack<>("failure","400");
+        }
+        return feedBack;
+    }
 }

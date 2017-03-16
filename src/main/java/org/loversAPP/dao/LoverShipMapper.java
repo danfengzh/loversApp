@@ -1,6 +1,7 @@
 package org.loversAPP.dao;
 
 import org.apache.ibatis.annotations.Param;
+import org.loversAPP.DTO.FriendIDs;
 import org.loversAPP.model.LoverShip;
 import org.loversAPP.model.LoverShipExample;
 
@@ -30,5 +31,5 @@ public interface LoverShipMapper {
     int updateByPrimaryKey(LoverShip record);
     LoverShip  selectSelectiveByPrimaryKey(@Param("lovergirlid") Integer lovergirlid, @Param("loverboyid")Integer loverboyid);
     LoverShip  LoverShipIdByID(@Param("id") Integer id);
-
+    public List<FriendIDs> getAllFriendIS();
 }

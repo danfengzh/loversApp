@@ -34,6 +34,11 @@ public class friendController extends BaseController {
     @ResponseBody
     public FeedBack<String> insertFriend(@RequestParam("userID") Integer userID ,@RequestParam("friendID") Integer friendID){
         FeedBack<String> feedBack;
+        int cos= friendService.checkIsFollowed(userID,friendID);
+        if(cos==1){
+            feedBack=new FeedBack<>("failure","201");
+            return feedBack;
+        }
         int count= friendService.insertFriend(userID,friendID);
         if(count==1){
             feedBack=new FeedBack<>("success","200");
@@ -73,5 +78,17 @@ public class friendController extends BaseController {
             hashMap.put("msg","failure");
         }
         return hashMap;
+    }
+    @RequestMapping(value = "/checkIsFollowed",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public FeedBack<String> checkIsFollowed(Integer userID ,Integer friendID){
+        FeedBack<String> feedBack;
+        int cos= friendService.checkIsFollowed(userID,friendID);
+        if(cos==1){
+            feedBack=new FeedBack<>("success","200");
+        }else {
+            feedBack=new FeedBack<>("failure","400");
+        }
+        return feedBack;
     }
 }

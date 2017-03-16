@@ -46,4 +46,9 @@ public class friendServiceImpl implements friendService {
     public List<TinyUser> getAllTinyUser(int userid) {
         return friendMapper.getAllTinyUser(userid);
     }
+
+    @Override
+    public int checkIsFollowed(int userid, int friendID) {
+        return friendMapper.selectIsFollowed(userid,friendID);
+    }
 }

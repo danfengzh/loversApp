@@ -228,6 +228,20 @@ WHERE
 friend.friendID = `user`.id AND
 friend.userID =#{id}
 
-
     </select>
+  <select id="selectIsFollowed" resultType="java.lang.Integer">
+    SELECT COUNT(*)
+                      FROM `friend`
+    WHERE
+    friend.userID=#{userid} AND
+     friend.friendID=#{friendID}
+
+  </select>
+  <select id="getAllFriendIS" resultType="org.loversAPP.DTO.FriendIDs">
+    SELECT
+lover_ship.loverGirlID,
+lover_ship.loverBoyID
+FROM `lover_ship`
+
+  </select>
 </mapper>
