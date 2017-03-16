@@ -1,5 +1,6 @@
 package org.loversAPP.Controller;
 
+import org.apache.ibatis.annotations.Param;
 import org.loversAPP.Controller.base.BaseController;
 import org.loversAPP.DTO.FeedBack;
 import org.loversAPP.DTO.UserPhoto;
@@ -123,9 +124,18 @@ public class activity_recordsController extends BaseController {
         }
         return feedBack;
     }
+
+    /**
+     *
+     * @param id
+     * @param longtitude
+     * @param latitude
+     * @return
+     */
     @RequestMapping(value ="updateLocationByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
-    public FeedBack updateLocationByID(@RequestParam("id") Integer id, @RequestParam("longtitude") String longtitude , @RequestParam("latitude") String latitude){
+    public FeedBack updateLocationByID(@RequestParam("id") Integer id, @RequestParam("longtitude") String longtitude ,
+                                       @RequestParam("latitude") String latitude,@RequestParam("userItemID")Integer userItemID){
         FeedBack feedBack;
         Integer cout=activityRecordService.updateLocationByID(id,longtitude,latitude);
         if(cout==1){
@@ -144,7 +154,7 @@ public class activity_recordsController extends BaseController {
         RetuBetiful(result, userPhotos);
         return result;
     }
-    @RequestMapping(value ="getPhotosByRecordsID ",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @RequestMapping(value ="getPhotosByRecordsID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
     public Map getPhotosByRecordsID (Integer recordsID){
         Map result=new HashMap();
@@ -162,9 +172,9 @@ public class activity_recordsController extends BaseController {
     }
     @RequestMapping(value ="getTextsByRecordsID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
-    public Map getTextsByRecordsID  (Integer recid){
+    public Map getTextsByRecordsID  (@Param("recordsID") Integer recordsID){
         Map result=new HashMap();
-        List<UserText> userPhotos= userTextService.getTextsByRecordsID(recid);
+        List<UserText> userPhotos= userTextService.getTextsByRecordsID(recordsID);
         RetuBetiful(result, userPhotos);
         return result;
     }
@@ -205,4 +215,5 @@ public class activity_recordsController extends BaseController {
         }
         return feedBack;
     }
+
 }

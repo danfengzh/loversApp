@@ -2,9 +2,14 @@ package org.loversAPP.service.Impl;
 
 import org.loversAPP.DTO.UserText;
 import org.loversAPP.dao.TextRecordsMapper;
+import org.loversAPP.dao.UserItemMapper;
+import org.loversAPP.model.TextRecords;
 import org.loversAPP.service.UserTextService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -12,10 +17,23 @@ import java.util.List;
  */
 @Service
 public class UserTextServiceImpl implements UserTextService {
+    @Autowired
     private TextRecordsMapper textRecordsMapper;
+    @Autowired
+    private UserItemMapper userItemMapper;
+    //同时删除相应的道具信息
+    @Transactional
     @Override
     public Integer insertText(Integer recordsID, Integer userItemID, Integer userID, String text, String longtitude, String latitude) {
-        return null;
+        TextRecords textRecords=new TextRecords();
+        textRecords.setUserid(userID);
+        textRecords.setLatitude(latitude);
+        textRecords.setText(text);
+        textRecords.setLongtitude(longtitude);
+        textRecords.setPublishdate(new Date());
+        textRecords.setRecordsid(recordsID);
+        userItemMapper.deleteByPrimaryKey(userID,userItemID);
+        return textRecordsMapper.insert(textRecords);
     }
 
 

@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -143,12 +144,40 @@ public class LoverShipServiceImpl implements LoverShipService {
 
     @Override
     public List<SuperLoverInfo> getAllSuperLoverInfo() {
-        List<FriendIDs> friendIDss=getAllFriendIS();
-        return null;
+        List<LoverShip> loverShips=getAllLoveShips();
+        List<SuperLoverInfo> superLoverInfos=new ArrayList<>();
+        for(LoverShip friend:loverShips){
+            SuperLoverInfo superLoverInfo=new SuperLoverInfo();
+            User boy=userMapper.selectByPrimaryKey(friend.getLoverboyid());
+            User girl=userMapper.selectByPrimaryKey(friend.getLovergirlid());
+            superLoverInfo.setBoyavatar(boy.getAvator());
+            superLoverInfo.setGirlavatar(girl.getAvator());
+            superLoverInfo.setBoyname(boy.getUsername());
+            superLoverInfo.setGirlname(girl.getUsername());
+            superLoverInfo.setLoverid(friend.getLoverid());
+            superLoverInfo.setLovetime(friend.getLovetime());
+            superLoverInfo.setLoveindex(friend.getLoveindex());
+            superLoverInfo.setState(friend.getState());
+            superLoverInfo.setLoverboyid(friend.getLoverboyid());
+            superLoverInfo.setLovergirlid(friend.getLovergirlid());
+            superLoverInfos.add(superLoverInfo);
+        }
+        return superLoverInfos;
     }
 
     @Override
     public List<FriendIDs> getAllFriendIS() {
         return loverShipMapper.getAllFriendIS();
+    }
+
+    /**
+     * 根据loverID解除恋爱关系 ，同时会删除活动记录 ，以及活动记录附属的相册记录和 纸条记录
+     * 以及个人拥有的宝藏
+     * @param loverID
+     * @return
+     */
+    @Override
+    public int cancelLoveShip(Integer loverID) {
+        return 0;
     }
 }

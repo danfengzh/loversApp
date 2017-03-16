@@ -33,4 +33,7 @@ public interface MessageMapper {
     int updateByPrimaryKey(Message record);
     List<UserMessage> getUserMessageByID(@Param("userID") Integer userID);
     List<UserMessage> getUserMessageByRecID(@Param("recID") Integer recID);
+    public int setReadByMID(@Param("messageID")Integer messageID);
+    public int setAllReadByRID(Integer recieverID);
+    public int getUnreadCountByRID(Integer recieverID);
 }

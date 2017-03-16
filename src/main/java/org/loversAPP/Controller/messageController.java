@@ -116,4 +116,40 @@ public class messageController extends BaseController {
             tempMap.put("msg","failure");
         }
     }
+    @RequestMapping(value = "/setReadByMID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public FeedBack<String> setReadByMID(@RequestParam("messageID") Integer messageID){
+        FeedBack feedBack;
+        int cos= messageService.setReadByMID(messageID);
+        if(cos==1){
+            feedBack=new FeedBack("success","200");
+        }
+        else
+        {
+            feedBack=new FeedBack("failure","400");
+        }
+        return feedBack;
+    }
+    @RequestMapping(value = "/setAllReadByRID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public FeedBack<String> setAllReadByRID(@RequestParam("recieverID") Integer recieverID){
+        FeedBack feedBack;
+        int cos= messageService.setAllReadByRID(recieverID);
+        if(cos>=1){
+            feedBack=new FeedBack("success","200");
+        }
+        else
+        {
+            feedBack=new FeedBack("failure","400");
+        }
+        return feedBack;
+    }
+    @RequestMapping(value = "/getUnreadCountByRID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public FeedBack<Integer> getUnreadCountByRID(@RequestParam("recieverID") Integer recieverID){
+        FeedBack feedBack;
+        int cos= messageService.getUnreadCountByRID(recieverID);
+        feedBack=new FeedBack("success","200",cos);
+        return feedBack;
+    }
 }

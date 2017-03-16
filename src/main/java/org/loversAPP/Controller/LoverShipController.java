@@ -2,6 +2,7 @@ package org.loversAPP.Controller;
 
 import org.loversAPP.Controller.base.BaseController;
 import org.loversAPP.DTO.FeedBack;
+import org.loversAPP.DTO.SuperLoverInfo;
 import org.loversAPP.model.LoverShip;
 import org.loversAPP.model.User;
 import org.loversAPP.service.Impl.LoverSigninService;
@@ -93,10 +94,10 @@ public class LoverShipController extends BaseController{
     }
     @RequestMapping(value = "/getAllLoveShips",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
-    public FeedBack<LoverShip> getAllLoveShips(){
+    public FeedBack<SuperLoverInfo> getAllLoveShips(){
 
-        FeedBack<LoverShip> feedBack;
-        List<LoverShip> loverShip=  loverShipService.getAllLoveShips();
+        FeedBack<SuperLoverInfo> feedBack;
+        List<SuperLoverInfo> loverShip=  loverShipService.getAllSuperLoverInfo();
         if(loverShip!=null){
             feedBack=new FeedBack("success","200",loverShip);
         }

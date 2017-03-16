@@ -8,4 +8,5 @@ public interface ControllerConstant {
    String userAvatorPath="Image.avator.path";
    String userHomePicParg="Image.baImage.path";
    String ItemImagePath="Item.ImagePath";
+   String momentPath="LoverShip.MomentImagePath";
 }

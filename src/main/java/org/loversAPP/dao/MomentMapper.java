@@ -6,8 +6,6 @@ import org.loversAPP.model.MomentExample;
 
 import java.util.List;
 
-
-
 public interface MomentMapper {
     long countByExample(MomentExample example);
 
@@ -30,4 +28,6 @@ public interface MomentMapper {
     int updateByPrimaryKeySelective(Moment record);
 
     int updateByPrimaryKey(Moment record);
+
+    List<Moment> selectByUserid(int userID);
 }

@@ -30,5 +30,5 @@ public interface TextRecordsMapper {
 
     int updateByPrimaryKey(TextRecords record);
     public List<UserText> getTextsByUserID(Integer userid);
-    public List<UserText> getTextsByRecordsID (Integer recordsID);
+    public List<UserText> getTextsByRecordsID (@Param("recordsID") Integer recordsID);
 }

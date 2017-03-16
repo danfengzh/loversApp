@@ -224,6 +224,16 @@
       receiverID = #{receiverid,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <update id="setReadByMID">
+    UPDATE message_read
+    SET isRead=1
+    WHERE messageID=#{messageID}
+  </update>
+  <update id="setAllReadByRID">
+    UPDATE message_read
+    SET isRead=1
+    WHERE recieverID=#{recieverID}
+  </update>
   <resultMap id="UserMessageMap" type="org.loversAPP.DTO.UserMessage" extends="BaseResultMap">
     <result column="userID" property="user.id"/>
     <result column="userName" property="user.username"/>
@@ -263,6 +273,16 @@ message ,
 WHERE
 message.receiverID = #{recID} AND
 message.userID = `user`.id
+ORDER BY
+message.msgDate DESC
+  </select>
+  <select id="getUnreadCountByRID" resultType="java.lang.Integer">
+    SELECT COUNT(*)
+FROM
+message_read
+WHERE
+message_read.recieverID=#{recieverID} AND
+message_read.isRead=0
 
   </select>
 </mapper>

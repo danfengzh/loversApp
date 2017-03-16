@@ -95,6 +95,14 @@ public class ActivityRecordServiceImpl implements ActivityRecordService{
         return c;
 
     }
+
+    /**
+     * 使用搬家卡来 完成
+     * @param id
+     * @param longatitude
+     * @param latitude
+     * @return
+     */
     @Override
     public Integer updateLocationByID(Integer id,String longatitude,String latitude) {
 

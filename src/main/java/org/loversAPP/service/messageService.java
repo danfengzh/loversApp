@@ -23,4 +23,8 @@ public interface messageService {
     public Integer deleteMessageByID(Integer id);
 
     public List<UserMessage> getMessageByRecID(Integer recID);
+    public int setReadByMID(Integer messageID);
+
+    int setAllReadByRID(Integer recieverID);
+    int  getUnreadCountByRID(Integer recieverID);
 }

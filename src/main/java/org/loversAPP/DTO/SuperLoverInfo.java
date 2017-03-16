@@ -1,9 +1,11 @@
 package org.loversAPP.DTO;
 
+import org.loversAPP.model.LoverShip;
+
 /**
  * Created by Administrator on 2017/3/16.
  */
-public class SuperLoverInfo extends FriendShip {
+public class SuperLoverInfo extends LoverShip {
     private String boyname;
     private String girlname;
     private String boyavatar;

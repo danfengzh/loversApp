@@ -47,4 +47,19 @@ public class messageServiceImpl implements messageService {
     public List<UserMessage> getMessageByRecID(Integer recID) {
         return messageMapper.getUserMessageByRecID(recID);
     }
+
+    @Override
+    public int setReadByMID(Integer messageID) {
+        return messageMapper.setReadByMID(messageID);
+    }
+
+    @Override
+    public int setAllReadByRID(Integer recieverID) {
+        return messageMapper.setAllReadByRID(recieverID);
+    }
+
+    @Override
+    public int getUnreadCountByRID(Integer recieverID) {
+        return messageMapper.getUnreadCountByRID(recieverID);
+    }
 }

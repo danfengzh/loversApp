@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.loversAPP.dao.MomentMapper">
-  <cache type="org.loversAPP.Cache.RedisCache"/>
   <resultMap id="BaseResultMap" type="org.loversAPP.model.Moment">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="userID" jdbcType="INTEGER" property="userid" />
@@ -87,7 +86,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from moment
     where id = #{id,jdbcType=INTEGER}
@@ -106,12 +105,12 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into moment (userID, momentType, momentContent, 
-      momentImage, momentDate, commentID
-      )
-    values (#{userid,jdbcType=INTEGER}, #{momenttype,jdbcType=INTEGER}, #{momentcontent,jdbcType=VARCHAR}, 
-      #{momentimage,jdbcType=VARCHAR}, #{momentdate,jdbcType=TIMESTAMP}, #{commentid,jdbcType=INTEGER}
-      )
+    insert into moment (userID, momentType, momentContent,
+    momentImage, momentDate, commentID
+    )
+    values (#{userid,jdbcType=INTEGER}, #{momenttype,jdbcType=INTEGER}, #{momentcontent,jdbcType=VARCHAR},
+    #{momentimage,jdbcType=VARCHAR}, #{momentdate,jdbcType=TIMESTAMP}, #{commentid,jdbcType=INTEGER}
+    )
   </insert>
   <insert id="insertSelective" parameterType="org.loversAPP.model.Moment">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -165,6 +164,13 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
+  <select id="selectByUserid" resultType="org.loversAPP.model.Moment">
+    SELECT *
+FROM `moment`
+WHERE
+moment.userID=#{userID}
+
+  </select>
   <update id="updateByExampleSelective" parameterType="map">
     update moment
     <set>
@@ -197,12 +203,12 @@
   <update id="updateByExample" parameterType="map">
     update moment
     set id = #{record.id,jdbcType=INTEGER},
-      userID = #{record.userid,jdbcType=INTEGER},
-      momentType = #{record.momenttype,jdbcType=INTEGER},
-      momentContent = #{record.momentcontent,jdbcType=VARCHAR},
-      momentImage = #{record.momentimage,jdbcType=VARCHAR},
-      momentDate = #{record.momentdate,jdbcType=TIMESTAMP},
-      commentID = #{record.commentid,jdbcType=INTEGER}
+    userID = #{record.userid,jdbcType=INTEGER},
+    momentType = #{record.momenttype,jdbcType=INTEGER},
+    momentContent = #{record.momentcontent,jdbcType=VARCHAR},
+    momentImage = #{record.momentimage,jdbcType=VARCHAR},
+    momentDate = #{record.momentdate,jdbcType=TIMESTAMP},
+    commentID = #{record.commentid,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
