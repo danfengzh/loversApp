@@ -184,7 +184,7 @@ public class LoverShipServiceImpl implements LoverShipService {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     @Override
     public int cancelLoveShip(String loverID) {
-        loverShipMapper.deleteByLoversID(loverID);
+
         Activityrecords activityrecor;
         ActivityrecordsExample activityrecordsExample=new ActivityrecordsExample();
         activityrecordsExample.createCriteria().andLoveridEqualTo(loverID);
@@ -198,6 +198,7 @@ public class LoverShipServiceImpl implements LoverShipService {
             photoRecordsExample.createCriteria().andRecordsidEqualTo(activityrecor.getId());
             textRecordsExample.createCriteria().andRecordsidEqualTo(activityrecor.getId());
             friendIDs=loverShipMapper.getFriendIS(loverID);
+            loverShipMapper.deleteByLoversID(loverID);
             photoRecordsMapper.deleteByExample(photoRecordsExample);//删除照片
             textRecordsMapper.deleteByExample(textRecordsExample);//删除消息
             LoverSigninExample loverSigninExample=new LoverSigninExample();
