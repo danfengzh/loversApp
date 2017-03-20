@@ -84,10 +84,20 @@ public class friendController extends BaseController {
     public FeedBack<String> checkIsFollowed(Integer userID ,Integer friendID){
         FeedBack<String> feedBack;
         int cos= friendService.checkIsFollowed(userID,friendID);
-        if(cos==1){
-            feedBack=new FeedBack<>("success","200");
-        }else {
-            feedBack=new FeedBack<>("failure","400");
+        switch (cos){
+            case 1:
+                feedBack=new FeedBack<>("success","201");
+                break;
+            case 2:
+                feedBack=new FeedBack<>("success","202");
+                break;
+            case 3:
+                feedBack=new FeedBack<>("success","200");
+                break;
+            default:
+                feedBack=new FeedBack<>("success","200");
+                break;
+
         }
         return feedBack;
     }

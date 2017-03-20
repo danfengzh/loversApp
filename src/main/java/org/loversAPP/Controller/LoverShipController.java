@@ -1,8 +1,10 @@
 package org.loversAPP.Controller;
 
+import org.loversAPP.AsyncTask.SendMessAgeThread;
 import org.loversAPP.Controller.base.BaseController;
 import org.loversAPP.DTO.FeedBack;
 import org.loversAPP.DTO.SuperLoverInfo;
+import org.loversAPP.VO.MessAgeContent;
 import org.loversAPP.model.LoverShip;
 import org.loversAPP.model.User;
 import org.loversAPP.service.Impl.LoverSigninService;
@@ -10,6 +12,8 @@ import org.loversAPP.service.LoverShipService;
 import org.loversAPP.service.UserService;
 import org.loversAPP.utils.UniqueStringGenerate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,6 +37,9 @@ public class LoverShipController extends BaseController{
     private UserService userService;
     @Autowired
     private LoverSigninService loverSigninService;
+    @Autowired
+    @Qualifier("taskExecutor")
+    private TaskExecutor taskExecutor;
     /**
      *
      * @param loverAID 女生
@@ -193,6 +200,39 @@ public class LoverShipController extends BaseController{
     @ResponseBody
     public FeedBack<String> insertLoverSignin(@RequestParam("halfID") Integer halfID){
         FeedBack feedBack=   loverSigninService.insertLoverSignin(halfID);
+        return feedBack;
+    }
+
+    /**
+     *
+     * @param loverID
+     * @return
+     */
+    @RequestMapping(value = "cancelLoveShip",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public FeedBack<String> cancelLoveShip(@RequestParam("loverID") String loverID){
+        FeedBack<String> feedBack;
+        LoverShip loverShip=  loverShipService.getLoverShipByID(loverID);
+        User boy=userService.getUserByID(loverShip.getLoverboyid());
+        User girl=userService.getUserByID(loverShip.getLovergirlid());
+        int res= loverShipService.cancelLoveShip(loverID);
+
+        String  message="你和恋人已经解除恋爱关系";
+        MessAgeContent messAgeContent=new MessAgeContent();
+        messAgeContent.setAlias(String.valueOf(boy.getId()));
+        messAgeContent.setStatus(String.valueOf(boy.getStauts()));
+        messAgeContent.setContent(message);
+        MessAgeContent girlmesscontent=new MessAgeContent();
+        girlmesscontent.setAlias(String.valueOf(girl.getId()));
+        girlmesscontent.setStatus(String.valueOf(girl.getStauts()));
+        girlmesscontent.setContent(message);
+        if(res==1){
+            taskExecutor.execute(new SendMessAgeThread(messAgeContent));
+            taskExecutor.execute(new SendMessAgeThread(girlmesscontent));
+            feedBack =new FeedBack<>("success","200");
+        }else {
+            feedBack =new FeedBack<>("failure","400");
+        }
         return feedBack;
     }
 }

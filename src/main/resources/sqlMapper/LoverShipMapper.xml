@@ -103,6 +103,9 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
+  <delete id="deleteByLoversID">
+   DELETE FROM lover_ship WHERE lover_ship.loverID=#{loverid};
+  </delete>
   <insert id="insert" parameterType="org.loversAPP.model.LoverShip">
     insert into lover_ship (loverGirlID, loverBoyID, loveTime, 
       state, loverID, loveIndex
@@ -255,4 +258,12 @@
     FROM `lover_ship`
 
   </select>
+  <select id="getFriendIS" resultType="org.loversAPP.DTO.FriendIDs">
+      SELECT
+    lover_ship.loverGirlID,
+    lover_ship.loverBoyID
+    FROM `lover_ship`
+    WHERE loverID=#{loverid}
+  </select>
+
 </mapper>

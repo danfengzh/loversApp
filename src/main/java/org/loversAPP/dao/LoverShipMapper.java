@@ -32,4 +32,6 @@ public interface LoverShipMapper {
     LoverShip  selectSelectiveByPrimaryKey(@Param("lovergirlid") Integer lovergirlid, @Param("loverboyid")Integer loverboyid);
     LoverShip  LoverShipIdByID(@Param("id") Integer id);
     public List<FriendIDs> getAllFriendIS();
+    public FriendIDs getFriendIS(@Param("loverid") String loverid);
+    public int deleteByLoversID(@Param("loverid") String loverid);
 }

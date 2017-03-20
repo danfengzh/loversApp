@@ -35,6 +35,6 @@ public interface FriendMapper {
     List<TinyUser> getAllTinyUser(Integer id);
     public int selectIsFollowed(@Param("userid") Integer userid,@Param("friendID")Integer friendID);
 
-
+    int  getAllFollersCount(@Param("userid")Integer userid);
 
 }

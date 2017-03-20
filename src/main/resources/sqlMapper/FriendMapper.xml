@@ -220,7 +220,14 @@
 `user`.userName,
 `user`.avator,
 `user`.id userID,
-`user`.signature
+`user`.signature,
+`user`.sex,
+`user`.height,
+`user`.weight,
+`user`.age,
+`user`.backImage,
+`user`.hobby,
+`user`.`level`
 FROM
 friend ,
 `user`
@@ -242,6 +249,14 @@ friend.userID =#{id}
 lover_ship.loverGirlID,
 lover_ship.loverBoyID
 FROM `lover_ship`
+
+  </select>
+  <select id="getAllFollersCount" resultType="java.lang.Integer" useCache="false">
+     SELECT count(*)
+FROM `friend`
+WHERE
+friend.userID=#{userid} OR
+friend.friendID=#{userid}
 
   </select>
 </mapper>

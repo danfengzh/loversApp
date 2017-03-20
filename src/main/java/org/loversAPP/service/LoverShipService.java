@@ -26,5 +26,6 @@ public interface LoverShipService {
     public List<SuperLoverInfo> getAllSuperLoverInfo();
     public List<FriendIDs> getAllFriendIS();
 
-    public int cancelLoveShip(Integer loverID);
+    public int cancelLoveShip(String loverID);
+    public int cancelByIdsLoveShip(Integer loverAID,Integer loverBID);
 }

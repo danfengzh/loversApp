@@ -2,11 +2,8 @@ package org.loversAPP.service.Impl;
 
 import org.loversAPP.DTO.FriendIDs;
 import org.loversAPP.DTO.SuperLoverInfo;
-import org.loversAPP.dao.LoverShipMapper;
-import org.loversAPP.dao.UserMapper;
-import org.loversAPP.model.LoverShip;
-import org.loversAPP.model.LoverShipExample;
-import org.loversAPP.model.User;
+import org.loversAPP.dao.*;
+import org.loversAPP.model.*;
 import org.loversAPP.service.LoverShipService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +21,14 @@ import java.util.List;
 public class LoverShipServiceImpl implements LoverShipService {
     @Autowired
     private LoverShipMapper loverShipMapper;
+    @Autowired
+    private PhotoRecordsMapper photoRecordsMapper;
+    @Autowired
+    private ActivityrecordsMapper activityrecordsMapper;
+    @Autowired
+    private TextRecordsMapper textRecordsMapper;
+    @Autowired
+    private LoverSigninMapper loverSigninMapper;
     @Autowired
     private UserMapper userMapper;
     @Override
@@ -176,8 +181,60 @@ public class LoverShipServiceImpl implements LoverShipService {
      * @param loverID
      * @return
      */
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     @Override
-    public int cancelLoveShip(Integer loverID) {
+    public int cancelLoveShip(String loverID) {
+        loverShipMapper.deleteByLoversID(loverID);
+        Activityrecords activityrecor;
+        ActivityrecordsExample activityrecordsExample=new ActivityrecordsExample();
+        activityrecordsExample.createCriteria().andLoveridEqualTo(loverID);
+        List<Activityrecords> activityrecordss=activityrecordsMapper.selectByExample(activityrecordsExample);
+        PhotoRecordsExample photoRecordsExample=new PhotoRecordsExample();
+        TextRecordsExample textRecordsExample=new TextRecordsExample();
+        FriendIDs friendIDs;
+
+        if(activityrecordss!=null){
+            activityrecor=activityrecordss.get(0);
+            photoRecordsExample.createCriteria().andRecordsidEqualTo(activityrecor.getId());
+            textRecordsExample.createCriteria().andRecordsidEqualTo(activityrecor.getId());
+            friendIDs=loverShipMapper.getFriendIS(loverID);
+            photoRecordsMapper.deleteByExample(photoRecordsExample);//删除照片
+            textRecordsMapper.deleteByExample(textRecordsExample);//删除消息
+            LoverSigninExample loverSigninExample=new LoverSigninExample();
+            List listIS=new ArrayList();
+            listIS.add(friendIDs.getLoverBoyID());
+            listIS.add(friendIDs.getLoverGirlID());
+            loverSigninExample.createCriteria().andHalfidIn(listIS);
+            LoverSigninExample loverSigninExample2=new LoverSigninExample();
+            loverSigninExample2.createCriteria().andIdIn(listIS);
+            loverSigninMapper.deleteByExample(loverSigninExample2);
+            //同时将两者的用户信息  归位置
+            User boy=new User();
+            boy.setId(friendIDs.getLoverBoyID());
+            boy.setMoney(0);
+            boy.setExp(0);
+            boy.setLevel(0);
+            boy.setStauts(1);
+            boy.setStepstoday(0);
+            boy.setCheckindays(0);
+            User girl=new User();
+            girl.setId(friendIDs.getLoverBoyID());
+            girl.setMoney(0);
+            girl.setExp(0);
+            girl.setLevel(0);
+            girl.setStauts(1);
+            girl.setStepstoday(0);
+            girl.setCheckindays(0);
+            userMapper.updateByPrimaryKeySelective(girl);
+        }
+
+        return 1;
+    }
+
+    @Override
+    public int cancelByIdsLoveShip(Integer loverAID, Integer loverBID) {
+        //删除loverShip --
+        loverShipMapper.deleteByPrimaryKey(loverAID,loverBID);
         return 0;
     }
 }
