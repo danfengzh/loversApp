@@ -44,7 +44,6 @@ public class messageController extends BaseController {
         final int staus=userService.getUserByID(receiverID).getStauts();
         //异步发送消息 给receiver----调用极光推送异步完成--
         taskExecutor.execute(new Runnable() {
-            @Override
             public void run() {
                 JpushClientUtil.sendDynatic(String.valueOf(receiverID),String.valueOf(staus),"你有一条消息提醒","tips",
                         msgType,msgContent);
@@ -95,7 +94,7 @@ public class messageController extends BaseController {
     }
 
     private void getAutoDefineMsg(Map tempMap, List<UserMessage> userMessage) {
-        List<urMessage> myusers=new ArrayList<>();
+        List<urMessage> myusers=new ArrayList();
         for (UserMessage m:userMessage){
             urMessage userMess=new urMessage();
             userMess.setUserID(m.getUser().getId());

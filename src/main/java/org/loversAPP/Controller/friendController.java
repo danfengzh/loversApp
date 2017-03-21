@@ -36,15 +36,15 @@ public class friendController extends BaseController {
         FeedBack<String> feedBack;
         int cos= friendService.checkIsFollowed(userID,friendID);
         if(cos==1){
-            feedBack=new FeedBack<>("failure","201");
+            feedBack=new FeedBack("failure","201");
             return feedBack;
         }
         int count= friendService.insertFriend(userID,friendID);
         if(count==1){
-            feedBack=new FeedBack<>("success","200");
+            feedBack=new FeedBack("success","200");
         }
         else {
-            feedBack=new FeedBack<>("failure","500");
+            feedBack=new FeedBack("failure","500");
         }
         return feedBack;
     }
@@ -54,10 +54,10 @@ public class friendController extends BaseController {
         FeedBack<String> feedBack;
         int count= friendService.deleteFriend(userID,friendID);
         if(count==1){
-            feedBack=new FeedBack<>("success","200");
+            feedBack=new FeedBack("success","200");
         }
         else {
-            feedBack=new FeedBack<>("failure","500");
+            feedBack=new FeedBack("failure","500");
         }
         return feedBack;
     }
@@ -86,16 +86,16 @@ public class friendController extends BaseController {
         int cos= friendService.checkIsFollowed(userID,friendID);
         switch (cos){
             case 1:
-                feedBack=new FeedBack<>("success","201");
+                feedBack=new FeedBack("success","201");
                 break;
             case 2:
-                feedBack=new FeedBack<>("success","202");
+                feedBack=new FeedBack("success","202");
                 break;
             case 3:
-                feedBack=new FeedBack<>("success","200");
+                feedBack=new FeedBack("success","200");
                 break;
             default:
-                feedBack=new FeedBack<>("success","200");
+                feedBack=new FeedBack("success","200");
                 break;
 
         }

@@ -212,10 +212,10 @@ public class UserController extends BaseController{
         FeedBack<String> feedBack;
         int count= userService.updateUserNameByID(id,userName);
         if(count==1){
-            feedBack=new FeedBack<>("success","200",userName);
+            feedBack=new FeedBack("success","200",userName);
         }
         else {
-            feedBack=new FeedBack<>("failure","400");
+            feedBack=new FeedBack("failure","400");
         }
         return feedBack;
     }

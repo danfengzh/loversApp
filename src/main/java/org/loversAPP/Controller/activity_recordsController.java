@@ -139,10 +139,10 @@ public class activity_recordsController extends BaseController {
         FeedBack feedBack;
         Integer cout=activityRecordService.updateLocationByID(id,longtitude,latitude);
         if(cout==1){
-            feedBack=new FeedBack<>("success","200",new location(longtitude,latitude));
+            feedBack=new FeedBack("success","200",new location(longtitude,latitude));
         }
         else {
-            feedBack=new FeedBack<>("failure","500");
+            feedBack=new FeedBack("failure","500");
         }
         return feedBack;
     }
@@ -195,10 +195,10 @@ public class activity_recordsController extends BaseController {
         FeedBack feedBack;
         Integer cout=userTextService.deleteTextByID(id);
         if(cout==1){
-            feedBack=new FeedBack<>("success","200");
+            feedBack=new FeedBack("success","200");
         }
         else {
-            feedBack=new FeedBack<>("failure","400");
+            feedBack=new FeedBack("failure","400");
         }
         return feedBack;
     }
@@ -208,10 +208,10 @@ public class activity_recordsController extends BaseController {
         FeedBack feedBack;
         Integer cout=userPhoService.deletePhotoByID(id);
         if(cout==1){
-            feedBack=new FeedBack<>("success","200");
+            feedBack=new FeedBack("success","200");
         }
         else {
-            feedBack=new FeedBack<>("failure","400");
+            feedBack=new FeedBack("failure","400");
         }
         return feedBack;
     }

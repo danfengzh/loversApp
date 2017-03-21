@@ -77,7 +77,7 @@ public class LoverSigninService {
         //快速失败
         if(result1!=null&&result2!=null){
             //双方都已经签到
-            feedBack=new FeedBack<>("success","205");
+            feedBack=new FeedBack("success","205");
             return feedBack;
         }
         System.out.println(result2+"****************"+result1);
@@ -89,14 +89,14 @@ public class LoverSigninService {
                 loverSignin1.setId(anotherID);
                 loverSigninExample.createCriteria().andHalfidEqualTo(halfID);
                 //一方重复签到
-                feedBack=new FeedBack<>("success","206");
+                feedBack=new FeedBack("success","206");
                 return feedBack;
             }
             else if(result2!=null&&result2.getHalfid().equals(halfID)){
                 loverSignin1.setId(anotherID);
                 loverSigninExample.createCriteria().andHalfidEqualTo(halfID);
                 //一方重复签到
-                feedBack=new FeedBack<>("success","205");
+                feedBack=new FeedBack("success","205");
                 return feedBack;
             }
             else {
@@ -106,13 +106,13 @@ public class LoverSigninService {
             loverSignin1.setHalfid(null);
             loverSigninExample.createCriteria().andHalfidEqualTo(halfID);
             loverSigninMapper.updateByExampleSelective(loverSignin1,loverSigninExample);
-            feedBack=new FeedBack<>("success","203");
+            feedBack=new FeedBack("success","203");
         }
         else {
             //没有人进行签到。。。。。。--直接将它插入数据库里面
             //默认插入为halfID
             loverSigninMapper.insertSelective(loverSignin1);
-            feedBack=new FeedBack<>("success","202");
+            feedBack=new FeedBack("success","202");
         }
         return feedBack;
     }

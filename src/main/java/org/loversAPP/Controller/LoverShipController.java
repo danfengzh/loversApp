@@ -79,7 +79,7 @@ public class LoverShipController extends BaseController{
         FeedBack<String> feedBack;
         String loverID =loverShipService.getloveIDByID(loverAID);
         if(loverID!=null){
-            feedBack=new FeedBack<>("success","200",loverID);
+            feedBack=new FeedBack("success","200",loverID);
         }
         else {
             feedBack=new FeedBack("failure","400");
@@ -127,9 +127,9 @@ public class LoverShipController extends BaseController{
         FeedBack<String> feedBack;
         int count= loverShipService.deleteLoveShipByID(loverID);
         if (count==1) {
-            feedBack=new FeedBack<>("success","200");
+            feedBack=new FeedBack("success","200");
         } else {
-            feedBack=new FeedBack<>("failure","400");
+            feedBack=new FeedBack("failure","400");
         }
         return feedBack;
     }
@@ -183,7 +183,7 @@ public class LoverShipController extends BaseController{
         tempUser.put("stepstoday",U.getStepstoday());
         tempUser.put("sex",U.getSex());
         if(U!=null){
-            feedBack=new FeedBack<>("success","200",tempUser);
+            feedBack=new FeedBack("success","200",tempUser);
         }
         else {
             feedBack=new FeedBack("failure","400");
@@ -229,9 +229,9 @@ public class LoverShipController extends BaseController{
         if(res==1){
             taskExecutor.execute(new SendMessAgeThread(messAgeContent));
             taskExecutor.execute(new SendMessAgeThread(girlmesscontent));
-            feedBack =new FeedBack<>("success","200");
+            feedBack =new FeedBack("success","200");
         }else {
-            feedBack =new FeedBack<>("failure","400");
+            feedBack =new FeedBack("failure","400");
         }
         return feedBack;
     }

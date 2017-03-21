@@ -31,14 +31,14 @@ public class LoverShipServiceImpl implements LoverShipService {
     private LoverSigninMapper loverSigninMapper;
     @Autowired
     private UserMapper userMapper;
-    @Override
+    
     public LoverShip QueryLoverShip_HasLoveShip(Integer boyId, Integer GirlID) {
 
         LoverShip loverShip= loverShipMapper.selectSelectiveByPrimaryKey(boyId,GirlID);
         return loverShip;
     }
 
-    @Override
+    
     @Transactional(propagation = Propagation.REQUIRES_NEW,isolation = Isolation.DEFAULT)
     public Integer insertLoverShip(LoverShip loverShip) {
         final User girl=userMapper.selectByPrimaryKey(loverShip.getLovergirlid());//邀请者
@@ -57,7 +57,7 @@ public class LoverShipServiceImpl implements LoverShipService {
 
     }
 
-    @Override
+    
     public String getloveIDByID(Integer id) {
         LoverShip loverShip=loverShipMapper.LoverShipIdByID(id);
         if(loverShip!=null){
@@ -68,7 +68,7 @@ public class LoverShipServiceImpl implements LoverShipService {
         }
     }
 
-    @Override
+    
     public LoverShip getLoverShipByID(String loverID) {
         LoverShipExample loverShipExample=new LoverShipExample();
         loverShipExample.createCriteria().andLoveridEqualTo(loverID);
@@ -79,7 +79,7 @@ public class LoverShipServiceImpl implements LoverShipService {
         return null;
     }
 
-    @Override
+    
     public List<LoverShip> getAllLoveShips() {
 
 
@@ -95,7 +95,7 @@ public class LoverShipServiceImpl implements LoverShipService {
      * @param loverID
      * @return
      */
-    @Override
+    
     @Transactional(propagation = Propagation.REQUIRES_NEW,isolation = Isolation.DEFAULT)
     public Integer deleteLoveShipByID(String loverID) {
 
@@ -111,7 +111,7 @@ public class LoverShipServiceImpl implements LoverShipService {
         return loverShipMapper.deleteByExample(loverShipExample);
     }
 
-    @Override
+    
     public Integer updateLoveIndexByID(String loverID, Integer loveIndex) {
         LoverShipExample example=new LoverShipExample();
         example.createCriteria().andLoveridEqualTo(loverID);
@@ -120,7 +120,7 @@ public class LoverShipServiceImpl implements LoverShipService {
         return loverShipMapper.updateByExampleSelective(loverShip,example);
     }
 
-    @Override
+    
     public Integer updateStateByID(String loverID, Integer state) {
         LoverShipExample example=new LoverShipExample();
         example.createCriteria().andLoveridEqualTo(loverID);
@@ -134,7 +134,7 @@ public class LoverShipServiceImpl implements LoverShipService {
      *
      * @return
      */
-    @Override
+    
     public User getHalfByID(Integer loverID) {
         User half;
         LoverShip loverShip=loverShipMapper.LoverShipIdByID(loverID);
@@ -147,10 +147,10 @@ public class LoverShipServiceImpl implements LoverShipService {
         return half;
     }
 
-    @Override
+    
     public List<SuperLoverInfo> getAllSuperLoverInfo() {
         List<LoverShip> loverShips=getAllLoveShips();
-        List<SuperLoverInfo> superLoverInfos=new ArrayList<>();
+        List<SuperLoverInfo> superLoverInfos=new ArrayList();
         for(LoverShip friend:loverShips){
             SuperLoverInfo superLoverInfo=new SuperLoverInfo();
             User boy=userMapper.selectByPrimaryKey(friend.getLoverboyid());
@@ -170,7 +170,7 @@ public class LoverShipServiceImpl implements LoverShipService {
         return superLoverInfos;
     }
 
-    @Override
+    
     public List<FriendIDs> getAllFriendIS() {
         return loverShipMapper.getAllFriendIS();
     }
@@ -182,7 +182,7 @@ public class LoverShipServiceImpl implements LoverShipService {
      * @return
      */
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    @Override
+    
     public int cancelLoveShip(String loverID) {
 
         Activityrecords activityrecor;
@@ -232,7 +232,7 @@ public class LoverShipServiceImpl implements LoverShipService {
         return 1;
     }
 
-    @Override
+    
     public int cancelByIdsLoveShip(Integer loverAID, Integer loverBID) {
         //删除loverShip --
         loverShipMapper.deleteByPrimaryKey(loverAID,loverBID);

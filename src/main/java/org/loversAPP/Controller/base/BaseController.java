@@ -82,7 +82,7 @@ public abstract class BaseController {
     @ResponseBody
     public FeedBack<String> exception(Exception e, HttpServletRequest request) {
         e.printStackTrace();
-        FeedBack<String> feedBack=new FeedBack<>("error","500","Inner error,the server can not perform correctly");
+        FeedBack<String> feedBack=new FeedBack("error","500","Inner error,the server can not perform correctly");
         return feedBack;
     }
 
