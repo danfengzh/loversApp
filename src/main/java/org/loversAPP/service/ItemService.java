@@ -1,5 +1,6 @@
 package org.loversAPP.service;
 
+import org.loversAPP.DTO.ItemCountWrapper;
 import org.loversAPP.model.Item;
 
 import java.util.List;
@@ -20,4 +21,10 @@ public interface ItemService {
     public Integer deleteItemByID(Integer itemId);
 
     public List<Item> getItemsByUID(Integer usID);
+
+    public List<ItemCountWrapper> getItemsCountByUIDForEach(int userid);
+
+
+    public int doodlePhoto(int photoID,String photo,int userItemID);
+
 }

@@ -236,4 +236,18 @@ WHERE
 user_item.user_id=#{userID}
 
   </select>
+  <select id="getItemsCountByUIDForEach" resultType="org.loversAPP.DTO.ItemCountWrapper">
+    SELECT
+	count(*) count,
+	user_item.item_id itemID
+FROM
+	user_item
+INNER JOIN `user` ON user_item.user_id = `user`.id
+WHERE
+user_item.user_id=#{userid}
+GROUP BY
+	user_item.item_id
+
+  </select>
+
 </mapper>

@@ -19,7 +19,7 @@ public class friendServiceImpl implements friendService {
     @Autowired
     private FriendMapper friendMapper;
 
-    @Override
+
     public Integer insertFriend(Integer userID, Integer friendID) {
         Friend friend=new Friend();
         friend.setUserid(userID);
@@ -27,7 +27,7 @@ public class friendServiceImpl implements friendService {
         return friendMapper.insert(friend);
     }
 
-    @Override
+
     public Integer deleteFriend(Integer userID, Integer friendID) {
         FriendExample friendExample=new FriendExample();
         friendExample.createCriteria().andUseridEqualTo(userID).andFriendidEqualTo(friendID);
@@ -38,12 +38,12 @@ public class friendServiceImpl implements friendService {
      * @param userID
      * @return
      */
-    @Override
+
     public FriendShip getFriendsByUID(Integer userID) {
         return friendMapper.getFriendsByUID(userID);
     }
 
-    @Override
+
     public List<TinyUser> getAllTinyUser(int userid) {
         return friendMapper.getAllTinyUser(userid);
     }
@@ -56,10 +56,10 @@ public class friendServiceImpl implements friendService {
      * @param friendID
      * @return
      */
-    @Override
+
     public int checkIsFollowed(int userid, int friendID) {
 
-        int result=0;
+        Integer result=0;
         int temp=friendMapper.selectIsFollowed(userid,friendID);
         int another=friendMapper.selectIsFollowed(friendID,userid);
         int cooo=friendMapper.getAllFollersCount(userid);
@@ -67,16 +67,23 @@ public class friendServiceImpl implements friendService {
             //userID和friendID未绑定
             if(another==0){
                 result=3;
+
             }
         }
+        //至少这两个是绑定的
         else
         {
             if(another==1){
                 //两者相互绑定
                 result=2;
+
             }
             if(cooo==1){
-                result=2;
+                result=1;
+
+            }
+            else {
+                result=1;
             }
         }
         return result;

@@ -1,6 +1,7 @@
 package org.loversAPP.dao;
 
 import org.apache.ibatis.annotations.Param;
+import org.loversAPP.DTO.ItemCountWrapper;
 import org.loversAPP.model.Item;
 import org.loversAPP.model.ItemExample;
 
@@ -30,4 +31,5 @@ public interface ItemMapper {
     int updateByPrimaryKey(Item record);
     List<Item>  getAllItems();
     List<Item> getItemsByUID(@Param("userID") Integer userID);
+    public List<ItemCountWrapper> getItemsCountByUIDForEach(@Param("userid") Integer userid);
 }

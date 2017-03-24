@@ -8,6 +8,15 @@ import org.loversAPP.model.User;
  */
 public class UserMessage extends Message {
     private User user;
+    private int isRead;
+
+    public int getIsRead() {
+        return isRead;
+    }
+
+    public void setIsRead(int isRead) {
+        this.isRead = isRead;
+    }
 
     public User getUser() {
         return user;

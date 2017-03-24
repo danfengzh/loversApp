@@ -4,6 +4,7 @@ import org.loversAPP.Controller.base.BaseController;
 import org.loversAPP.Controller.utils.ControllerConstant;
 import org.loversAPP.Controller.utils.fileUpload;
 import org.loversAPP.DTO.FeedBack;
+import org.loversAPP.DTO.ItemCountWrapper;
 import org.loversAPP.model.Item;
 import org.loversAPP.service.ItemService;
 import org.loversAPP.utils.MD5Utils;
@@ -136,5 +137,18 @@ public class ItemController extends BaseController {
     @ResponseBody
     public FeedBack<String> insertPhoto(){
         return null;
+    }
+
+    @RequestMapping(value = "/getItemsCountByUIDForEach",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public FeedBack<ItemCountWrapper> getItemsCountByUIDForEach(@RequestParam("userID") Integer userID){
+        FeedBack feedBack;
+        List<ItemCountWrapper>  itemCountWrappers= itemService.getItemsCountByUIDForEach(userID);
+        if(itemCountWrappers!=null){
+            feedBack=new FeedBack("success","200",itemCountWrappers);
+        }else {
+            feedBack=new FeedBack("failure","400");
+        }
+        return feedBack;
     }
 }

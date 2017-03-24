@@ -238,9 +238,11 @@
     <result column="userID" property="user.id"/>
     <result column="userName" property="user.username"/>
     <result column="avator" property="user.avator"/>
+    <result column="isRead" property="isRead"/>
   </resultMap>
   <select id="getUserMessageByID" resultMap="UserMessageMap">
    SELECT
+   message_read.isRead,
 message.id,
 message.userID,
 message.msgType,
@@ -251,14 +253,17 @@ message.receiverID,
 `user`.avator
 FROM
 message ,
-`user`
+`user`,
+message_read
 WHERE
 message.userID =#{userID} AND
 message.receiverID = `user`.id
+and message_read.messageID = message.id
 
   </select>
   <select id="getUserMessageByRecID" resultMap="UserMessageMap">
     SELECT
+     message_read.isRead,
 message.id,
 message.userID,
 message.msgType,
@@ -269,10 +274,12 @@ message.receiverID,
 `user`.avator
 FROM
 message ,
-`user`
+`user`,
+message_read
 WHERE
 message.receiverID = #{recID} AND
 message.userID = `user`.id
+and message_read.messageID = message.id
 ORDER BY
 message.msgDate DESC
   </select>

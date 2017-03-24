@@ -17,7 +17,7 @@ import java.util.List;
 public class messageServiceImpl implements messageService {
     @Autowired
     private MessageMapper messageMapper;
-    @Override
+
     public Integer insertMessage(Integer userID, Integer receiverID, String msgType, Date msgDate, String msgContent) {
         Message message=new Message();
         message.setUserid(userID);
@@ -28,13 +28,13 @@ public class messageServiceImpl implements messageService {
         return messageMapper.insert(message);
     }
 
-    @Override
+
     public List<UserMessage> getMessageByRID(Integer receiverID) {
 
         return messageMapper.getUserMessageByID(receiverID);
     }
 
-    @Override
+
     public Integer deleteMessageByID(Integer id) {
         return null;
     }
@@ -43,22 +43,21 @@ public class messageServiceImpl implements messageService {
      *  根据接收者用户id查看消息
      * @return
      */
-    @Override
+
     public List<UserMessage> getMessageByRecID(Integer recID) {
         return messageMapper.getUserMessageByRecID(recID);
     }
 
-    @Override
+
     public int setReadByMID(Integer messageID) {
         return messageMapper.setReadByMID(messageID);
     }
 
-    @Override
     public int setAllReadByRID(Integer recieverID) {
         return messageMapper.setAllReadByRID(recieverID);
     }
 
-    @Override
+
     public int getUnreadCountByRID(Integer recieverID) {
         return messageMapper.getUnreadCountByRID(recieverID);
     }

@@ -13,6 +13,15 @@ public class urMessage implements Serializable {
     private String msgType;
     private Date msgDate;
     private String msgContent;
+    private int isRead;
+
+    public int getIsRead() {
+        return isRead;
+    }
+
+    public void setIsRead(int isRead) {
+        this.isRead = isRead;
+    }
 
     public String getUserName() {
         return userName;

@@ -32,6 +32,23 @@ public interface MessageMapper {
 
     int updateByPrimaryKey(Message record);
     List<UserMessage> getUserMessageByID(@Param("userID") Integer userID);
+
+    /**
+     *
+     * SELECT
+     message_read.isRead
+     FROM
+     message_read ,
+     message ,
+     `user`
+     WHERE
+     message.receiverID = 2 AND
+     message.userID = `user`.id AND
+     message_read.messageID = message.id
+
+     * @param recID
+     * @return
+     */
     List<UserMessage> getUserMessageByRecID(@Param("recID") Integer recID);
     public int setReadByMID(@Param("messageID")Integer messageID);
     public int setAllReadByRID(Integer recieverID);
