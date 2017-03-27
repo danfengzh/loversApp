@@ -1,5 +1,8 @@
 package org.loversAPP.service;
 
+import org.loversAPP.DTO.PositionUser;
+import org.loversAPP.DTO.UserDistance;
+import org.loversAPP.DTO.location;
 import org.loversAPP.model.User;
 
 import java.util.List;
@@ -42,4 +45,18 @@ public interface UserService {
     public Integer getMaxID();
     public String getInviteCodeByID(Integer ID);
     public Integer updateMoneyByID(Integer userID,Integer money);
+
+    public List<UserDistance> getAllUserDistances();
+
+    public List<PositionUser> getAllPositionUsers();
+
+    public List<User> searchUserByName(String username);
+
+
+    public int insertLocation(int userID,String latitude ,String longtitude);
+
+    public location getLocatonByID(int userid);
+    public int delectLocByID(int userid);
+    public int insertSingleSign(int userID);
+    public int getSignCount(int userid,String signDate);
 }

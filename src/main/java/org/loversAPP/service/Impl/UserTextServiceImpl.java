@@ -23,7 +23,6 @@ public class UserTextServiceImpl implements UserTextService {
     private UserItemMapper userItemMapper;
     //同时删除相应的道具信息
     @Transactional
-    @Override
     public Integer insertText(Integer recordsID, Integer userItemID, Integer userID, String text, String longtitude, String latitude) {
         TextRecords textRecords=new TextRecords();
         textRecords.setUserid(userID);
@@ -35,20 +34,13 @@ public class UserTextServiceImpl implements UserTextService {
         userItemMapper.deleteByPrimaryKey(userID,userItemID);
         return textRecordsMapper.insert(textRecords);
     }
-
-
-
-    @Override
     public List<UserText> getTextsByUserID(Integer userID) {
         return textRecordsMapper.getTextsByUserID(userID);
     }
 
-    @Override
     public List<UserText> getTextsByRecordsID(Integer recordID) {
         return textRecordsMapper.getTextsByRecordsID(recordID);
     }
-
-    @Override
     public Integer deleteTextByID(Integer id) {
         return textRecordsMapper.deleteByPrimaryKey(id);
     }

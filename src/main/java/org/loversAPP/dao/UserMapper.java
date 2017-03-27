@@ -1,6 +1,9 @@
 package org.loversAPP.dao;
 
 import org.apache.ibatis.annotations.Param;
+import org.loversAPP.DTO.PositionUser;
+import org.loversAPP.DTO.UserDistance;
+import org.loversAPP.DTO.location;
 import org.loversAPP.model.User;
 import org.loversAPP.model.UserExample;
 
@@ -32,4 +35,20 @@ public interface UserMapper {
     User getUserByUserNameOrPass(@Param("username") String username,@Param("phoneNum")String phoneNum);
     Integer getMaxID();
     String getInviteCodeByID(@Param("id") Integer id);
+
+    List<UserDistance> getAllUserDistances();
+
+    List<PositionUser> getAllPositionUsers();
+
+    List<User> searchUserByName(@Param("username") String username);
+
+    int insertLocation(@Param("userID") int userID, @Param("latitude") String latitude,@Param("longtitude") String longtitude);
+
+    location getLocationByiD(@Param("userid") int userid);
+
+    int deleteLocByID(@Param("userid")int userid);
+
+    int insertSingleSign(@Param("userID")int userID,@Param("signDate") String signDate);
+
+    int getSignCount(@Param("userid") int userid, @Param("signDate") String signDate);
 }

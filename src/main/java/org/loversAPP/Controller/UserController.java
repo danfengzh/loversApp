@@ -1,10 +1,10 @@
 package org.loversAPP.Controller;
 
 import org.loversAPP.Controller.base.BaseController;
-import org.loversAPP.Controller.utils.ControllerConstant;
-import org.loversAPP.Controller.utils.InviteCodeCreator;
-import org.loversAPP.Controller.utils.fileUpload;
+import org.loversAPP.Controller.utils.*;
 import org.loversAPP.DTO.FeedBack;
+import org.loversAPP.DTO.PositionUser;
+import org.loversAPP.DTO.UserDistance;
 import org.loversAPP.DTO.location;
 import org.loversAPP.Jpush.JpushClientUtil;
 import org.loversAPP.model.FinishStatus;
@@ -12,6 +12,7 @@ import org.loversAPP.model.LoverShip;
 import org.loversAPP.model.User;
 import org.loversAPP.service.LoverShipService;
 import org.loversAPP.service.UserService;
+import org.loversAPP.service.finishStatusService;
 import org.loversAPP.service.messageService;
 import org.loversAPP.utils.MD5Utils;
 import org.loversAPP.utils.UniqueStringGenerate;
@@ -22,8 +23,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.loversAPP.service.finishStatusService;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -46,7 +48,6 @@ public class UserController extends BaseController{
      * @param userID
      * @return
      */
-
     @RequestMapping(value = "getUserByID",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
     @ResponseBody
     public FeedBack<User> getUserByID(@RequestParam("id") Integer userID){
@@ -138,9 +139,9 @@ public class UserController extends BaseController{
         FeedBack<FinishStatus> feedBack;
         FinishStatus finishStatus= finishStatusService.getFinishStatusByUID(id);
         if(finishStatus!=null){
-            feedBack=new FeedBack<>("success","200",finishStatus);
+            feedBack=new FeedBack("success","200",finishStatus);
         }else{
-            feedBack=new FeedBack<>("failure","500");
+            feedBack=new FeedBack("failure","500");
         }
         return feedBack;
     }
@@ -149,7 +150,7 @@ public class UserController extends BaseController{
     public FeedBack<Integer>  setFinishStatusByUID(Integer id,Integer status){
 
         int res= finishStatusService.setFinishStatusByUID(id,status);
-        return new FeedBack<>("success","200",status);
+        return new FeedBack("success","200",status);
     }
     /**
      * 根据用户id更新密码  ---有问题
@@ -254,16 +255,16 @@ public class UserController extends BaseController{
                 loverShip.setLoverid(UniqueStringGenerate.generateRandomStr(8));
                 loverShip.setLovetime(new Date());
                 int count=loverShipService.insertLoverShip(loverShip);
-                feedBack=new FeedBack<>("success","200",id);
+                feedBack=new FeedBack("success","200",id);
             }
             else
             {
-                feedBack=new FeedBack<>("failure","201");
+                feedBack=new FeedBack("failure","201");
             }
         }
         else
         {
-            feedBack=new FeedBack<>("failure","500");
+            feedBack=new FeedBack("failure","500");
         }
         return feedBack;
     }
@@ -284,10 +285,10 @@ public class UserController extends BaseController{
         FeedBack<String> feedBack;
         Integer count=userService.deleteUserByID(userID);
         if(count==1){
-            feedBack=new FeedBack<>("success","200");
+            feedBack=new FeedBack("success","200");
         }
         else {
-            feedBack=new FeedBack<>("failure","500");
+            feedBack=new FeedBack("failure","500");
         }
         return feedBack;
     }
@@ -297,10 +298,10 @@ public class UserController extends BaseController{
         FeedBack<String> feedBack;
         Integer count=userService.updateSexByID(id,sex);
         if(count==1){
-            feedBack=new FeedBack<>("success","200");
+            feedBack=new FeedBack("success","200");
         }
         else {
-            feedBack=new FeedBack<>("failure","500");
+            feedBack=new FeedBack("failure","500");
         }
         return feedBack;
     }
@@ -310,10 +311,10 @@ public class UserController extends BaseController{
         FeedBack<String> feedBack;
         Integer count=userService.updateSignatureByID(id,signature);
         if(count==1){
-            feedBack=new FeedBack<>("success","200",signature);
+            feedBack=new FeedBack("success","200",signature);
         }
         else {
-            feedBack=new FeedBack<>("failure","500");
+            feedBack=new FeedBack("failure","500");
         }
         return feedBack;
     }
@@ -323,10 +324,10 @@ public class UserController extends BaseController{
         FeedBack<Integer> feedBack;
         Integer count=userService.updateStepsTodayByID(id,stepsToday);
         if(count==1){
-            feedBack=new FeedBack<>("success","200",stepsToday);
+            feedBack=new FeedBack("success","200",stepsToday);
         }
         else {
-            feedBack=new FeedBack<>("failure","500");
+            feedBack=new FeedBack("failure","500");
         }
         return feedBack;
     }
@@ -337,10 +338,10 @@ public class UserController extends BaseController{
         FeedBack feedBack;
         Integer count=userService.updateLocationByID(id,longtitude,latitude);
         if(count==1){
-            feedBack=new FeedBack<>("success","200",new location(longtitude,latitude));
+            feedBack=new FeedBack("success","200",new location(longtitude,latitude));
         }
         else {
-            feedBack=new FeedBack<>("failure","500");
+            feedBack=new FeedBack("failure","500");
         }
         return feedBack;
     }
@@ -351,10 +352,10 @@ public class UserController extends BaseController{
         FeedBack<String> feedBack;
         int count= userService.updateWexIDByID(id,wexID);
         if(count==1){
-            feedBack=new FeedBack<>("success","200",wexID);
+            feedBack=new FeedBack("success","200",wexID);
         }
         else {
-            feedBack=new FeedBack<>("failure","500");
+            feedBack=new FeedBack("failure","500");
         }
         return feedBack;
     }
@@ -364,10 +365,10 @@ public class UserController extends BaseController{
         FeedBack<String> feedBack;
         int count= userService.updateQQByID(id,qq);
         if(count==1){
-            feedBack=new FeedBack<>("success","200",qq);
+            feedBack=new FeedBack("success","200",qq);
         }
         else {
-            feedBack=new FeedBack<>("failure","500");
+            feedBack=new FeedBack("failure","500");
         }
         return feedBack;
     }
@@ -377,10 +378,10 @@ public class UserController extends BaseController{
         FeedBack<Integer> feedBack;
         int count= userService.updateLevelByID(id,level);
         if(count==1){
-            feedBack=new FeedBack<>("success","200",level);
+            feedBack=new FeedBack("success","200",level);
         }
         else {
-            feedBack=new FeedBack<>("failure","500");
+            feedBack=new FeedBack("failure","500");
         }
         return feedBack;
     }
@@ -390,10 +391,10 @@ public class UserController extends BaseController{
         FeedBack<Integer> feedBack;
         int count= userService.updateStayus(id,status);
         if(count==1){
-            feedBack=new FeedBack<>("success","200",status);
+            feedBack=new FeedBack("success","200",status);
         }
         else {
-            feedBack=new FeedBack<>("failure","500");
+            feedBack=new FeedBack("failure","500");
         }
         return feedBack;
     }
@@ -403,10 +404,10 @@ public class UserController extends BaseController{
         FeedBack<Integer> feedBack;
         int count= userService.updateCheckinDaysByID(id,checkinDays);
         if(count==1){
-            feedBack=new FeedBack<>("success","200",checkinDays);
+            feedBack=new FeedBack("success","200",checkinDays);
         }
         else {
-            feedBack=new FeedBack<>("failure","500");
+            feedBack=new FeedBack("failure","500");
         }
         return feedBack;
     }
@@ -416,10 +417,10 @@ public class UserController extends BaseController{
         FeedBack<Integer> feedBack;
         int count= userService.updateAgeByID(id,age);
         if(count==1){
-            feedBack=new FeedBack<>("success","200",age);
+            feedBack=new FeedBack("success","200",age);
         }
         else {
-            feedBack=new FeedBack<>("failure","500");
+            feedBack=new FeedBack("failure","500");
         }
         return feedBack;
     }
@@ -429,10 +430,10 @@ public class UserController extends BaseController{
         FeedBack<Integer> feedBack;
         int count= userService.updateHeightByID(id,height);
         if(count==1){
-            feedBack=new FeedBack<>("success","200",height);
+            feedBack=new FeedBack("success","200",height);
         }
         else {
-            feedBack=new FeedBack<>("failure","500");
+            feedBack=new FeedBack("failure","500");
         }
         return feedBack;
     }
@@ -442,10 +443,10 @@ public class UserController extends BaseController{
         FeedBack<Integer> feedBack;
         int count= userService.updateWeightByID(id,weight);
         if(count==1){
-            feedBack=new FeedBack<>("success","200",weight);
+            feedBack=new FeedBack("success","200",weight);
         }
         else {
-            feedBack=new FeedBack<>("failure","500");
+            feedBack=new FeedBack("failure","500");
         }
         return feedBack;
     }
@@ -455,10 +456,10 @@ public class UserController extends BaseController{
         FeedBack<String> feedBack;
         int count= userService.updateHobbyByID(id,hobby);
         if(count==1){
-            feedBack=new FeedBack<>("success","200",hobby);
+            feedBack=new FeedBack("success","200",hobby);
         }
         else {
-            feedBack=new FeedBack<>("failure","500");
+            feedBack=new FeedBack("failure","500");
         }
         return feedBack;
     }
@@ -468,10 +469,10 @@ public class UserController extends BaseController{
         FeedBack<Integer> feedBack;
         int count= userService.updateExpByID(id,exp);
         if(count==1){
-            feedBack=new FeedBack<>("success","200",exp);
+            feedBack=new FeedBack("success","200",exp);
         }
         else {
-            feedBack=new FeedBack<>("failure","500");
+            feedBack=new FeedBack("failure","500");
         }
         return feedBack;
     }
@@ -491,10 +492,10 @@ public class UserController extends BaseController{
         FeedBack<String> feedBack;
         int count= userService.updateBimgByID(id,newBackPathpath);
         if(count==1){
-            feedBack=new FeedBack<>("success","200",newBackPathpath);
+            feedBack=new FeedBack("success","200",newBackPathpath);
         }
         else {
-            feedBack=new FeedBack<>("failure","500");
+            feedBack=new FeedBack("failure","500");
         }
         return feedBack;
     }
@@ -504,10 +505,10 @@ public class UserController extends BaseController{
         FeedBack<String> feedBack;
         String inviteCode= userService.getInviteCodeByID(id);
         if(inviteCode!=null){
-            feedBack=new FeedBack<>("success","200",inviteCode);
+            feedBack=new FeedBack("success","200",inviteCode);
         }
         else {
-            feedBack=new FeedBack<>("failure","500");
+            feedBack=new FeedBack("failure","500");
         }
         return feedBack;
     }
@@ -517,10 +518,110 @@ public class UserController extends BaseController{
         FeedBack<Integer> feedBack;
         int count= userService.updateMoneyByID(id,money);
         if(count==1){
-            feedBack=new FeedBack<>("success","200",money);
+            feedBack=new FeedBack("success","200",money);
         }
         else {
-            feedBack=new FeedBack<>("failure","500");
+            feedBack=new FeedBack("failure","500");
+        }
+        return feedBack;
+    }
+
+    /**
+     * 返回距离圈子点最近的top 100的用户
+     * @param latitude
+     * @param longtitude
+     * @return
+     */
+    @RequestMapping(value ="getUserOrderByDistance",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public FeedBack<UserDistance> getUserOrderByDistance(@RequestParam("latitude") String latitude ,
+                                                         @RequestParam("longtitude")String longtitude){
+        FeedBack feedBack;
+        //1 .获取所有的用户 将
+        List<PositionUser> positionUsers= userService.getAllPositionUsers();
+        List<UserDistance> userDistanceList=new ArrayList<UserDistance>();
+        //计算距离
+        for(PositionUser positionUser:positionUsers){
+            UserDistance userDistance=new UserDistance();
+            double dist= MapCalculator.getDistance(latitude,longtitude,positionUser.getLatitude(),positionUser.getLongtitude());
+            userDistance.setDistance(dist);
+            userDistance.setUserID(positionUser.getId());
+            userDistance.setAvatar(positionUser.getAvatar());
+            userDistance.setSex(positionUser.getSex());
+            userDistanceList.add(userDistance);
+        }
+        Collections.sort(userDistanceList);
+        //取出前 100个
+        if(userDistanceList.size()<=100){
+            feedBack=new FeedBack("","",userDistanceList);
+        }
+        else {
+            feedBack=new FeedBack("","",userDistanceList.subList(0,100));
+        }
+        return feedBack;
+    }
+    @RequestMapping(value ="searchUserByName",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public FeedBack<User> searchUserByName(@RequestParam("username") String username){
+        FeedBack feedBack;
+        List<User> users=   userService.searchUserByName(username);
+        if(users!=null){
+            feedBack=new FeedBack("success","200",users);
+        }else {
+            feedBack=new FeedBack("failure","400");
+        }
+        return feedBack;
+    }
+    @RequestMapping(value ="insertLocation",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public FeedBack<String> insertLocation(int userID ,String latitude,String longtitude){
+        FeedBack  feedBack;
+        int cos=userService.insertLocation(userID,latitude,longtitude);
+        if(cos==1){
+            feedBack=new FeedBack("success","200");
+        }
+        else {
+            feedBack=new FeedBack("failure","400");
+        }
+        return feedBack;
+    }
+    @RequestMapping(value ="getLocByUID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public FeedBack<location> getLocByUID(@RequestParam("userID") int userID){
+        FeedBack  feedBack;
+        location location= userService.getLocatonByID(userID);
+        if(location!=null){
+            feedBack=new FeedBack("success","200",location);
+        }
+        else {
+            feedBack=new FeedBack("failure","400",location);
+        }
+        return feedBack;
+    }
+    @RequestMapping(value ="deleteLocByUID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public FeedBack deleteLocByUID(@RequestParam("userID") int userID){
+        FeedBack  feedBack;
+        int  cos= userService.delectLocByID(userID);
+        if(cos==1){
+            feedBack=new FeedBack("success","200");
+        }
+        else {
+            feedBack=new FeedBack("failure","400");
+        }
+        return feedBack;
+    }
+    @RequestMapping(value ="insertSingleSign",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public FeedBack<String> insertSingleSign(@RequestParam("userID") int userID){
+        FeedBack feedBack;
+        int count=userService.getSignCount(userID, DateUtil.getDay());
+        if(count!=0){
+            feedBack=new FeedBack("failure","201");
+        }
+        else {
+            userService.insertSingleSign(userID);
+            feedBack=new FeedBack("success","200");
         }
         return feedBack;
     }

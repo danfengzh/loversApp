@@ -1,5 +1,9 @@
 package org.loversAPP.service.Impl;
 
+import org.loversAPP.Controller.utils.DateUtil;
+import org.loversAPP.DTO.PositionUser;
+import org.loversAPP.DTO.UserDistance;
+import org.loversAPP.DTO.location;
 import org.loversAPP.dao.UserMapper;
 import org.loversAPP.model.User;
 import org.loversAPP.model.UserExample;
@@ -39,7 +43,7 @@ public class UserServiceImpl implements UserService
         return userMapper.insertSelective(user);
     }
 
-    @Override
+
     public User isExistUser(String userName, String password) {
 
         User user=userMapper.getUserByUserNameOrPass(userName,password);
@@ -62,7 +66,7 @@ public class UserServiceImpl implements UserService
         return res;
     }
 
-    @Override
+
     public Integer updateSexByID(Integer userID, String sex) {
 
         User user=new User();
@@ -99,18 +103,17 @@ public class UserServiceImpl implements UserService
         return userMapper.getAllUsers();
     }
 
-    @Override
+
     public Integer getMaxID() {
         return userMapper.getMaxID();
     }
 
-    @Override
+
     public String getInviteCodeByID(Integer id) {
 
         return userMapper.getInviteCodeByID(id) ;
     }
 
-    @Override
     public Integer updateMoneyByID(Integer userID,Integer money) {
         User user=new User();
         user.setId(userID);
@@ -119,7 +122,40 @@ public class UserServiceImpl implements UserService
         return res;
     }
 
-    @Override
+    public List<UserDistance> getAllUserDistances() {
+        return userMapper.getAllUserDistances();
+    }
+
+    public List<PositionUser> getAllPositionUsers() {
+        return userMapper.getAllPositionUsers();
+    }
+
+    public List<User> searchUserByName(String username) {
+        return userMapper.searchUserByName(username);
+    }
+
+    public int insertLocation(int userID, String latitude, String longtitude) {
+        return userMapper.insertLocation(userID,latitude,longtitude);
+    }
+
+    public location getLocatonByID(int userid) {
+        return userMapper.getLocationByiD(userid);
+    }
+
+    public int delectLocByID(int userid) {
+        return userMapper.deleteLocByID(userid);
+    }
+
+    public int insertSingleSign(int userID) {
+        //如果需要签到那么就利用当前的日期进行签到就可以了
+        return userMapper.insertSingleSign(userID, DateUtil.getDay());
+    }
+
+    public int getSignCount(int userid,String signDate) {
+        return userMapper.getSignCount(userid,signDate);
+    }
+
+
     public Integer updateStepsTodayByID(Integer id, Integer stepsToday) {
         User user=new User();
         user.setId(id);
@@ -128,7 +164,7 @@ public class UserServiceImpl implements UserService
         return res;
     }
 
-    @Override
+
     public Integer updateLocationByID(Integer id, String longtitude, String latitude) {
         User user=new User();
         user.setId(id);
@@ -138,7 +174,7 @@ public class UserServiceImpl implements UserService
         return res;
     }
 
-    @Override
+
     public Integer updateWexIDByID(Integer userID, String wexID) {
         User user=new User();
         user.setId(userID);
@@ -147,7 +183,7 @@ public class UserServiceImpl implements UserService
         return res;
     }
 
-    @Override
+
     public Integer updateQQByID(Integer userID, String qq) {
         User user=new User();
         user.setId(userID);
@@ -156,7 +192,7 @@ public class UserServiceImpl implements UserService
         return res;
     }
 
-    @Override
+
     public Integer updateLevelByID(Integer userID, Integer level) {
         User user=new User();
         user.setId(userID);
@@ -165,7 +201,7 @@ public class UserServiceImpl implements UserService
         return res;
     }
 
-    @Override
+
     public Integer updateStayus(Integer userId, Integer status) {
         User user=new User();
         user.setId(userId);
@@ -182,7 +218,7 @@ public class UserServiceImpl implements UserService
         return res;
     }
 
-    @Override
+
     public Integer updateCheckinDaysByID(Integer id, Integer checkinDays) {
         User user=new User();
         user.setId(id);
@@ -191,7 +227,7 @@ public class UserServiceImpl implements UserService
         return res;
     }
 
-    @Override
+
     public Integer updateAgeByID(Integer id, Integer age) {
         User user=new User();
         user.setId(id);
@@ -200,7 +236,7 @@ public class UserServiceImpl implements UserService
         return res;
     }
 
-    @Override
+
     public Integer updateHeightByID(Integer id, Integer height) {
         User user=new User();
         user.setId(id);
@@ -209,7 +245,7 @@ public class UserServiceImpl implements UserService
         return res;
     }
 
-    @Override
+
     public Integer updateWeightByID(Integer id, Integer weight) {
         User user=new User();
         user.setId(id);
@@ -218,7 +254,7 @@ public class UserServiceImpl implements UserService
         return res;
     }
 
-    @Override
+
     public Integer updateHobbyByID(Integer id, String hobby) {
         User user=new User();
         user.setId(id);
@@ -227,7 +263,7 @@ public class UserServiceImpl implements UserService
         return res;
     }
 
-    @Override
+
     public Integer updateExpByID(Integer id, Integer exp) {
         User user=new User();
         user.setId(id);
@@ -236,7 +272,7 @@ public class UserServiceImpl implements UserService
         return res;
     }
 
-    @Override
+
     public Integer updateBimgByID(Integer id, String back) {
         User user=new User();
         user.setId(id);

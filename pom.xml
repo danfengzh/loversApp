@@ -138,12 +138,6 @@
      jackson-annotations 提供JSON格式的输出. itext提供PDF 创建库支持PDF 的输出.
       Apache POI 帮助创建 XLS 格式的输出
      -->
-    <!-- https://mvnrepository.com/artifact/com.lowagie/itext -->
-    <dependency>
-      <groupId>com.lowagie</groupId>
-      <artifactId>itext</artifactId>
-      <version>2.1.7</version>
-    </dependency>
     <!-- Tag libs support for view layer -->
     <dependency>
       <groupId>taglibs</groupId>
