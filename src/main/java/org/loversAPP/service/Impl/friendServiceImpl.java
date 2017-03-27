@@ -1,5 +1,6 @@
 package org.loversAPP.service.Impl;
 
+import org.loversAPP.DTO.CarePeople;
 import org.loversAPP.DTO.FriendShip;
 import org.loversAPP.DTO.TinyUser;
 import org.loversAPP.dao.FriendMapper;
@@ -78,8 +79,9 @@ public class friendServiceImpl implements friendService {
                 result=2;
 
             }
+
             if(cooo==1){
-                result=1;
+                result=4;
 
             }
             else {
@@ -87,5 +89,9 @@ public class friendServiceImpl implements friendService {
             }
         }
         return result;
+    }
+
+    public List<CarePeople> getCarePeoples(int friendID) {
+        return friendMapper.getCarePeoples(friendID);
     }
 }

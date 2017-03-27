@@ -2,10 +2,7 @@ package org.loversAPP.Controller;
 
 import org.apache.ibatis.annotations.Param;
 import org.loversAPP.Controller.base.BaseController;
-import org.loversAPP.DTO.FeedBack;
-import org.loversAPP.DTO.UserPhoto;
-import org.loversAPP.DTO.UserText;
-import org.loversAPP.DTO.location;
+import org.loversAPP.DTO.*;
 import org.loversAPP.model.Activityrecords;
 import org.loversAPP.service.ActivityRecordService;
 import org.loversAPP.service.UserPhoService;
@@ -102,7 +99,7 @@ public class activity_recordsController extends BaseController {
     @ResponseBody
     public FeedBack<Activityrecords> getAllRecords(){
         FeedBack feedBack=null;
-        List<Activityrecords> activityrecordss= activityRecordService.getAllRecords();
+        List<WrapperActicvityRecord> activityrecordss= activityRecordService.getAllWrapperActicvityRecord();
         if(activityrecordss!=null){
             feedBack=new FeedBack("success","200",activityrecordss);
         }

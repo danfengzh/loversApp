@@ -1,6 +1,7 @@
 package org.loversAPP.Controller;
 
 import org.loversAPP.Controller.base.BaseController;
+import org.loversAPP.DTO.CarePeople;
 import org.loversAPP.DTO.FeedBack;
 import org.loversAPP.DTO.TinyUser;
 import org.loversAPP.service.friendService;
@@ -94,11 +95,24 @@ public class friendController extends BaseController {
             case 3:
                 feedBack=new FeedBack("success","200");
                 break;
+            case 4:
+                feedBack=new FeedBack("success","203");
+                break;
             default:
                 feedBack=new FeedBack("success","200");
                 break;
 
         }
         return feedBack;
+    }
+    @RequestMapping(value = "/getFriendsByFID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public Map getFriendsByFID(@RequestParam("friendID") int friendID){
+        Map  result=new HashMap();
+        List<CarePeople> carePeoples= friendService.getCarePeoples(friendID);
+        result.put("code","200");
+        result.put("friend",carePeoples);
+        result.put("msg","success");
+        return result;
     }
 }

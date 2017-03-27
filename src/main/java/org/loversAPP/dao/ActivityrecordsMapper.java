@@ -1,6 +1,7 @@
 package org.loversAPP.dao;
 
 import org.apache.ibatis.annotations.Param;
+import org.loversAPP.DTO.WrapperActicvityRecord;
 import org.loversAPP.model.Activityrecords;
 import org.loversAPP.model.ActivityrecordsExample;
 
@@ -30,4 +31,6 @@ public interface ActivityrecordsMapper {
     int updateByPrimaryKey(Activityrecords record);
     List<Activityrecords> selectActivityRecords();
     public Integer updateSelectiveByid(@Param("record") Activityrecords activityrecords);
+
+    List<WrapperActicvityRecord> getAllWrapperActicvityRecord();
 }

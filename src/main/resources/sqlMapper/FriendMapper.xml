@@ -259,4 +259,24 @@ friend.userID=#{userid} OR
 friend.friendID=#{userid}
 
   </select>
+  <select id="getCarePeoples" resultType="org.loversAPP.DTO.CarePeople">
+      SELECT
+friend.userID,
+`user`.avator,
+`user`.userName,
+`user`.signature,
+`user`.height,
+`user`.hobby,
+`user`.`level`,
+`user`.sex,
+`user`.weight,
+`user`.age,
+`user`.backImage
+FROM
+`user` ,
+friend
+WHERE
+`user`.id = friend.userID AND
+friend.friendID = #{friendID}
+    </select>
 </mapper>

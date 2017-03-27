@@ -2,6 +2,7 @@ package org.loversAPP.service;
 
 import org.loversAPP.DTO.FriendPhoto;
 import org.loversAPP.DTO.FriendText;
+import org.loversAPP.DTO.WrapperActicvityRecord;
 import org.loversAPP.model.Activityrecords;
 
 import java.util.List;
@@ -60,5 +61,7 @@ public interface ActivityRecordService {
     public Integer deletePhotoByID(Integer photoID);
 
     public Integer updateRadiusByID(Integer id,Integer radius);
+
+    List<WrapperActicvityRecord> getAllWrapperActicvityRecord();
 
 }

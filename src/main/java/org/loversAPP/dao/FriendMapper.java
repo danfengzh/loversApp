@@ -1,6 +1,7 @@
 package org.loversAPP.dao;
 
 import org.apache.ibatis.annotations.Param;
+import org.loversAPP.DTO.CarePeople;
 import org.loversAPP.DTO.FriendShip;
 import org.loversAPP.DTO.TinyUser;
 import org.loversAPP.model.Friend;
@@ -37,4 +38,5 @@ public interface FriendMapper {
 
     int  getAllFollersCount(@Param("userid")Integer userid);
 
+    List<CarePeople> getCarePeoples(@Param("friendID") int friendID);
 }

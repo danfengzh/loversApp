@@ -2,6 +2,7 @@ package org.loversAPP.service.Impl;
 
 import org.loversAPP.DTO.FriendPhoto;
 import org.loversAPP.DTO.FriendText;
+import org.loversAPP.DTO.WrapperActicvityRecord;
 import org.loversAPP.dao.ActivityrecordsMapper;
 import org.loversAPP.dao.TextRecordsMapper;
 import org.loversAPP.model.Activityrecords;
@@ -25,14 +26,14 @@ public class ActivityRecordServiceImpl implements ActivityRecordService{
 
     @Autowired
     private PhotoRecordsMapper photoRecordsMapper;
-    @Override
+
     public Integer deleteActiityRecords(String loverID) {
         ActivityrecordsExample activityrecordsExample=new ActivityrecordsExample();
         activityrecordsExample.createCriteria().andLoveridEqualTo(loverID);
         return activityrecordsMapper.deleteByExample(activityrecordsExample);
     }
 
-    @Override
+
     public Integer insertRecord(String loverID, String longtitude, String latitude) {
         Activityrecords activityrecords=new Activityrecords();
         activityrecords.setLoverid(loverID);
@@ -41,7 +42,7 @@ public class ActivityRecordServiceImpl implements ActivityRecordService{
         return activityrecordsMapper.insertSelective(activityrecords);
     }
 
-    @Override
+
     public Integer getIDByLoverID(String loverID) {
         ActivityrecordsExample activityrecordsExample=new ActivityrecordsExample();
         activityrecordsExample.createCriteria().andLoveridEqualTo(loverID);
@@ -54,7 +55,7 @@ public class ActivityRecordServiceImpl implements ActivityRecordService{
         }
     }
 
-    @Override
+
     public Activityrecords getRecordByID(Integer id) {
         ActivityrecordsExample activityrecordsExample=new ActivityrecordsExample();
         activityrecordsExample.createCriteria().andIdEqualTo(id);
@@ -67,7 +68,7 @@ public class ActivityRecordServiceImpl implements ActivityRecordService{
         }
     }
 
-    @Override
+
     public Integer updateTotalStepsByID(Integer id,Integer totalSteps) {
         Activityrecords activityrecords=new Activityrecords();
         activityrecords.setId(id);
@@ -76,13 +77,13 @@ public class ActivityRecordServiceImpl implements ActivityRecordService{
         return updateActivityInfosByid(activityrecords);
     }
 
-    @Override
+
     public List<Activityrecords> getAllRecords() {
 
         return activityrecordsMapper.selectActivityRecords();
     }
 
-    @Override
+
     public Integer deleteRecordByID(Integer id) {
 
         ActivityrecordsExample activityrecordsExample=new ActivityrecordsExample();
@@ -103,7 +104,7 @@ public class ActivityRecordServiceImpl implements ActivityRecordService{
      * @param latitude
      * @return
      */
-    @Override
+
     public Integer updateLocationByID(Integer id,String longatitude,String latitude) {
 
         Activityrecords activityrecords=new Activityrecords();
@@ -114,45 +115,49 @@ public class ActivityRecordServiceImpl implements ActivityRecordService{
         return updateActivityInfosByid(activityrecords);
     }
 
-    @Override
+
     public Integer insertPhotoRecords() {
         return null;
     }
 
-    @Override
+
     public FriendPhoto getPhotosByRecordsID(Integer id) {
 
         return null;
     }
 
-    @Override
+
     public FriendText getTextsByUserID(Integer userID) {
         return null;
     }
 
-    @Override
+
     public FriendText getTextsByRecordsID(Integer textRecoID) {
        return null;
     }
 
-    @Override
+
     public Integer deleteTextByID(Integer textID) {
 
         return null;
     }
 
-    @Override
+
     public Integer deletePhotoByID(Integer photoID) {
 
         return null;
     }
 
-    @Override
+
     public Integer updateRadiusByID(Integer id, Integer radius) {
         Activityrecords activityrecords=new Activityrecords();
         activityrecords.setId(id);
         activityrecords.setRadius(radius);
         updateActivityInfosByid(activityrecords);
         return updateActivityInfosByid(activityrecords);
+    }
+
+    public List<WrapperActicvityRecord> getAllWrapperActicvityRecord() {
+        return activityrecordsMapper.getAllWrapperActicvityRecord();
     }
 }
