@@ -228,7 +228,7 @@
     SELECT  * FROM activityrecords
   </select>
   <select id="getAllWrapperActicvityRecord" resultType="org.loversAPP.DTO.WrapperActicvityRecord">
-    SELECT
+    SELECT DISTINCT
 user1.userName AS nameA,
 user1.avator AS avatarA,
 user2.userName AS nameB,

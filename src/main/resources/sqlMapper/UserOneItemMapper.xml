@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.loversAPP.dao.UserItemMapper">
-  <resultMap id="BaseResultMap" type="org.loversAPP.model.UserItem">
-    <id column="user_id" jdbcType="INTEGER" property="userId" />
-    <id column="item_id" jdbcType="INTEGER" property="itemId" />
-    <result column="count" jdbcType="INTEGER" property="count" />
+<mapper namespace="org.loversAPP.dao.UserOneItemMapper">
+  <resultMap id="BaseResultMap" type="org.loversAPP.model.UserOneItem">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="itemID" jdbcType="INTEGER" property="itemid" />
+    <result column="userID" jdbcType="INTEGER" property="userid" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -65,15 +65,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    user_id, item_id, count
+    id, itemID, userID
   </sql>
-  <select id="selectByExample" parameterType="org.loversAPP.model.UserItemExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="org.loversAPP.model.UserOneItemExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from user_item
+    from user_one_item
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -81,93 +81,84 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
-    select
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
     <include refid="Base_Column_List" />
-    from user_item
-    where user_id = #{userId,jdbcType=INTEGER}
-    and item_id = #{itemId,jdbcType=INTEGER}
+    from user_one_item
+    where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="map">
-    delete from user_item
-    where user_id = #{userId,jdbcType=INTEGER}
-      and item_id = #{itemId,jdbcType=INTEGER}
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from user_one_item
+    where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="org.loversAPP.model.UserItemExample">
-    delete from user_item
+  <delete id="deleteByExample" parameterType="org.loversAPP.model.UserOneItemExample">
+    delete from user_one_item
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="org.loversAPP.model.UserItem">
-    insert into user_item (user_id, item_id, count
-      )
-    values (#{userId,jdbcType=INTEGER}, #{itemId,jdbcType=INTEGER}, #{count,jdbcType=INTEGER}
-      )
+  <insert id="insert" parameterType="org.loversAPP.model.UserOneItem">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into user_one_item (itemID, userID)
+    values (#{itemid,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="org.loversAPP.model.UserItem">
-    insert into user_item
+  <insert id="insertSelective" parameterType="org.loversAPP.model.UserOneItem">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into user_one_item
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="userId != null">
-        user_id,
+      <if test="itemid != null">
+        itemID,
       </if>
-      <if test="itemId != null">
-        item_id,
-      </if>
-      <if test="count != null">
-        count,
+      <if test="userid != null">
+        userID,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="userId != null">
-        #{userId,jdbcType=INTEGER},
+      <if test="itemid != null">
+        #{itemid,jdbcType=INTEGER},
       </if>
-      <if test="itemId != null">
-        #{itemId,jdbcType=INTEGER},
-      </if>
-      <if test="count != null">
-        #{count,jdbcType=INTEGER},
+      <if test="userid != null">
+        #{userid,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="org.loversAPP.model.UserItemExample" resultType="java.lang.Long">
-    select count(*) from user_item
+    <insert id="inserBathUserOneItem">
+      INSERT user_one_item(itemID,userID)
+      VALUES
+      <foreach collection="userItems" item="item" separator=",">
+        (#{item.itemid},#{item.userid})
+      </foreach>
+    </insert>
+  <insert id="insertIntoUserOneItem">
+    INSERT user_one_item(itemID,userID) VALUES(#{userOneItem.itemid},#{userOneItem.userid})
+  </insert>
+  <select id="countByExample" parameterType="org.loversAPP.model.UserOneItemExample" resultType="java.lang.Long">
+    select count(*) from user_one_item
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <select id="getUserItemByID" resultType="org.loversAPP.model.UserItem">
-    SELECT
-user_item.count,
-user_item.user_id userId,
-user_item.item_id itemId
-FROM
-user_item
+  <select id="maxIDu" resultType="java.lang.Integer">
+    SELECT max(id)
+FROM `user_one_item`
 WHERE
-user_item.item_id=#{id}
-  </select>
-  <select id="getSpeicUseritembY" resultType="org.loversAPP.model.UserItem">
-        SELECT
-user_item.count,
-user_item.user_id userId,
-user_item.item_id itemId
-FROM
-user_item
-WHERE
-user_item.user_id=#{userid} AND
-user_item.item_id=#{itemID}
+user_one_item.userID =#{userid}
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update user_item
+    update user_one_item
     <set>
-      <if test="record.userId != null">
-        user_id = #{record.userId,jdbcType=INTEGER},
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.itemId != null">
-        item_id = #{record.itemId,jdbcType=INTEGER},
+      <if test="record.itemid != null">
+        itemID = #{record.itemid,jdbcType=INTEGER},
       </if>
-      <if test="record.count != null">
-        count = #{record.count,jdbcType=INTEGER},
+      <if test="record.userid != null">
+        userID = #{record.userid,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null">
@@ -175,28 +166,30 @@ user_item.item_id=#{itemID}
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update user_item
-    set user_id = #{record.userId,jdbcType=INTEGER},
-    item_id = #{record.itemId,jdbcType=INTEGER},
-    count = #{record.count,jdbcType=INTEGER}
+    update user_one_item
+    set id = #{record.id,jdbcType=INTEGER},
+      itemID = #{record.itemid,jdbcType=INTEGER},
+      userID = #{record.userid,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="org.loversAPP.model.UserItem">
-    update user_item
+  <update id="updateByPrimaryKeySelective" parameterType="org.loversAPP.model.UserOneItem">
+    update user_one_item
     <set>
-      <if test="count != null">
-        count = #{count,jdbcType=INTEGER},
+      <if test="itemid != null">
+        itemID = #{itemid,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null">
+        userID = #{userid,jdbcType=INTEGER},
       </if>
     </set>
-    where user_id = #{userId,jdbcType=INTEGER}
-    and item_id = #{itemId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="org.loversAPP.model.UserItem">
-    update user_item
-    set count = #{count,jdbcType=INTEGER}
-    where user_id = #{userId,jdbcType=INTEGER}
-      and item_id = #{itemId,jdbcType=INTEGER}
+  <update id="updateByPrimaryKey" parameterType="org.loversAPP.model.UserOneItem">
+    update user_one_item
+    set itemID = #{itemid,jdbcType=INTEGER},
+      userID = #{userid,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

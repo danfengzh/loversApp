@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface UserTextService {
 
-    public Integer insertText(Integer recordsID,Integer userItemID,
+    public Integer insertText(Integer recordsID,
                               Integer userID ,String text,String longtitude,String latitude);
     public List<UserText> getTextsByUserID(Integer userid);
     public List<UserText> getTextsByRecordsID (Integer recordID);

@@ -15,6 +15,26 @@ public class Item extends BaseModel {
 
     private Integer itemtype;
 
+    private Integer itemLevel;
+
+    private Integer itemPrivilege;
+
+    public Integer getItemLevel() {
+        return itemLevel;
+    }
+
+    public void setItemLevel(Integer itemLevel) {
+        this.itemLevel = itemLevel;
+    }
+
+    public Integer getItemPrivilege() {
+        return itemPrivilege;
+    }
+
+    public void setItemPrivilege(Integer itemPrivilege) {
+        this.itemPrivilege = itemPrivilege;
+    }
+
     public Integer getId() {
         return id;
     }

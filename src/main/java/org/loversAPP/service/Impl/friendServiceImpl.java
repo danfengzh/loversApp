@@ -60,15 +60,14 @@ public class friendServiceImpl implements friendService {
 
     public int checkIsFollowed(int userid, int friendID) {
 
-        Integer result=0;
+      //  Integer result=0;
         int temp=friendMapper.selectIsFollowed(userid,friendID);
         int another=friendMapper.selectIsFollowed(friendID,userid);
         int cooo=friendMapper.getAllFollersCount(userid);
         if(temp==0){
             //userID和friendID未绑定
             if(another==0){
-                result=3;
-
+                return 3;
             }
         }
         //至少这两个是绑定的
@@ -76,19 +75,18 @@ public class friendServiceImpl implements friendService {
         {
             if(another==1){
                 //两者相互绑定
-                result=2;
-
+                return 2;
             }
 
             if(cooo==1){
-                result=4;
+                return 4;
 
             }
             else {
-                result=1;
+                return 1;
             }
         }
-        return result;
+       return -1;
     }
 
     public List<CarePeople> getCarePeoples(int friendID) {

@@ -22,4 +22,8 @@ public interface UserItemMapper {
     int updateByExampleSelective(@Param("record") UserItem record, @Param("example") UserItemExample example);
 
     int updateByExample(@Param("record") UserItem record, @Param("example") UserItemExample example);
+
+    UserItem getUserItemByID(@Param("id") int id);
+
+    UserItem getSpeicUseritembY(@Param("userid") int userid, @Param("itemID") int itemID);
 }

@@ -8,6 +8,13 @@ package org.loversAPP.DTO;
 public class PositionUser implements Serializable {
     private int id;
 
+
+    private String avatar;
+    private String sex;
+
+    private  String longtitude;
+
+    private String latitude;
     public int getId() {
         return id;
     }
@@ -15,13 +22,6 @@ public class PositionUser implements Serializable {
     public void setId(int id) {
         this.id = id;
     }
-    private String avatar;
-    private String sex;
-
-    private  String longtitude;
-
-    private String latitude;
-
     public String getLongtitude() {
         return longtitude;
     }

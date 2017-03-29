@@ -19,11 +19,7 @@ public class UserTextServiceTest extends baseServiceTest{
 
     }
 
-    @Test
-    public void getTextsByUserID() throws Exception {
-           userTextService.insertText(1,1,5,"ahha","sssss","vvvvvvv");
-        System.out.println("vvvvvvvvvvvvvvvvvvvvvvvvvvvv");
-    }
+
 
     @Test
     public void getTextsByRecordsID() throws Exception {

@@ -185,7 +185,7 @@
     SELECT
     `user`.userName,
     `user`.`passWord`,
-    `user`.avator,
+    `user`.avator avatar,
     `user`.wexID,
     `user`.qq,
     `user`.phoneNumber,
@@ -218,7 +218,7 @@
   <select id="getAllTinyUser" resultType="org.loversAPP.DTO.TinyUser">
        SELECT
 `user`.userName,
-`user`.avator,
+`user`.avator avatar,
 `user`.id userID,
 `user`.signature,
 `user`.sex,

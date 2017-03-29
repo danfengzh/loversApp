@@ -1,6 +1,7 @@
 package org.loversAPP.service;
 
 import org.junit.Test;
+import org.loversAPP.DTO.PositionUser;
 import org.loversAPP.model.User;
 import org.loversAPP.service.baseService.baseServiceTest;
 import org.slf4j.Logger;
@@ -31,7 +32,8 @@ public class UserServiceTest extends baseServiceTest {
 
     @Test
     public void insertUser() throws Exception {
-
+        List<PositionUser>  positionUsers=   userService.getAllPositionUsers();
+        System.out.println(">>>>>>");
     }
 
     @Test

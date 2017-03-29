@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class MyJobTask implements JobService {
     @Scheduled(cron="0/5 * *  * * ? ")   //每5秒执行一次
-    @Override
     public void job1() {
         System.out.println("he;; looeoeooe");
     }

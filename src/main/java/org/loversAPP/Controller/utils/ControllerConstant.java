@@ -9,4 +9,5 @@ public interface ControllerConstant {
    String userHomePicParg="Image.baImage.path";
    String ItemImagePath="Item.ImagePath";
    String momentPath="LoverShip.MomentImagePath";
+   String Photopath="Photo.path";
 }

@@ -1,5 +1,7 @@
 package org.loversAPP.Controller.utils;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Created by ppssyyy on 2017-03-23.
  * 地图计算类
@@ -21,6 +23,10 @@ public class MapCalculator {
      * @return
      */
     public static double getDistance(String lat1Str, String lng1Str, String lat2Str, String lng2Str) {
+        if(StringUtils.isEmpty(lat1Str.trim())){lat1Str="0";}
+        if(StringUtils.isEmpty(lng1Str.trim())){lng1Str="0";}
+        if(StringUtils.isEmpty(lat2Str.trim())){lat2Str="0";}
+        if(StringUtils.isEmpty(lng2Str.trim())){lng2Str="0";}
         Double lat1 = Double.parseDouble(lat1Str);
         Double lng1 = Double.parseDouble(lng1Str);
         Double lat2 = Double.parseDouble(lat2Str);
@@ -56,5 +62,8 @@ public class MapCalculator {
 
 
     }
-
+  public static void main(String [] args){
+     double ss= Double.parseDouble("0");
+      System.out.println("*******");
+  }
 }

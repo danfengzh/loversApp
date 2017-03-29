@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="testTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject">
+            <bean class="org.loversAPP.SheduleTask.MySpecialSheduleTaskJob"/>
+        </property>
+        <property name="targetMethod" value="testInsert"/>
+    </bean>
+    <bean id="testTask1" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="jobClass" value="org.loversAPP.SheduleTask.ExtendStyleService"/>
+    </bean>
+    <bean id="simpleTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
+        <property name="jobDetail" ref="testTask"/>
+        <!-- 调度工厂实例化完成后 立即执行-->
+        <property name="startDelay" value="0"/>
+        <!-- 每次一分钟插入一条记录-->
+        <property name="repeatInterval" value="60000"/>
+    </bean>
+    <bean id="simpleTrigger2" class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
+        <property name="jobDetail" ref="testTask1"/>
+        <!-- 调度工厂实例化完成后 立即执行-->
+        <property name="startDelay" value="0"/>
+        <!-- 每次一分钟插入一条记录-->
+        <property name="repeatInterval" value="60000"/>
+    </bean>
+    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <ref bean="simpleTrigger"/>
+                <ref bean="simpleTrigger2"/>
+            </list>
+        </property>
+        <property name="applicationContextSchedulerContextKey" value="applicationContextKey"/>
+    </bean>
+</beans>

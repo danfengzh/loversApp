@@ -1,5 +1,8 @@
-package org.loversAPP.Controller.utils;
+package org.loversAPP.Controller;
 
+import org.loversAPP.Controller.base.BaseController;
+import org.loversAPP.Controller.utils.DateUtil;
+import org.loversAPP.Controller.utils.MapCalculator;
 import org.loversAPP.DTO.FeedBack;
 import org.loversAPP.DTO.PositionUser;
 import org.loversAPP.DTO.UserDistance;
@@ -22,7 +25,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping("/Extra/user")
-public class ExtraUserController {
+public class ExtraUserController  extends BaseController {
     @Autowired
     private UserService userService;
     /**
@@ -49,13 +52,14 @@ public class ExtraUserController {
             userDistance.setSex(positionUser.getSex());
             userDistanceList.add(userDistance);
         }
+        System.out.println("**********************");
         Collections.sort(userDistanceList);
         //取出前 100个
         if(userDistanceList.size()<=100){
-            feedBack=new FeedBack("","",userDistanceList);
+            feedBack=new FeedBack("success","200",userDistanceList);
         }
         else {
-            feedBack=new FeedBack("","",userDistanceList.subList(0,100));
+            feedBack=new FeedBack("success","200",userDistanceList.subList(0,100));
         }
         return feedBack;
     }

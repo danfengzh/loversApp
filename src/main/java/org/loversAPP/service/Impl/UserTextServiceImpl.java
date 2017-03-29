@@ -7,7 +7,6 @@ import org.loversAPP.model.TextRecords;
 import org.loversAPP.service.UserTextService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -21,9 +20,7 @@ public class UserTextServiceImpl implements UserTextService {
     private TextRecordsMapper textRecordsMapper;
     @Autowired
     private UserItemMapper userItemMapper;
-    //同时删除相应的道具信息
-    @Transactional
-    public Integer insertText(Integer recordsID, Integer userItemID, Integer userID, String text, String longtitude, String latitude) {
+    public Integer insertText(Integer recordsID,Integer userID, String text, String longtitude, String latitude) {
         TextRecords textRecords=new TextRecords();
         textRecords.setUserid(userID);
         textRecords.setLatitude(latitude);
@@ -31,7 +28,6 @@ public class UserTextServiceImpl implements UserTextService {
         textRecords.setLongtitude(longtitude);
         textRecords.setPublishdate(new Date());
         textRecords.setRecordsid(recordsID);
-        userItemMapper.deleteByPrimaryKey(userID,userItemID);
         return textRecordsMapper.insert(textRecords);
     }
     public List<UserText> getTextsByUserID(Integer userID) {

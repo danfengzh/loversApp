@@ -9,6 +9,8 @@
     <result column="itemprice" jdbcType="DECIMAL" property="itemprice" />
     <result column="itemImage" jdbcType="VARCHAR" property="itemimage" />
     <result column="itemType" jdbcType="INTEGER" property="itemtype" />
+    <result column="itemLevel" jdbcType="VARCHAR" property="itemLevel"/>
+    <result column="itemPrivilege" jdbcType="INTEGER" property="itemPrivilege" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -69,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, itemName, itemFunction, itemprice, itemImage, itemType
+    id, itemName, itemFunction, itemprice, itemImage, itemType,itemLevel,itemPrivilege
   </sql>
   <select id="selectByExample" parameterType="org.loversAPP.model.ItemExample" resultMap="BaseResultMap">
     select
@@ -224,6 +226,10 @@
       itemType = #{itemtype,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <update id="updateUserItemCount">
+    UPDATE user_item SET count=#{count}
+    where user_id=#{userid}
+  </update>
   <select id="getAllItems" resultMap="BaseResultMap">
     SELECT * FROM  item
   </select>
@@ -248,6 +254,56 @@ user_item.user_id=#{userid}
 GROUP BY
 	user_item.item_id
 
+  </select>
+  <select id="getCountUserItemByid" resultType="java.lang.Integer">
+      SELECT count
+FROM `user_item`
+WHERE
+user_item.user_id=#{userid}
+    </select>
+  <select id="getUserItemByUsERid" resultType="org.loversAPP.model.UserItem">
+    SELECT
+user_item.count,
+user_item.user_id userId,
+user_item.item_id itemId
+FROM
+user_item
+WHERE
+user_item.user_id=#{userid}
+  </select>
+  <select id="getItemsByPrivilege" resultType="org.loversAPP.model.Item">
+    SELECT
+item.itemLevel,
+item.id,
+item.itemName,
+item.itemFunction,
+item.itemprice,
+item.itemImage,
+item.itemType,
+item.itemPrivilege
+FROM `item`
+WHERE
+item.itemPrivilege=#{prioi}
+  </select>
+  <resultMap id="specialMap" type="org.loversAPP.DTO.UserItemCount" extends="BaseResultMap">
+    <result property="count"  column="count"/>
+  </resultMap>
+  <select id="getItemsByiid" resultMap="specialMap">
+    SELECT
+user_item.count,
+item.itemLevel,
+item.id,
+item.itemName,
+item.itemFunction,
+item.itemprice,
+item.itemImage,
+item.itemType,
+item.itemPrivilege
+FROM
+user_item
+INNER JOIN item ON user_item.item_id = item.id
+WHERE
+user_item.user_id=#{userID}
   </select>
 
 </mapper>
