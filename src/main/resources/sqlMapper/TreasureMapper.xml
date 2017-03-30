@@ -5,7 +5,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <id column="userID" jdbcType="INTEGER" property="userid" />
     <result column="longtitude" jdbcType="VARCHAR" property="longtitude" />
-    <result column=" latitude" jdbcType="VARCHAR" property="latitude" />
+    <result column="latitude" jdbcType="VARCHAR" property="latitude" />
     <result column="treasureCode" jdbcType="INTEGER" property="treasurecode" />
     <result column="money" jdbcType="INTEGER" property="money" />
   </resultMap>
@@ -128,7 +128,7 @@
         longtitude,
       </if>
       <if test="latitude != null">
-        " latitude",
+        latitude,
       </if>
       <if test="treasurecode != null">
         treasureCode,
@@ -171,7 +171,6 @@
   <select id="getTreasureByID" resultMap="BaseResultMap">
     SELECT * FROM treasure
     WHERE id=#{id}
-
   </select>
   <select id="getAllTreasures" resultMap="BaseResultMap">
      SELECT * FROM treasure

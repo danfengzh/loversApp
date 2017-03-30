@@ -19,7 +19,7 @@ public class Treasure extends BaseModel {
 
     private Integer treasurecode;
 
-    private String money;
+    private Integer money;
 
     public Integer getId() {
         return id;
@@ -85,11 +85,11 @@ public class Treasure extends BaseModel {
         this.treasurecode = treasurecode;
     }
 
-    public String getMoney() {
+    public Integer getMoney() {
         return money;
     }
 
-    public void setMoney(String money) {
-        this.money = money == null ? null : money.trim();
+    public void setMoney(Integer money) {
+        this.money = money;
     }
 }

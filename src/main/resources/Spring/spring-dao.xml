@@ -8,7 +8,9 @@
           init-method="init" destroy-method="close">
         <!-- 配置连接池属性 -->
         <property name="driverClassName" value="${driverClass}"/>
-
+        <property name="username" value="myuser"/>
+        <property name="password" value="mypassword"/>
+        <property name="url" value="${jdbcUrl}"/>
         <!-- 配置初始化大小、最小、最大 -->
         <property name="initialSize" value="1" />
         <property name="minIdle" value="1" />
