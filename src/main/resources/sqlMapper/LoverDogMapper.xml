@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.loversAPP.dao.DigHistoryMapper">
-  <resultMap id="BaseResultMap" type="org.loversAPP.model.DigHistory">
+<mapper namespace="org.loversAPP.dao.LoverDogMapper">
+  <resultMap id="BaseResultMap" type="org.loversAPP.model.LoverDog">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="digUserID" jdbcType="INTEGER" property="diguserid" />
-    <result column="treasureCode" jdbcType="INTEGER" property="treasurecode" />
-    <result column="digTime" jdbcType="TIMESTAMP" property="digtime" />
+    <result column="userItemID" jdbcType="INTEGER" property="useritemid" />
+    <result column="insertTime" jdbcType="TIMESTAMP" property="inserttime" />
+    <result column="loverID" jdbcType="INTEGER" property="loverid" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -66,15 +66,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, digUserID, treasureCode, digTime
+    id, userItemID, insertTime, loverID
   </sql>
-  <select id="selectByExample" parameterType="org.loversAPP.model.DigHistoryExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="org.loversAPP.model.LoverDogExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from dig_history
+    from lover_dog
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -85,76 +85,76 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from dig_history
+    from lover_dog
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from dig_history
+    delete from lover_dog
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="org.loversAPP.model.DigHistoryExample">
-    delete from dig_history
+  <delete id="deleteByExample" parameterType="org.loversAPP.model.LoverDogExample">
+    delete from lover_dog
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="org.loversAPP.model.DigHistory">
+  <insert id="insert" parameterType="org.loversAPP.model.LoverDog">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into dig_history (digUserID, treasureCode, digTime
+    insert into lover_dog (userItemID, insertTime, loverID
       )
-    values (#{diguserid,jdbcType=INTEGER}, #{treasurecode,jdbcType=INTEGER}, #{digtime,jdbcType=TIMESTAMP}
+    values (#{useritemid,jdbcType=INTEGER}, #{inserttime,jdbcType=TIMESTAMP}, #{loverid,jdbcType=INTEGER}
       )
   </insert>
-  <insert id="insertSelective" parameterType="org.loversAPP.model.DigHistory">
+  <insert id="insertSelective" parameterType="org.loversAPP.model.LoverDog">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into dig_history
+    insert into lover_dog
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="diguserid != null">
-        digUserID,
+      <if test="useritemid != null">
+        userItemID,
       </if>
-      <if test="treasurecode != null">
-        treasureCode,
+      <if test="inserttime != null">
+        insertTime,
       </if>
-      <if test="digtime != null">
-        digTime,
+      <if test="loverid != null">
+        loverID,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="diguserid != null">
-        #{diguserid,jdbcType=INTEGER},
+      <if test="useritemid != null">
+        #{useritemid,jdbcType=INTEGER},
       </if>
-      <if test="treasurecode != null">
-        #{treasurecode,jdbcType=INTEGER},
+      <if test="inserttime != null">
+        #{inserttime,jdbcType=TIMESTAMP},
       </if>
-      <if test="digtime != null">
-        #{digtime,jdbcType=TIMESTAMP},
+      <if test="loverid != null">
+        #{loverid,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="org.loversAPP.model.DigHistoryExample" resultType="java.lang.Long">
-    select count(*) from dig_history
+  <select id="countByExample" parameterType="org.loversAPP.model.LoverDogExample" resultType="java.lang.Long">
+    select count(*) from lover_dog
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update dig_history
+    update lover_dog
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.diguserid != null">
-        digUserID = #{record.diguserid,jdbcType=INTEGER},
+      <if test="record.useritemid != null">
+        userItemID = #{record.useritemid,jdbcType=INTEGER},
       </if>
-      <if test="record.treasurecode != null">
-        treasureCode = #{record.treasurecode,jdbcType=INTEGER},
+      <if test="record.inserttime != null">
+        insertTime = #{record.inserttime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.digtime != null">
-        digTime = #{record.digtime,jdbcType=TIMESTAMP},
+      <if test="record.loverid != null">
+        loverID = #{record.loverid,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null">
@@ -162,35 +162,35 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update dig_history
+    update lover_dog
     set id = #{record.id,jdbcType=INTEGER},
-      digUserID = #{record.diguserid,jdbcType=INTEGER},
-      treasureCode = #{record.treasurecode,jdbcType=INTEGER},
-      digTime = #{record.digtime,jdbcType=TIMESTAMP}
+      userItemID = #{record.useritemid,jdbcType=INTEGER},
+      insertTime = #{record.inserttime,jdbcType=TIMESTAMP},
+      loverID = #{record.loverid,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="org.loversAPP.model.DigHistory">
-    update dig_history
+  <update id="updateByPrimaryKeySelective" parameterType="org.loversAPP.model.LoverDog">
+    update lover_dog
     <set>
-      <if test="diguserid != null">
-        digUserID = #{diguserid,jdbcType=INTEGER},
+      <if test="useritemid != null">
+        userItemID = #{useritemid,jdbcType=INTEGER},
       </if>
-      <if test="treasurecode != null">
-        treasureCode = #{treasurecode,jdbcType=INTEGER},
+      <if test="inserttime != null">
+        insertTime = #{inserttime,jdbcType=TIMESTAMP},
       </if>
-      <if test="digtime != null">
-        digTime = #{digtime,jdbcType=TIMESTAMP},
+      <if test="loverid != null">
+        loverID = #{loverid,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="org.loversAPP.model.DigHistory">
-    update dig_history
-    set digUserID = #{diguserid,jdbcType=INTEGER},
-      treasureCode = #{treasurecode,jdbcType=INTEGER},
-      digTime = #{digtime,jdbcType=TIMESTAMP}
+  <update id="updateByPrimaryKey" parameterType="org.loversAPP.model.LoverDog">
+    update lover_dog
+    set userItemID = #{useritemid,jdbcType=INTEGER},
+      insertTime = #{inserttime,jdbcType=TIMESTAMP},
+      loverID = #{loverid,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

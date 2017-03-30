@@ -40,4 +40,8 @@ public class UserTextServiceImpl implements UserTextService {
     public Integer deleteTextByID(Integer id) {
         return textRecordsMapper.deleteByPrimaryKey(id);
     }
+
+    public List<TextRecords> getTextRecordsByiuserid() {
+        return textRecordsMapper.getTextRecordsByiuserid();
+    }
 }

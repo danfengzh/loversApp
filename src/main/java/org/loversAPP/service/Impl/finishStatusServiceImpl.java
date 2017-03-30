@@ -18,14 +18,11 @@ public class finishStatusServiceImpl implements finishStatusService {
     @Autowired
     private FinishStatusMapper finishStatusMapper;
     @Transactional
-    @Override
     public Integer finishStatus(Integer userID) {
         FinishStatus finishStatus=new FinishStatus();
         finishStatus.setUserid(userID);
         return finishStatusMapper.insertSelective(finishStatus);
     }
-
-    @Override
     public int setFinishStatusByUID(Integer userID,Integer status) {
         FinishStatus finishStatus=new FinishStatus();
         finishStatus.setFinishstatus(status);
@@ -35,7 +32,6 @@ public class finishStatusServiceImpl implements finishStatusService {
         return status;
     }
 
-    @Override
     public FinishStatus getFinishStatusByUID(Integer userID) {
         FinishStatusExample finishStatusExample=new FinishStatusExample();
         finishStatusExample.createCriteria().andUseridEqualTo(userID);

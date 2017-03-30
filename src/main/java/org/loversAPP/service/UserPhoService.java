@@ -1,6 +1,7 @@
 package org.loversAPP.service;
 
 import org.loversAPP.DTO.UserPhoto;
+import org.loversAPP.model.PhotoRecords;
 
 import java.util.List;
 
@@ -22,4 +23,7 @@ public interface UserPhoService {
     public Integer deletePhotoByID(Integer id);
 
     public int deletePhotoByID(int id);
+
+    public List<PhotoRecords> getOuterUserPhotosByUseriD();
+
 }

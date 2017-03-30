@@ -15,23 +15,23 @@ import java.util.List;
 public class MomentServiceImpl implements MomentService {
     @Autowired
     private MomentMapper momentMapper;
-    @Override
+
     public int insertMoment(Moment moment) {
 
         return momentMapper.insertSelective(moment);
     }
 
-    @Override
+
     public int deleteMomentByID(int id) {
         return momentMapper.deleteByPrimaryKey(id);
     }
 
-    @Override
+
     public List<Moment> getMommentByUID(int userID) {
         return momentMapper.selectByUserid(userID);
     }
 
-    @Override
+
     public Moment getMommentByID(int id) {
         return momentMapper.selectByPrimaryKey(id);
     }

@@ -32,4 +32,5 @@ public interface PhotoRecordsMapper {
     int updateByPrimaryKey(PhotoRecords record);
     List<UserPhoto> getPhotosByUserID(Integer userid);
     public List<UserPhoto> getPhotosByRecordsID (Integer recoiD);
+    List<PhotoRecords> getOuterUserPhotosByUseriD();
 }

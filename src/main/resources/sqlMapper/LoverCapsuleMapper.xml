@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.loversAPP.dao.PhotoRecordsMapper">
-  <resultMap id="BaseResultMap" type="org.loversAPP.model.PhotoRecords">
+<mapper namespace="org.loversAPP.dao.LoverCapsuleMapper">
+  <resultMap id="BaseResultMap" type="org.loversAPP.model.LoverCapsule">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="recordsID" jdbcType="INTEGER" property="recordsid" />
+    <result column="userItemID" jdbcType="INTEGER" property="useritemid" />
+    <result column="openDay" jdbcType="VARCHAR" property="openday" />
     <result column="userID" jdbcType="INTEGER" property="userid" />
-    <result column="photo" jdbcType="VARCHAR" property="photo" />
     <result column="content" jdbcType="VARCHAR" property="content" />
-    <result column="publishDate" jdbcType="TIMESTAMP" property="publishdate" />
-    <result column="longtitude" jdbcType="VARCHAR" property="longtitude" />
-    <result column="latitude" jdbcType="VARCHAR" property="latitude" />
+    <result column="photo" jdbcType="VARCHAR" property="photo" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -70,15 +69,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, recordsID, userID, photo, content, publishDate, longtitude, latitude
+    id, userItemID, openDay, userID, content, photo, state
   </sql>
-  <select id="selectByExample" parameterType="org.loversAPP.model.PhotoRecordsExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="org.loversAPP.model.LoverCapsuleExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from photo_records
+    from lover_ capsule
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -87,168 +86,107 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select
+    select 
     <include refid="Base_Column_List" />
-    from photo_records
+    from lover_ capsule
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from photo_records
+    delete from lover_ capsule
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="org.loversAPP.model.PhotoRecordsExample">
-    delete from photo_records
+  <delete id="deleteByExample" parameterType="org.loversAPP.model.LoverCapsuleExample">
+    delete from lover_ capsule
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="org.loversAPP.model.PhotoRecords">
+  <insert id="insert" parameterType="org.loversAPP.model.LoverCapsule">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into photo_records (recordsID, userID, photo,
-    content, publishDate, longtitude,
-    latitude)
-    values (#{recordsid,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{photo,jdbcType=VARCHAR},
-    #{content,jdbcType=VARCHAR}, #{publishdate,jdbcType=TIMESTAMP}, #{longtitude,jdbcType=VARCHAR},
-    #{latitude,jdbcType=VARCHAR})
+    insert into lover_ capsule (userItemID, openDay, userID, 
+      content, photo, state
+      )
+    values (#{useritemid,jdbcType=INTEGER}, #{openday,jdbcType=VARCHAR}, #{userid,jdbcType=INTEGER}, 
+      #{content,jdbcType=VARCHAR}, #{photo,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="org.loversAPP.model.PhotoRecords">
+  <insert id="insertSelective" parameterType="org.loversAPP.model.LoverCapsule">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into photo_records
+    insert into lover_ capsule
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="recordsid != null">
-        recordsID,
+      <if test="useritemid != null">
+        userItemID,
+      </if>
+      <if test="openday != null">
+        openDay,
       </if>
       <if test="userid != null">
         userID,
       </if>
-      <if test="photo != null">
-        photo,
-      </if>
       <if test="content != null">
         content,
       </if>
-      <if test="publishdate != null">
-        publishDate,
+      <if test="photo != null">
+        photo,
       </if>
-      <if test="longtitude != null">
-        longtitude,
-      </if>
-      <if test="latitude != null">
-        latitude,
+      <if test="state != null">
+        state,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="recordsid != null">
-        #{recordsid,jdbcType=INTEGER},
+      <if test="useritemid != null">
+        #{useritemid,jdbcType=INTEGER},
+      </if>
+      <if test="openday != null">
+        #{openday,jdbcType=VARCHAR},
       </if>
       <if test="userid != null">
         #{userid,jdbcType=INTEGER},
       </if>
-      <if test="photo != null">
-        #{photo,jdbcType=VARCHAR},
-      </if>
       <if test="content != null">
         #{content,jdbcType=VARCHAR},
       </if>
-      <if test="publishdate != null">
-        #{publishdate,jdbcType=TIMESTAMP},
+      <if test="photo != null">
+        #{photo,jdbcType=VARCHAR},
       </if>
-      <if test="longtitude != null">
-        #{longtitude,jdbcType=VARCHAR},
-      </if>
-      <if test="latitude != null">
-        #{latitude,jdbcType=VARCHAR},
+      <if test="state != null">
+        #{state,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="org.loversAPP.model.PhotoRecordsExample" resultType="java.lang.Long">
-    select count(*) from photo_records
+  <select id="countByExample" parameterType="org.loversAPP.model.LoverCapsuleExample" resultType="java.lang.Long">
+    select count(*) from lover_ capsule
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <select id="getPhotosByUserID" resultType="org.loversAPP.DTO.UserPhoto">
-SELECT
-`user`.userName,
-`user`.avator,
-photo_records.photo,
-photo_records.content,
-photo_records.publishDate,
-photo_records.longtitude,
-photo_records.latitude
-FROM
-photo_records ,
-`user`
-WHERE
-photo_records.userID = `user`.id AND
-photo_records.userID=#{userid}
-
-
-    </select>
-  <select id="getPhotosByRecordsID" resultType="org.loversAPP.DTO.UserPhoto">
-    SELECT
-`user`.userName,
-`user`.avator,
-photo_records.photo,
-photo_records.content,
-photo_records.publishDate,
-photo_records.longtitude,
-photo_records.latitude
-FROM
-photo_records ,
-`user`
-WHERE
-photo_records.userID = `user`.id AND
-photo_records.recordsID=#{recoiD}
-
-  </select>
-  <select id="getOuterUserPhotosByUseriD" resultMap="BaseResultMap">
-    SELECT
-photo_records.publishDate,
-photo_records.id
-FROM `photo_records`
-WHERE
-photo_records.recordsID=-1
-  </select>
-  <!--<select id="getOuterUserPhotosByUseriD" resultType="org.loversAPP.DTO.UserPhoto">-->
-  <!--SELECT-->
-  <!--photo_records.publishDate,-->
-  <!--photo_records.id-->
-  <!--FROM `photo_records`-->
-  <!--WHERE-->
-  <!--photo_records.userID=#{userid} AND-->
-  <!--photo_records.recordsID=-1-->
-  <!--</select>-->
   <update id="updateByExampleSelective" parameterType="map">
-    update photo_records
+    update lover_ capsule
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.recordsid != null">
-        recordsID = #{record.recordsid,jdbcType=INTEGER},
+      <if test="record.useritemid != null">
+        userItemID = #{record.useritemid,jdbcType=INTEGER},
+      </if>
+      <if test="record.openday != null">
+        openDay = #{record.openday,jdbcType=VARCHAR},
       </if>
       <if test="record.userid != null">
         userID = #{record.userid,jdbcType=INTEGER},
       </if>
-      <if test="record.photo != null">
-        photo = #{record.photo,jdbcType=VARCHAR},
-      </if>
       <if test="record.content != null">
         content = #{record.content,jdbcType=VARCHAR},
       </if>
-      <if test="record.publishdate != null">
-        publishDate = #{record.publishdate,jdbcType=TIMESTAMP},
+      <if test="record.photo != null">
+        photo = #{record.photo,jdbcType=VARCHAR},
       </if>
-      <if test="record.longtitude != null">
-        longtitude = #{record.longtitude,jdbcType=VARCHAR},
-      </if>
-      <if test="record.latitude != null">
-        latitude = #{record.latitude,jdbcType=VARCHAR},
+      <if test="record.state != null">
+        state = #{record.state,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -256,55 +194,50 @@ photo_records.recordsID=-1
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update photo_records
+    update lover_ capsule
     set id = #{record.id,jdbcType=INTEGER},
-    recordsID = #{record.recordsid,jdbcType=INTEGER},
-    userID = #{record.userid,jdbcType=INTEGER},
-    photo = #{record.photo,jdbcType=VARCHAR},
-    content = #{record.content,jdbcType=VARCHAR},
-    publishDate = #{record.publishdate,jdbcType=TIMESTAMP},
-    longtitude = #{record.longtitude,jdbcType=VARCHAR},
-    latitude = #{record.latitude,jdbcType=VARCHAR}
+      userItemID = #{record.useritemid,jdbcType=INTEGER},
+      openDay = #{record.openday,jdbcType=VARCHAR},
+      userID = #{record.userid,jdbcType=INTEGER},
+      content = #{record.content,jdbcType=VARCHAR},
+      photo = #{record.photo,jdbcType=VARCHAR},
+      state = #{record.state,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="org.loversAPP.model.PhotoRecords">
-    update photo_records
+  <update id="updateByPrimaryKeySelective" parameterType="org.loversAPP.model.LoverCapsule">
+    update lover_ capsule
     <set>
-      <if test="recordsid != null">
-        recordsID = #{recordsid,jdbcType=INTEGER},
+      <if test="useritemid != null">
+        userItemID = #{useritemid,jdbcType=INTEGER},
+      </if>
+      <if test="openday != null">
+        openDay = #{openday,jdbcType=VARCHAR},
       </if>
       <if test="userid != null">
         userID = #{userid,jdbcType=INTEGER},
       </if>
-      <if test="photo != null">
-        photo = #{photo,jdbcType=VARCHAR},
-      </if>
       <if test="content != null">
         content = #{content,jdbcType=VARCHAR},
       </if>
-      <if test="publishdate != null">
-        publishDate = #{publishdate,jdbcType=TIMESTAMP},
+      <if test="photo != null">
+        photo = #{photo,jdbcType=VARCHAR},
       </if>
-      <if test="longtitude != null">
-        longtitude = #{longtitude,jdbcType=VARCHAR},
-      </if>
-      <if test="latitude != null">
-        latitude = #{latitude,jdbcType=VARCHAR},
+      <if test="state != null">
+        state = #{state,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="org.loversAPP.model.PhotoRecords">
-    update photo_records
-    set recordsID = #{recordsid,jdbcType=INTEGER},
+  <update id="updateByPrimaryKey" parameterType="org.loversAPP.model.LoverCapsule">
+    update lover_ capsule
+    set userItemID = #{useritemid,jdbcType=INTEGER},
+      openDay = #{openday,jdbcType=VARCHAR},
       userID = #{userid,jdbcType=INTEGER},
-      photo = #{photo,jdbcType=VARCHAR},
       content = #{content,jdbcType=VARCHAR},
-      publishDate = #{publishdate,jdbcType=TIMESTAMP},
-      longtitude = #{longtitude,jdbcType=VARCHAR},
-      latitude = #{latitude,jdbcType=VARCHAR}
+      photo = #{photo,jdbcType=VARCHAR},
+      state = #{state,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

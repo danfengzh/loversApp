@@ -1,12 +1,9 @@
+
 package org.loversAPP.service.Impl;
 
 import org.loversAPP.DTO.ItemCountWrapper;
 import org.loversAPP.DTO.UserItemCount;
-import org.loversAPP.dao.UserOneItemMapper;
-import org.loversAPP.dao.DoodlePhotoMapper;
-import org.loversAPP.dao.ItemMapper;
-import org.loversAPP.dao.UserItemMapper;
-import org.loversAPP.dao.UserMapper;
+import org.loversAPP.dao.*;
 import org.loversAPP.model.*;
 import org.loversAPP.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
-/**
- * Created by Administrator on 2017/3/6.
- */
+
+
 @Service
 public class ItemServiceImpl implements ItemService {
     @Autowired
@@ -75,11 +71,8 @@ public class ItemServiceImpl implements ItemService {
     public Integer deleteItemByID(Integer itemId) {
         return itemMapper.deleteByPrimaryKey(itemId);
     }
-    /**
-     * 根据用户id来获取道具
-     * @param usID
-     * @return
-     */
+
+
 
     public List<UserItemCount> getItemsByUID(Integer usID) {
 
@@ -148,6 +141,5 @@ public class ItemServiceImpl implements ItemService {
     public UserItem getSpeicUseritembY(int userid, int itemid) {
         return userItemMapper.getSpeicUseritembY(userid,itemid);
     }
-
-
 }
+

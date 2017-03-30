@@ -1,5 +1,6 @@
 package org.loversAPP.service.Impl;
 
+import org.loversAPP.DTO.MyVersion;
 import org.loversAPP.dao.VersionMapper;
 import org.loversAPP.model.Version;
 import org.loversAPP.service.VsersionService;
@@ -15,6 +16,10 @@ public class VsersionServiceImpl implements VsersionService {
     private VersionMapper versionMapper;
     public Version getVersionByid() {
         return versionMapper.selectByPrimaryKey(1);
+    }
+
+    public MyVersion getMyVersionByid() {
+        return versionMapper.getMyversion();
     }
 
     public int updateVersion(Version version) {

@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.loversAPP.dao.TreasureMapper">
-  <cache type="org.loversAPP.Cache.RedisCache"/>
   <resultMap id="BaseResultMap" type="org.loversAPP.model.Treasure">
     <id column="id" jdbcType="INTEGER" property="id" />
     <id column="userID" jdbcType="INTEGER" property="userid" />
-    <id column="treasureType" jdbcType="INTEGER" property="treasuretype" />
-    <result column="treasureName" jdbcType="VARCHAR" property="treasurename" />
-    <result column="treasureValue" jdbcType="INTEGER" property="treasurevalue" />
     <result column="longtitude" jdbcType="VARCHAR" property="longtitude" />
     <result column=" latitude" jdbcType="VARCHAR" property="latitude" />
+    <result column="treasureCode" jdbcType="INTEGER" property="treasurecode" />
+    <result column="money" jdbcType="INTEGER" property="money" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -70,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, userID, treasureType, treasureName, treasureValue, longtitude, " latitude"
+    id, userID, longtitude, " latitude", treasureCode, money
   </sql>
   <select id="selectByExample" parameterType="org.loversAPP.model.TreasureExample" resultMap="BaseResultMap">
     select
@@ -87,18 +85,16 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from treasure
     where id = #{id,jdbcType=INTEGER}
-      and userID = #{userid,jdbcType=INTEGER}
-      and treasureType = #{treasuretype,jdbcType=INTEGER}
+    and userID = #{userid,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="map">
     delete from treasure
     where id = #{id,jdbcType=INTEGER}
       and userID = #{userid,jdbcType=INTEGER}
-      and treasureType = #{treasuretype,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="org.loversAPP.model.TreasureExample">
     delete from treasure
@@ -106,16 +102,18 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
+  <delete id="deleteTreasureByID">
+    DELETE FROM treasure
+    WHERE id=#{id}
+  </delete>
   <insert id="insert" parameterType="org.loversAPP.model.Treasure">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into treasure (userID, treasureType, treasureName, 
-      treasureValue, longtitude, " latitude"
-      )
-    values (#{userid,jdbcType=INTEGER}, #{treasuretype,jdbcType=INTEGER}, #{treasurename,jdbcType=VARCHAR}, 
-      #{treasurevalue,jdbcType=INTEGER}, #{longtitude,jdbcType=VARCHAR}, #{latitude,jdbcType=VARCHAR}
-      )
+    insert into treasure (userID, longtitude, " latitude",
+    treasureCode, money)
+    values (#{userid,jdbcType=INTEGER}, #{longtitude,jdbcType=VARCHAR}, #{latitude,jdbcType=VARCHAR},
+    #{treasurecode,jdbcType=INTEGER}, #{money,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="org.loversAPP.model.Treasure">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -126,34 +124,22 @@
       <if test="userid != null">
         userID,
       </if>
-      <if test="treasuretype != null">
-        treasureType,
-      </if>
-      <if test="treasurename != null">
-        treasureName,
-      </if>
-      <if test="treasurevalue != null">
-        treasureValue,
-      </if>
       <if test="longtitude != null">
         longtitude,
       </if>
       <if test="latitude != null">
         " latitude",
       </if>
+      <if test="treasurecode != null">
+        treasureCode,
+      </if>
+      <if test="money != null">
+        money,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="userid != null">
         #{userid,jdbcType=INTEGER},
-      </if>
-      <if test="treasuretype != null">
-        #{treasuretype,jdbcType=INTEGER},
-      </if>
-      <if test="treasurename != null">
-        #{treasurename,jdbcType=VARCHAR},
-      </if>
-      <if test="treasurevalue != null">
-        #{treasurevalue,jdbcType=INTEGER},
       </if>
       <if test="longtitude != null">
         #{longtitude,jdbcType=VARCHAR},
@@ -161,13 +147,34 @@
       <if test="latitude != null">
         #{latitude,jdbcType=VARCHAR},
       </if>
+      <if test="treasurecode != null">
+        #{treasurecode,jdbcType=INTEGER},
+      </if>
+      <if test="money != null">
+        #{money,jdbcType=INTEGER},
+      </if>
     </trim>
+  </insert>
+  <insert id="insertBathch">
+    <!-- 批量的插入学生记录-->
+    INSERT treasure (userID,longtitude,latitude,treasureCode,money) VALUES
+    <foreach collection="treasures" item="item" separator=",">
+      (#{item.userid},#{item.longtitude},#{item.latitude},#{item.treasurecode},0)
+    </foreach>
   </insert>
   <select id="countByExample" parameterType="org.loversAPP.model.TreasureExample" resultType="java.lang.Long">
     select count(*) from treasure
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
+  </select>
+  <select id="getTreasureByID" resultMap="BaseResultMap">
+    SELECT * FROM treasure
+    WHERE id=#{id}
+
+  </select>
+  <select id="getAllTreasures" resultMap="BaseResultMap">
+     SELECT * FROM treasure
   </select>
   <update id="updateByExampleSelective" parameterType="map">
     update treasure
@@ -178,20 +185,17 @@
       <if test="record.userid != null">
         userID = #{record.userid,jdbcType=INTEGER},
       </if>
-      <if test="record.treasuretype != null">
-        treasureType = #{record.treasuretype,jdbcType=INTEGER},
-      </if>
-      <if test="record.treasurename != null">
-        treasureName = #{record.treasurename,jdbcType=VARCHAR},
-      </if>
-      <if test="record.treasurevalue != null">
-        treasureValue = #{record.treasurevalue,jdbcType=INTEGER},
-      </if>
       <if test="record.longtitude != null">
         longtitude = #{record.longtitude,jdbcType=VARCHAR},
       </if>
       <if test="record.latitude != null">
         " latitude" = #{record.latitude,jdbcType=VARCHAR},
+      </if>
+      <if test="record.treasurecode != null">
+        treasureCode = #{record.treasurecode,jdbcType=INTEGER},
+      </if>
+      <if test="record.money != null">
+        money = #{record.money,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null">
@@ -201,12 +205,11 @@
   <update id="updateByExample" parameterType="map">
     update treasure
     set id = #{record.id,jdbcType=INTEGER},
-      userID = #{record.userid,jdbcType=INTEGER},
-      treasureType = #{record.treasuretype,jdbcType=INTEGER},
-      treasureName = #{record.treasurename,jdbcType=VARCHAR},
-      treasureValue = #{record.treasurevalue,jdbcType=INTEGER},
-      longtitude = #{record.longtitude,jdbcType=VARCHAR},
-      " latitude" = #{record.latitude,jdbcType=VARCHAR}
+    userID = #{record.userid,jdbcType=INTEGER},
+    longtitude = #{record.longtitude,jdbcType=VARCHAR},
+    " latitude" = #{record.latitude,jdbcType=VARCHAR},
+    treasureCode = #{record.treasurecode,jdbcType=INTEGER},
+    money = #{record.money,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -214,31 +217,29 @@
   <update id="updateByPrimaryKeySelective" parameterType="org.loversAPP.model.Treasure">
     update treasure
     <set>
-      <if test="treasurename != null">
-        treasureName = #{treasurename,jdbcType=VARCHAR},
-      </if>
-      <if test="treasurevalue != null">
-        treasureValue = #{treasurevalue,jdbcType=INTEGER},
-      </if>
       <if test="longtitude != null">
         longtitude = #{longtitude,jdbcType=VARCHAR},
       </if>
       <if test="latitude != null">
         " latitude" = #{latitude,jdbcType=VARCHAR},
       </if>
+      <if test="treasurecode != null">
+        treasureCode = #{treasurecode,jdbcType=INTEGER},
+      </if>
+      <if test="money != null">
+        money = #{money,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
-      and userID = #{userid,jdbcType=INTEGER}
-      and treasureType = #{treasuretype,jdbcType=INTEGER}
+    and userID = #{userid,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="org.loversAPP.model.Treasure">
     update treasure
-    set treasureName = #{treasurename,jdbcType=VARCHAR},
-      treasureValue = #{treasurevalue,jdbcType=INTEGER},
-      longtitude = #{longtitude,jdbcType=VARCHAR},
-      " latitude" = #{latitude,jdbcType=VARCHAR}
+    set longtitude = #{longtitude,jdbcType=VARCHAR},
+      " latitude" = #{latitude,jdbcType=VARCHAR},
+      treasureCode = #{treasurecode,jdbcType=INTEGER},
+      money = #{money,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
       and userID = #{userid,jdbcType=INTEGER}
-      and treasureType = #{treasuretype,jdbcType=INTEGER}
   </update>
 </mapper>

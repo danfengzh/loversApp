@@ -1,5 +1,6 @@
 package org.loversAPP.service;
 
+import org.loversAPP.DTO.MyVersion;
 import org.loversAPP.model.Version;
 
 /**
@@ -8,6 +9,6 @@ import org.loversAPP.model.Version;
 public interface VsersionService {
 
     public Version getVersionByid();
-
+    public MyVersion getMyVersionByid();
     public int   updateVersion(Version version);
 }

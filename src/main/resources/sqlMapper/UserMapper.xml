@@ -24,7 +24,8 @@
     <result column="hobby" jdbcType="VARCHAR" property="hobby" />
     <result column="exp" jdbcType="INTEGER" property="exp" />
     <result column="backImage" jdbcType="VARCHAR" property="backimage" />
-    <result column="isAvailable" jdbcType="INTEGER" property="isavailable" />
+    <result column="money" jdbcType="INTEGER" property="money" />
+    <result column="regDate" jdbcType="TIMESTAMP" property="regdate" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -85,9 +86,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, userName, passWord, avator, wexID, qq, phoneNumber, level, signature, inviteCode,
-    sex, stauts, longtitude, latitude, stepsToday, checkinDays, age, height, weight,
-    hobby, exp, backImage, isAvailable
+    id, userName, passWord, avator, wexID, qq, phoneNumber, level, signature, inviteCode, 
+    sex, stauts, longtitude, latitude, stepsToday, checkinDays, age, height, weight, 
+    hobby, exp, backImage, money, regDate
   </sql>
   <select id="selectByExample" parameterType="org.loversAPP.model.UserExample" resultMap="BaseResultMap">
     select
@@ -119,6 +120,9 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
+  <delete id="deleteLocByID">
+    DELETE FROM  user_cirlocation WHERE  userID=#{userid}
+  </delete>
   <insert id="insert" parameterType="org.loversAPP.model.User">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
@@ -130,7 +134,7 @@
     latitude, stepsToday, checkinDays,
     age, height, weight,
     hobby, exp, backImage,
-    isAvailable)
+    money, regDate)
     values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{avator,jdbcType=VARCHAR},
     #{wexid,jdbcType=VARCHAR}, #{qq,jdbcType=VARCHAR}, #{phonenumber,jdbcType=VARCHAR},
     #{level,jdbcType=INTEGER}, #{signature,jdbcType=VARCHAR}, #{invitecode,jdbcType=VARCHAR},
@@ -138,7 +142,7 @@
     #{latitude,jdbcType=VARCHAR}, #{stepstoday,jdbcType=INTEGER}, #{checkindays,jdbcType=INTEGER},
     #{age,jdbcType=INTEGER}, #{height,jdbcType=INTEGER}, #{weight,jdbcType=INTEGER},
     #{hobby,jdbcType=VARCHAR}, #{exp,jdbcType=INTEGER}, #{backimage,jdbcType=VARCHAR},
-    #{isavailable,jdbcType=INTEGER})
+    #{money,jdbcType=INTEGER}, #{regdate,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="org.loversAPP.model.User">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -209,8 +213,11 @@
       <if test="backimage != null">
         backImage,
       </if>
-      <if test="isavailable != null">
-        isAvailable,
+      <if test="money != null">
+        money,
+      </if>
+      <if test="regdate != null">
+        regDate,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -277,10 +284,19 @@
       <if test="backimage != null">
         #{backimage,jdbcType=VARCHAR},
       </if>
-      <if test="isavailable != null">
-        #{isavailable,jdbcType=INTEGER},
+      <if test="money != null">
+        #{money,jdbcType=INTEGER},
+      </if>
+      <if test="regdate != null">
+        #{regdate,jdbcType=TIMESTAMP},
       </if>
     </trim>
+  </insert>
+  <insert id="insertLocation">
+    INSERT user_cirlocation(userID,latitude,longtitude) VALUES(#{userID},#{latitude},#{longtitude})
+  </insert>
+  <insert id="insertSingleSign">
+    INSERT single_signin(userID,signDate) VALUES(#{userID},#{signDate})
   </insert>
   <select id="countByExample" parameterType="org.loversAPP.model.UserExample" resultType="java.lang.Long">
     select count(*) from user
@@ -357,8 +373,11 @@
       <if test="record.backimage != null">
         backImage = #{record.backimage,jdbcType=VARCHAR},
       </if>
-      <if test="record.isavailable != null">
-        isAvailable = #{record.isavailable,jdbcType=INTEGER},
+      <if test="record.money != null">
+        money = #{record.money,jdbcType=INTEGER},
+      </if>
+      <if test="record.regdate != null">
+        regDate = #{record.regdate,jdbcType=TIMESTAMP},
       </if>
     </set>
     <if test="_parameter != null">
@@ -389,7 +408,8 @@
     hobby = #{record.hobby,jdbcType=VARCHAR},
     exp = #{record.exp,jdbcType=INTEGER},
     backImage = #{record.backimage,jdbcType=VARCHAR},
-    isAvailable = #{record.isavailable,jdbcType=INTEGER}
+    money = #{record.money,jdbcType=INTEGER},
+    regDate = #{record.regdate,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -460,8 +480,11 @@
       <if test="backimage != null">
         backImage = #{backimage,jdbcType=VARCHAR},
       </if>
-      <if test="isavailable != null">
-        isAvailable = #{isavailable,jdbcType=INTEGER},
+      <if test="money != null">
+        money = #{money,jdbcType=INTEGER},
+      </if>
+      <if test="regdate != null">
+        regDate = #{regdate,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -489,7 +512,8 @@
       hobby = #{hobby,jdbcType=VARCHAR},
       exp = #{exp,jdbcType=INTEGER},
       backImage = #{backimage,jdbcType=VARCHAR},
-      isAvailable = #{isavailable,jdbcType=INTEGER}
+      money = #{money,jdbcType=INTEGER},
+      regDate = #{regdate,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="getAllUsers" resultMap="BaseResultMap">
@@ -511,9 +535,49 @@
   </select>
   <select id="getInviteCodeByID" resultType="java.lang.String">
     SELECT
-`user`.inviteCode
+    `user`.inviteCode
+    FROM `user`
+    WHERE
+    `user`.id=#{id}
+  </select>
+  <select id="getAllUserDistances" resultType="org.loversAPP.DTO.UserDistance">
+      SELECT
+`user`.id userID,
+`user`.avator,
+`user`.sex
+FROM `user`
+WHERE  stauts=1
+    </select>
+  <select id="getAllPositionUsers" resultType="org.loversAPP.DTO.PositionUser">
+    SELECT
+`user`.id,
+`user`.longtitude,
+`user`.latitude,
+`user`.avator avatar,
+`user`.sex
+FROM `user`
+  </select>
+  <!--
+    SELECT * FROM `user` where userName like '%w%' and stauts=1;
+    -->
+  <select id="searchUserByName" resultType="org.loversAPP.model.User">
+     SELECT *
 FROM `user`
 WHERE
-`user`.id=#{id}
+userName  LIKE '%' #{username} '%'
+and stauts=1
+  </select>
+  <select id="getLocationByiD" resultType="org.loversAPP.DTO.location">
+    SELECT
+user_cirlocation.latitude latitud,
+user_cirlocation.longtitude longtitud
+FROM
+user_cirlocation
+WHERE
+user_cirlocation.userID=#{userid}
+  </select>
+  <select id="getSignCount" resultType="java.lang.Integer">
+    SELECT COUNT(*) FROM single_signin WHERE userID=#{userid} and
+    signDate=#{signDate}
   </select>
 </mapper>

@@ -6,6 +6,8 @@ import org.loversAPP.Controller.utils.fileUpload;
 import org.loversAPP.DTO.FeedBack;
 import org.loversAPP.DTO.ItemCountWrapper;
 import org.loversAPP.DTO.UserItemCount;
+import org.loversAPP.SheduleTask.SheduleTaskJobForText;
+import org.loversAPP.SheduleTask.SheduleTaskJobForUserPhoto;
 import org.loversAPP.model.Item;
 import org.loversAPP.model.Moment;
 import org.loversAPP.model.UserItem;
@@ -39,6 +41,10 @@ public class ItemController extends BaseController {
     private UserPhoService userPhoService;
     @Autowired
     private UserTextService userTextService;
+    @Autowired
+    private SheduleTaskJobForUserPhoto sheduleTaskJobForUserPhoto;
+    @Autowired
+    private SheduleTaskJobForText sheduleTaskJobForText;
     @RequestMapping(value = "/insertItem",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
     public FeedBack insertItem(String itemName , String itemFunction ,
@@ -60,7 +66,7 @@ public class ItemController extends BaseController {
     @ResponseBody
     public FeedBack insertUserItem(@RequestParam("userID") Integer userID ,@RequestParam("itemID") Integer itemID){
         FeedBack feedBack=null;
-        UserItem userItem=itemService.getUserItemByUsERid(userID);
+        UserItem userItem=itemService.getSpeicUseritembY(userID,itemID);
         UserOneItem userOneItem=new UserOneItem();
         if(userItem==null)
         {
@@ -208,6 +214,11 @@ public class ItemController extends BaseController {
         moment.setMomentimage(MomeentPath);
         moment.setMomentdate(new Date());
         moment.setCommentid(-1);
+        if(recordsID==-1){
+            //表示插入到了圈子的外面9.recordsID=-1表示插入到圈子之外了，此时服务器开启一个月倒计时服务，满期后消除该数据)
+//目前是一分钟 的进行检测
+            sheduleTaskJobForUserPhoto.testInsert();
+        }
         momentService.insertMoment(moment);
         return new FeedBack<String>("success","200");
     }
@@ -222,6 +233,11 @@ public class ItemController extends BaseController {
         moment.setMomentdate(new Date());
         moment.setMomentcontent(text);
         moment.setCommentid(-1);
+        if(recordsID==-1){
+            //表示插入到了圈子的外面9.recordsID=-1表示插入到圈子之外了，此时服务器开启一个月倒计时服务，满期后消除该数据)
+//目前是一分钟 的进行检测
+            sheduleTaskJobForText.testText();
+        }
         momentService.insertMoment(moment);
         return new FeedBack<String>("success","200");
     }

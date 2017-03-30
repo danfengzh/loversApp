@@ -196,6 +196,15 @@ text_records.userID = `user`.id AND
 text_records.recordsID=#{recordsID}
 
   </select>
+  <select id="getTextRecordsByiuserid" resultMap="BaseResultMap">
+      SELECT
+text_records.publishDate,
+text_records.id
+FROM `text_records`
+WHERE
+text_records.recordsID=-1
+
+    </select>
   <update id="updateByExampleSelective" parameterType="map">
     update text_records
     <set>

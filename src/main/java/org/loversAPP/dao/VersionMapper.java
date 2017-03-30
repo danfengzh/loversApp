@@ -1,6 +1,7 @@
 package org.loversAPP.dao;
 
 import org.apache.ibatis.annotations.Param;
+import org.loversAPP.DTO.MyVersion;
 import org.loversAPP.model.Version;
 import org.loversAPP.model.VersionExample;
 
@@ -28,4 +29,6 @@ public interface VersionMapper {
     int updateByPrimaryKeySelective(Version record);
 
     int updateByPrimaryKey(Version record);
+
+    MyVersion getMyversion();
 }
