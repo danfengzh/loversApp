@@ -28,4 +28,6 @@ public interface GoDieMapper {
     int updateByPrimaryKeySelective(GoDie record);
 
     int updateByPrimaryKey(GoDie record);
+
+    int getDogActByID(@Param("userID") int userID);
 }

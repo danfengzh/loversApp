@@ -31,7 +31,6 @@ public class messageController extends BaseController {
     @Autowired
     @Qualifier("taskExecutor")
     private TaskExecutor taskExecutor;
-
     @RequestMapping(value = "/insertMessage",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
     public FeedBack insertMessage(@RequestParam("userID")  Integer userID, @RequestParam("receiverID") final Integer receiverID ,

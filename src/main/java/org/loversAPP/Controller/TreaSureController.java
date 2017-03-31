@@ -104,7 +104,7 @@ public class TreaSureController {
             // getTreasureByID(treasureID)找到埋宝人userID,将其money增加道具原价的1/4
             User doTreauserUser=userService.getUserByID(treasure.getUserid());
             Item item=itemService.getItemByID(itemID);
-            userService.updateMoneyByID((int) (doTreauserUser.getMoney()+item.getItemprice()/4),doTreauserUser.getId());
+            userService.updateMoneyByID(doTreauserUser.getId(),(int) (doTreauserUser.getMoney()+item.getItemprice()/4));
             UserItem userItem=itemService.getSpeicUseritembY(digUserID,itemID);
             UserOneItem userOneItem=new UserOneItem();
             if(userItem==null)
