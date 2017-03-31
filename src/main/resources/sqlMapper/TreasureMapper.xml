@@ -159,7 +159,7 @@
     <!-- 批量的插入学生记录-->
     INSERT treasure (userID,longtitude,latitude,treasureCode,money) VALUES
     <foreach collection="treasures" item="item" separator=",">
-      (#{item.userid},#{item.longtitude},#{item.latitude},#{item.treasurecode},0)
+      (#{item.userid},#{item.longtitude},#{item.latitude},#{item.treasurecode},#{item.money})
     </foreach>
   </insert>
   <select id="countByExample" parameterType="org.loversAPP.model.TreasureExample" resultType="java.lang.Long">

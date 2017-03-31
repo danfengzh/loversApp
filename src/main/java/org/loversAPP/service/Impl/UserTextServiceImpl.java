@@ -44,4 +44,8 @@ public class UserTextServiceImpl implements UserTextService {
     public List<TextRecords> getTextRecordsByiuserid() {
         return textRecordsMapper.getTextRecordsByiuserid();
     }
+
+    public List<UserText> getTextsExceptOne(Integer userID) {
+        return textRecordsMapper.getTextsExceptOne(userID);
+    }
 }

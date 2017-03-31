@@ -167,7 +167,7 @@
   <select id="getTextsByUserID" resultType="org.loversAPP.DTO.UserText">
       SELECT
 `user`.userName,
-`user`.avator,
+`user`.avator avatar,
 text_records.text,
 text_records.publishDate,
 text_records.longtitude,
@@ -177,13 +177,16 @@ text_records ,
 `user`
 WHERE
 text_records.userID = `user`.id AND
-text_records.userID=#{userid}
+and #{userID} not IN(`user`.id)
 
     </select>
+  <select id="getTextsExceptOne" resultType="org.loversAPP.DTO.UserText">
+
+  </select>
   <select id="getTextsByRecordsID" resultType="org.loversAPP.DTO.UserText">
     SELECT
 `user`.userName,
-`user`.avator,
+`user`.avator avatar,
 text_records.text,
 text_records.publishDate,
 text_records.longtitude,

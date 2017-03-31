@@ -260,7 +260,41 @@ activityrecords
 WHERE
 user1.id=tempRelation.loveAID
 and user2.id=tempRelation.loveBID
-
+  </select>
+  <select id="getAllRecordsExceptMe" resultType="org.loversAPP.DTO.WrapperActicvityRecord">
+         SELECT DISTINCT
+user1.userName AS nameA,
+user1.avator AS avatarA,
+user2.userName AS nameB,
+user2.avator AS avatarB,
+tempRelation.loveAID,
+tempRelation.loveBID,
+tempRelation.loverID,
+tempRelation.id,
+tempRelation.latitude,
+tempRelation.longtitude,
+tempRelation.radius,
+tempRelation.totalSteps
+FROM
+`user` AS user1 ,
+`user` AS user2 ,
+(SELECT
+lover_ship.loverGirlID loveAID ,
+lover_ship.loverBoyID loveBID ,
+activityrecords.loverID,
+activityrecords.id,
+activityrecords.totalSteps,
+activityrecords.radius,
+activityrecords.longtitude,
+activityrecords.latitude
+FROM
+lover_ship
+INNER JOIN activityrecords ON activityrecords.loverID = lover_ship.loverID) AS tempRelation ,
+activityrecords
+WHERE
+user1.id=tempRelation.loveAID
+and user2.id=tempRelation.loveBID
+and #{userID} not  IN(user1.id,user2.id)
   </select>
   <update id="updateSelectiveByid" parameterType="java.lang.Integer">
     update activityrecords

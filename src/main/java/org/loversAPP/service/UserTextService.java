@@ -17,4 +17,7 @@ public interface UserTextService {
     public Integer deleteTextByID(Integer id);
 
     public List<TextRecords> getTextRecordsByiuserid();
+
+    List<UserText> getTextsExceptOne(Integer userID);
+
 }

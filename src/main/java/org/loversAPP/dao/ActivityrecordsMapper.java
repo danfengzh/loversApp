@@ -33,4 +33,6 @@ public interface ActivityrecordsMapper {
     public Integer updateSelectiveByid(@Param("record") Activityrecords activityrecords);
 
     List<WrapperActicvityRecord> getAllWrapperActicvityRecord();
+
+    List<WrapperActicvityRecord> getAllRecordsExceptMe(@Param("userID") int userID);
 }

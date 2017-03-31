@@ -226,9 +226,10 @@ public class ItemController extends BaseController {
     @ResponseBody
     public FeedBack<String> insertText(int recordsID,int  itemID ,
                                        int userID ,String text, String longtitude ,String latitude){
-        deleItem(itemID,userID);
+        deleItem(itemID,userID);//删除指定的道具
         userTextService.insertText(recordsID,userID,text,longtitude,latitude);//完成text的插入
         Moment moment=new Moment();
+        moment.setUserid(userID);
         moment.setMomenttype(11);
         moment.setMomentdate(new Date());
         moment.setMomentcontent(text);

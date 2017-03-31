@@ -174,7 +174,7 @@
   <select id="getPhotosByUserID" resultType="org.loversAPP.DTO.UserPhoto">
 SELECT
 `user`.userName,
-`user`.avator,
+`user`.avator avatar,
 photo_records.photo,
 photo_records.content,
 photo_records.publishDate,
@@ -189,10 +189,26 @@ photo_records.userID=#{userid}
 
 
     </select>
+  <select id="getPhotosExceptOne" resultType="org.loversAPP.DTO.UserPhoto">
+    SELECT
+`user`.userName,
+`user`.avator avatar,
+photo_records.photo,
+photo_records.content,
+photo_records.publishDate,
+photo_records.longtitude,
+photo_records.latitude
+FROM
+photo_records ,
+`user`
+WHERE
+photo_records.userID = `user`.id AND
+and #{userID} not in(`user`.id)
+  </select>
   <select id="getPhotosByRecordsID" resultType="org.loversAPP.DTO.UserPhoto">
     SELECT
 `user`.userName,
-`user`.avator,
+`user`.avator avatar,
 photo_records.photo,
 photo_records.content,
 photo_records.publishDate,

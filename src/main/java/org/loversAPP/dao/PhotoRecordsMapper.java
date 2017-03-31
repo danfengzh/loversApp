@@ -33,4 +33,6 @@ public interface PhotoRecordsMapper {
     List<UserPhoto> getPhotosByUserID(Integer userid);
     public List<UserPhoto> getPhotosByRecordsID (Integer recoiD);
     List<PhotoRecords> getOuterUserPhotosByUseriD();
+
+    List<UserPhoto> getPhotosExceptOne(@Param("userID") Integer userID);
 }

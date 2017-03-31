@@ -63,5 +63,5 @@ public interface ActivityRecordService {
     public Integer updateRadiusByID(Integer id,Integer radius);
 
     List<WrapperActicvityRecord> getAllWrapperActicvityRecord();
-
+    List<WrapperActicvityRecord> getAllRecordsExceptMe(int userID);
 }

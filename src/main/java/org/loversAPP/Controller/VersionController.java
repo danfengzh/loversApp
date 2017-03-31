@@ -22,6 +22,7 @@ import java.io.File;
  * Created by Administrator on 2017/3/29.
  */
 @Controller
+@RequestMapping("/Version")
 public class VersionController extends BaseController {
     @Autowired
     private VsersionService vsersionService;

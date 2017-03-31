@@ -160,4 +160,8 @@ public class ActivityRecordServiceImpl implements ActivityRecordService{
     public List<WrapperActicvityRecord> getAllWrapperActicvityRecord() {
         return activityrecordsMapper.getAllWrapperActicvityRecord();
     }
+
+    public List<WrapperActicvityRecord> getAllRecordsExceptMe(int userID) {
+        return activityrecordsMapper.getAllRecordsExceptMe(userID);
+    }
 }

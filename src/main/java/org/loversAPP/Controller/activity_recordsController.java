@@ -108,6 +108,19 @@ public class activity_recordsController extends BaseController {
         }
         return feedBack;
     }
+    @RequestMapping(value = "/getAllRecordsExceptMe",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public FeedBack<Activityrecords> getAllRecordsExceptMe(@RequestParam("userID") int userID){
+        FeedBack feedBack=null;
+        List<WrapperActicvityRecord> activityrecordss= activityRecordService.getAllRecordsExceptMe(userID);
+        if(activityrecordss!=null){
+            feedBack=new FeedBack("success","200",activityrecordss);
+        }
+        else {
+            feedBack=new FeedBack("failure","400");
+        }
+        return feedBack;
+    }
     @RequestMapping(value = "/deleteRecordByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
     public FeedBack deleteRecordByID(@RequestParam("id") Integer id){
@@ -145,9 +158,9 @@ public class activity_recordsController extends BaseController {
     }
     @RequestMapping(value ="getPhotosByUserID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
-    public Map getPhotosByUserID(Integer userid){
+    public Map getPhotosByUserID(@RequestParam("userID") Integer userID){
         Map result=new HashMap();
-        List<UserPhoto> userPhotos= userPhoService.getPhotosByUserID(userid);
+        List<UserPhoto> userPhotos= userPhoService.getPhotosByUserID(userID);
         RetuBetiful(result, userPhotos);
         return result;
     }
@@ -172,6 +185,22 @@ public class activity_recordsController extends BaseController {
     public Map getTextsByRecordsID  (@Param("recordsID") Integer recordsID){
         Map result=new HashMap();
         List<UserText> userPhotos= userTextService.getTextsByRecordsID(recordsID);
+        RetuBetiful(result, userPhotos);
+        return result;
+    }
+    @RequestMapping(value ="getTextsExceptOne",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public Map getTextsExceptOne  (Integer userID){
+        Map result=new HashMap();
+        List<UserText> userPhotos= userTextService.getTextsExceptOne(userID);
+        RetuBetiful(result, userPhotos);
+        return result;
+    }
+    @RequestMapping(value ="getPhotosExceptOne",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public Map getPhotosExceptOne (@RequestParam("userID") Integer userID){
+        Map result=new HashMap();
+        List<UserPhoto> userPhotos= userPhoService.getPhotosExceptOne(userID);
         RetuBetiful(result, userPhotos);
         return result;
     }

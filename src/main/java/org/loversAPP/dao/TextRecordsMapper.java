@@ -33,4 +33,6 @@ public interface TextRecordsMapper {
     public List<UserText> getTextsByRecordsID(@Param("recordsID") Integer recordsID);
 
     List<TextRecords> getTextRecordsByiuserid();
+
+    List<UserText> getTextsExceptOne(@Param("userID") Integer userID);
 }

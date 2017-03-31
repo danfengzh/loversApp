@@ -26,4 +26,5 @@ public interface UserPhoService {
 
     public List<PhotoRecords> getOuterUserPhotosByUseriD();
 
+    List<UserPhoto> getPhotosExceptOne(Integer userID);
 }

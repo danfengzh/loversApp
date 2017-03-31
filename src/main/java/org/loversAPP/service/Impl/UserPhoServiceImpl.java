@@ -37,8 +37,6 @@ public class UserPhoServiceImpl implements UserPhoService {
     public List<UserPhoto> getPhotosByRecordsID(Integer recoiD) {
         return photoRecordsMapper.getPhotosByRecordsID(recoiD);
     }
-
-
     public Integer deletePhotoByID(Integer id) {
         return photoRecordsMapper.deleteByPrimaryKey(id);
     }
@@ -50,5 +48,9 @@ public class UserPhoServiceImpl implements UserPhoService {
 
     public List<PhotoRecords> getOuterUserPhotosByUseriD() {
         return photoRecordsMapper.getOuterUserPhotosByUseriD();
+    }
+
+    public List<UserPhoto> getPhotosExceptOne(Integer userID) {
+        return photoRecordsMapper.getPhotosExceptOne(userID);
     }
 }
