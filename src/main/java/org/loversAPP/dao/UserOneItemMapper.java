@@ -32,7 +32,7 @@ public interface UserOneItemMapper {
 
     int inserBathUserOneItem(@Param("userItems") List<UserItem> userItems);
 
-    int maxIDu(@Param("userid") int userid);
+    int maxIDu(@Param("userid") int userid,@Param("itemID") int itemID);
 
     int insertIntoUserOneItem(@Param("userOneItem") UserOneItem userOneItem);
 }

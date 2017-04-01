@@ -7,6 +7,7 @@ import org.loversAPP.service.UserPhoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -22,6 +23,7 @@ public class UserPhoServiceImpl implements UserPhoService {
         photoRecords.setRecordsid(recordsID);
         photoRecords.setUserid(userID);
         photoRecords.setPhoto(photo);
+        photoRecords.setPublishdate(new Date());
         photoRecords.setContent(content);
         photoRecords.setLongtitude(longtitude);
         photoRecords.setLatitude(latitude);

@@ -53,6 +53,7 @@ public class ItemController extends BaseController {
     private LoverShipService loverShipService;
     @Autowired
     private messageService messageService;
+    @Autowired
     @Qualifier("taskExecutor")
     private TaskExecutor taskExecutor;
     @Autowired
@@ -92,7 +93,8 @@ public class ItemController extends BaseController {
         }
         else
         {
-            itemService.updateUserItemCount(userID,userItem.getCount()+1);
+            //updateUserItemBindItemIDCount
+            itemService.updateUserItemBindItemIDCount(userID,itemID,userItem.getCount()+1);
             userOneItem.setItemid(userItem.getItemId());
             userOneItem.setUserid(userItem.getUserId());
         }
@@ -121,12 +123,13 @@ public class ItemController extends BaseController {
     }
     private void deleItem(@RequestParam("itemID") Integer itemID, @RequestParam("userID") Integer userID) {
         UserItem userItem=itemService.getSpeicUseritembY(userID,itemID);
-        int maxid= itemService.maxIDu(userID);
+        int maxid= itemService.maxIDu(userID,itemID);
         itemService.deletUserOneItem(maxid);//删除  user_one_item
-        itemService.updateUserItemCount(userID,userItem.getCount()-1);
+        //updateUserItemBindItemIDCount
+        itemService.updateUserItemBindItemIDCount(userID,itemID,userItem.getCount()-1);
         userItem.setCount(userItem.getCount()-1);
         if(userItem.getCount()==0){
-            itemService.deleteUserItemByID(userID);
+            itemService.deleteUserItemByID(userID,itemID);
         }
     }
     @RequestMapping(value = "/getAllItems",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
@@ -225,6 +228,7 @@ public class ItemController extends BaseController {
         Moment moment=new Moment();
         moment.setMomentcontent(content);
         moment.setMomenttype(10);
+        moment.setUserid(userID);
         moment.setMomentimage(MomeentPath);
         moment.setMomentdate(new Date());
         moment.setCommentid(-1);
@@ -339,7 +343,6 @@ public class ItemController extends BaseController {
                 sheduleTaskforDoolePhoto.testifDoolePhotoOutDate();
             }
         });
-
         return new FeedBack<String>("success","200");
     }
     /**
@@ -354,24 +357,66 @@ public class ItemController extends BaseController {
      */
     @RequestMapping(value = "/insertCapsule",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
-    public FeedBack<String> insertCapsule(int userID,int  receiverID,int  ItemID,String openDay,String content,MultipartFile photo){
+    public FeedBack<String> insertCapsule(final int userID, final int  receiverID, int  ItemID, Date openDay, String content,
+                                          @RequestParam(value = "photo",required = false) MultipartFile photo){
         FeedBack feedBack;
         LoverCapsule  previousLoverCapule=loveCauleService.getLoverCasuleByRecID(receiverID);
-        if(!previousLoverCapule.getState().equals("2")){
+        if(previousLoverCapule!=null&&!previousLoverCapule.getState().equals("2")){
             feedBack=new FeedBack("success","201");
         }
         else {
             String savePath=getMessage(ControllerConstant.LoverCauplePath);
-            String phoUrl=fileUpload.tacleUpload(photo,savePath,request,UniqueStringGenerate.generateRandomStr(12));
-            deleItem(ItemID,userID);
             Moment moment=new Moment();
+            String phoUrl="";
+           if(photo!=null){
+                phoUrl=fileUpload.tacleUpload(photo,savePath,request,UniqueStringGenerate.generateRandomStr(12));
+               moment.setMomentimage(phoUrl);
+           }
+           else {
+               moment.setMomentimage("");
+           }
+            deleItem(ItemID,userID);
+            UserItem userItem=itemService.getSpeicUseritembY(receiverID,17);
+            UserOneItem userOneItem=new UserOneItem();
+            if(userItem==null)
+            {
+                itemService.insertUserItem( receiverID,17);
+                userOneItem.setItemid(receiverID);
+                userOneItem.setUserid(17);
+            }
+            else
+            {
+                //updateUserItemBindItemIDCount
+                itemService.updateUserItemBindItemIDCount(receiverID,17,userItem.getCount()+1);
+                userOneItem.setItemid(userItem.getItemId());
+                userOneItem.setUserid(userItem.getUserId());
+            }
+            itemService.insertIntoUserOneItem(userOneItem);
             moment.setUserid(userID);
             moment.setMomenttype(12);
             moment.setMomentdate(new Date());
             moment.setCommentid(-1);
-            moment.setMomentimage("");
             moment.setMomentcontent("来自过去的消息去看你，前爱的");
             momentService.insertMoment(moment);
+            LoverCapsule  loverCapsule=new LoverCapsule();
+            loverCapsule.setUserid(userID);
+            loverCapsule.setContent(content);
+            loverCapsule.setOpenday(openDay);
+            loverCapsule.setItemid(ItemID);
+            loverCapsule.setReceiverid(receiverID);
+            if(photo==null){
+                loverCapsule.setPhoto("");
+            }else {
+                loverCapsule.setPhoto(phoUrl);
+            }
+            loveCauleService.insertCapsule(loverCapsule);
+            taskExecutor.execute(new Runnable() {
+                public void run() {
+                    messageService.insertMessage(userID,receiverID,"11",new Date(),"你使用了时间沙漏");
+                    JpushClientUtil.sendDynatic(String.valueOf(receiverID),"1","tips","你的私信","你使用了时间沙漏","tips");
+
+                }
+            });
             taskExecutor.execute(new Runnable() {
                 public void run() {
                     //检测是否时间到达

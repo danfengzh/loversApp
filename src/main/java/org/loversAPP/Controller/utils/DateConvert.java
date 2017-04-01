@@ -12,7 +12,6 @@ import java.util.Date;
  */
 public class DateConvert implements  Converter<String, Date>
 {
-    @Override
     public Date convert(String stringDate) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -25,7 +24,7 @@ public class DateConvert implements  Converter<String, Date>
     }
     public static void main(String [] args){
 
-        Date ss= new DateConvert().convert("2017-02-20 17:01:20");
+        Date ss= new DateConvert().convert("2017-04-02 02:15:54");
         System.out.println("***********");
     }
 }

@@ -30,7 +30,8 @@ public class ItemServiceTest extends baseServiceTest {
     }
     @Test
     public void www() throws Exception {
-        itemService.deleteUserItemByID(17);
+      int s=  itemService.maxIDu(2,10);
+        System.out.println("cccc");
     }
     @Test
     public void wwuuuw() throws Exception {

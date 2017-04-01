@@ -32,7 +32,6 @@ public class TreaSureController {
         Treasure treasure= treasureService.getTreasureByID(id);
         return new FeedBack<Treasure>("success","200",treasure);
     }
-
     /**
      * 人工埋宝藏
      * @param userID
@@ -66,12 +65,12 @@ public class TreaSureController {
     }
     private void deleItem(Integer treasureCode,Integer userID) {
         UserItem userItem=itemService.getSpeicUseritembY(userID,treasureCode);
-        int maxid= itemService.maxIDu(userID);
+        int maxid= itemService.maxIDu(userID,treasureCode);
         itemService.deletUserOneItem(maxid);//删除  user_one_item
-        itemService.updateUserItemCount(userID,userItem.getCount()-1);
+        itemService.updateUserItemBindItemIDCount(userID,treasureCode,userItem.getCount()-1);
         userItem.setCount(userItem.getCount()-1);
         if(userItem.getCount()==0){
-            itemService.deleteUserItemByID(userID);
+            itemService.deleteUserItemByID(userID,treasureCode);
         }
     }
     @RequestMapping(value = "getAllTreasures", method = RequestMethod.POST, produces = "application/json;charset=utf-8")

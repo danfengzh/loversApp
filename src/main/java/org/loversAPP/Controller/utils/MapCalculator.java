@@ -58,10 +58,9 @@ public class MapCalculator {
             distance = getDistance(cLat,cLong,olat,olong);
             return distance > (double)radius?false:(distance == (double)radius?true:true);
         }else return false;
-
-
-
     }
+    //生成
+
   public static void main(String [] args){
      double ss= Double.parseDouble("0");
       System.out.println("*******");

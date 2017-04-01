@@ -8,11 +8,8 @@ import org.loversAPP.model.*;
 import org.loversAPP.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.Date;
 import java.util.List;
-
-
 @Service
 public class ItemServiceImpl implements ItemService {
     @Autowired
@@ -49,9 +46,9 @@ public class ItemServiceImpl implements ItemService {
     }
 
 
-    public Integer deleteUserItemByID(Integer userID) {
+    public Integer deleteUserItemByID(Integer userID,int itemID) {
         UserItemExample userItemExample=new UserItemExample();
-        userItemExample.createCriteria().andUserIdEqualTo(userID);
+        userItemExample.createCriteria().andUserIdEqualTo(userID).andItemIdEqualTo(itemID);
         return userItemMapper.deleteByExample(userItemExample);
     }
 
@@ -118,8 +115,8 @@ public class ItemServiceImpl implements ItemService {
         return userOneItemMapper.selectByExample(userOneItemExample);
     }
 
-    public int maxIDu(int userid) {
-        return userOneItemMapper.maxIDu(userid);
+    public int maxIDu(int userid,int itemID) {
+        return userOneItemMapper.maxIDu(userid,itemID);
     }
 
     public int deleteUSERtoItems(int id) {
@@ -140,6 +137,10 @@ public class ItemServiceImpl implements ItemService {
 
     public UserItem getSpeicUseritembY(int userid, int itemid) {
         return userItemMapper.getSpeicUseritembY(userid,itemid);
+    }
+
+    public int updateUserItemBindItemIDCount(Integer userID, int itemId, int count) {
+        return userItemMapper.updateUserItemBindItemIDCount(userID,itemId,count);
     }
 }
 

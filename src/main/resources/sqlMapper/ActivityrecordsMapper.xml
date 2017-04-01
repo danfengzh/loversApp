@@ -240,7 +240,8 @@ tempRelation.id,
 tempRelation.latitude,
 tempRelation.longtitude,
 tempRelation.radius,
-tempRelation.totalSteps
+tempRelation.totalSteps,
+user1.backImage backImageA
 FROM
 `user` AS user1 ,
 `user` AS user2 ,
@@ -274,7 +275,8 @@ tempRelation.id,
 tempRelation.latitude,
 tempRelation.longtitude,
 tempRelation.radius,
-tempRelation.totalSteps
+tempRelation.totalSteps,
+user1.backImage backImageA
 FROM
 `user` AS user1 ,
 `user` AS user2 ,

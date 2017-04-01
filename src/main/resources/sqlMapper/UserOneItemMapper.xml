@@ -147,6 +147,7 @@
 FROM `user_one_item`
 WHERE
 user_one_item.userID =#{userid}
+and user_one_item.itemID=#{itemID}
   </select>
   <update id="updateByExampleSelective" parameterType="map">
     update user_one_item

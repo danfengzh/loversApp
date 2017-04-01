@@ -44,8 +44,8 @@ public class GoDieController {
     @RequestMapping(value = "/getDogActByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
     public Map getDogActByID(int userID){
-      Map map=new HashMap();
-     GoDieFeeBack goDieFeeBack=goDieService.getGoDieFeedBackByID(userID);
+        Map map=new HashMap();
+        GoDieFeeBack goDieFeeBack=goDieService.getGoDieFeedBackByID(userID);
 
         if(goDieFeeBack!=null&&goDieFeeBack.getItemID()>=1){
             map.put("code","200");
@@ -93,12 +93,12 @@ public class GoDieController {
     }
     private void deleItem( Integer itemID,  Integer userID) {
         UserItem userItem=itemService.getSpeicUseritembY(userID,itemID);
-        int maxid= itemService.maxIDu(userID);
+        int maxid= itemService.maxIDu(userID,itemID);
         itemService.deletUserOneItem(maxid);//删除  user_one_item
         itemService.updateUserItemCount(userID,userItem.getCount()-1);
         userItem.setCount(userItem.getCount()-1);
         if(userItem.getCount()==0){
-            itemService.deleteUserItemByID(userID);
+            itemService.deleteUserItemByID(userID,itemID);
         }
     }
 }

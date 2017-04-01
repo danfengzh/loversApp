@@ -232,6 +232,7 @@
   </update>
   <select id="getAllItems" resultMap="BaseResultMap">
     SELECT * FROM  item
+    WHERE 17 not in(item.id)
   </select>
   <select id="getItemsByUID" resultMap="BaseResultMap">
     SELECT *
@@ -288,7 +289,7 @@ item.itemPrivilege=#{prioi}
   <resultMap id="specialMap" type="org.loversAPP.DTO.UserItemCount" extends="BaseResultMap">
     <result property="count"  column="count"/>
   </resultMap>
-  <select id="getItemsByiid" resultMap="specialMap">
+  <select id="getItemsByiid" resultMap="specialMap" useCache="false">
     SELECT
 user_item.count,
 item.itemLevel,

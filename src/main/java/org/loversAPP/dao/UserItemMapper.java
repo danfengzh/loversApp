@@ -26,4 +26,6 @@ public interface UserItemMapper {
     UserItem getUserItemByID(@Param("id") int id);
 
     UserItem getSpeicUseritembY(@Param("userid") int userid, @Param("itemID") int itemID);
+
+    int updateUserItemBindItemIDCount(@Param("userID") Integer userID,@Param("itemId") int itemId,@Param("count") int count);
 }

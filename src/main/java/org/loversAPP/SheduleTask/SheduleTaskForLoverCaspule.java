@@ -41,10 +41,13 @@ public class SheduleTaskForLoverCaspule {
       for(LoverCapsule loverCapsule:loverCapsuleList){
           boolean flag= TimeIntervalUtils.isOutDate(loverCapsule.getOpenday(),deltaTime);
           User user=userService.getUserByID(loverCapsule.getReceiverid());
-          if(flag){
+          //而且当state等于1的时候，就不再进行推送消息了
+          if(flag&&!loverCapsule.getState().equals("1")){
               loveCauleService.setStateByID(loverCapsule.getId(),"1");
-              JpushClientUtil.sendDynatic(String.valueOf(loverCapsule.getReceiverid()),String.valueOf(user.getStauts()),"tips",
-                      "你有一条消息提醒","你的时间胶囊可以打开了","hips");
+              if(!loverCapsule.getState().equals("2")&&!loverCapsule.getState().equals("0")){
+                  JpushClientUtil.sendDynatic(String.valueOf(user.getId()),String.valueOf(user.getStauts()),"tips",
+                          "你有一条消息提醒","你的时间胶囊可以打开了","hips");
+              }
           }
       }
     }

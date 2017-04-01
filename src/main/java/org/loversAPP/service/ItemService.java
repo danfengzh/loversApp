@@ -17,7 +17,7 @@ public interface ItemService {
 
     public Integer insertUserItem(Integer userID, Integer itemID);
 
-    public Integer deleteUserItemByID(Integer userID);
+    public Integer deleteUserItemByID(Integer userID,int itemID);
     public List<Item> getAllItems();
     public List<Item> getItemsByType(Integer itemType);
 
@@ -38,7 +38,7 @@ public interface ItemService {
     public UserItem getUserItemByID(int ID);
     public int  insertbatchUseritrems(List<UserItem> userItems);
     List<UserOneItem> getUserOneItems(int userid);
-    public int maxIDu(int userid);
+    public int maxIDu(int userid,int itemID);
 
     public int deleteUSERtoItems(int id);
 
@@ -48,4 +48,6 @@ public interface ItemService {
 
     public int deletUserOneItem(int id);
     public UserItem   getSpeicUseritembY(int userid, int itemid);
+
+    int updateUserItemBindItemIDCount(Integer userID,int itemid, int count);
 }
