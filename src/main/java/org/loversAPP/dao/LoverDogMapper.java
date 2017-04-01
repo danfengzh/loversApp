@@ -28,4 +28,6 @@ public interface LoverDogMapper {
     int updateByPrimaryKeySelective(LoverDog record);
 
     int updateByPrimaryKey(LoverDog record);
+
+    int getDogHeadByID(@Param("loverID") String loverID);
 }

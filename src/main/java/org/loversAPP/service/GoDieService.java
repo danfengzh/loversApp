@@ -1,5 +1,6 @@
 package org.loversAPP.service;
 
+import org.loversAPP.DTO.GoDieFeeBack;
 import org.loversAPP.model.GoDie;
 
 /**
@@ -9,4 +10,6 @@ public interface GoDieService {
     public int getDogActByID(int userID);
 
     public int insertGoDie(GoDie goDie);
+
+    public GoDieFeeBack getGoDieFeedBackByID(int userID);
 }

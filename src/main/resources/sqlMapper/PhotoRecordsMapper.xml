@@ -230,6 +230,24 @@ FROM `photo_records`
 WHERE
 photo_records.recordsID=-1
   </select>
+  <select id="getUserPhotoByPhotoID"  resultType="org.loversAPP.DTO.UserPhoto">
+          SELECT
+`user`.userName,
+`user`.avator AS avatar
+FROM
+photo_records ,
+`user`
+WHERE
+photo_records.userID = `user`.id AND
+photo_records.id=#{photoID}
+  </select>
+  <select id="getUserIDbyPhoid" resultType="java.lang.Integer">
+    SELECT
+photo_records.userID
+FROM `photo_records`
+WHERE
+photo_records.id=#{phoID}
+  </select>
   <!--<select id="getOuterUserPhotosByUseriD" resultType="org.loversAPP.DTO.UserPhoto">-->
   <!--SELECT-->
   <!--photo_records.publishDate,-->
@@ -322,5 +340,10 @@ photo_records.recordsID=-1
       longtitude = #{longtitude,jdbcType=VARCHAR},
       latitude = #{latitude,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateUserPhoUrlByUserID" parameterType="java.lang.Integer">
+     update photo_records
+     set  photo = #{photo}
+     WHERE userID=#{trueUserid}
   </update>
 </mapper>

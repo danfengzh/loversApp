@@ -11,4 +11,6 @@ public interface ControllerConstant {
    String momentPath="LoverShip.MomentImagePath";
    String Photopath="Photo.path";
    String AppuploadPath="Appupload.Path";
+   String DoolePhotoPath="DoolePhoto.Path";
+   String LoverCauplePath="LoverCauple.Path";
 }

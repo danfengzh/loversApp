@@ -11,9 +11,9 @@ import java.util.List;
 public interface UserTextService {
 
     public Integer insertText(Integer recordsID,
-                              Integer userID ,String text,String longtitude,String latitude);
+                              Integer userID, String text, String longtitude, String latitude);
     public List<UserText> getTextsByUserID(Integer userid);
-    public List<UserText> getTextsByRecordsID (Integer recordID);
+    public List<UserText> getTextsByRecordsID(Integer recordID);
     public Integer deleteTextByID(Integer id);
 
     public List<TextRecords> getTextRecordsByiuserid();

@@ -10,8 +10,8 @@ import java.util.List;
  */
 public interface UserPhoService {
 
-    public Integer insertPhoto(Integer recordsID,Integer userID,String photo,String content
-            ,String longtitude,String latitude);
+    public Integer insertPhoto(Integer recordsID, Integer userID, String photo, String content
+            , String longtitude, String latitude);
 
     /**
      * user表与photo_records表联合查询
@@ -19,7 +19,7 @@ public interface UserPhoService {
      * @return
      */
     public List<UserPhoto> getPhotosByUserID(Integer userid);
-    public List<UserPhoto> getPhotosByRecordsID (Integer recoiD);
+    public List<UserPhoto> getPhotosByRecordsID(Integer recoiD);
     public Integer deletePhotoByID(Integer id);
 
     public int deletePhotoByID(int id);
@@ -27,4 +27,10 @@ public interface UserPhoService {
     public List<PhotoRecords> getOuterUserPhotosByUseriD();
 
     List<UserPhoto> getPhotosExceptOne(Integer userID);
+
+    public UserPhoto getUserPhotoByPhotoID(int photoID);
+
+    public int getUserIDbyPhoid(int phoID);
+
+    int updateUserPhoUrlByUserID(int trueUserid, String photo);
 }

@@ -201,4 +201,15 @@ go_die
 WHERE
 go_die.userID=#{userID}
   </select>
+  <select id="getGoDieFeedBackByID" resultType="org.loversAPP.DTO.GoDieFeeBack">
+    SELECT
+`user`.stepsToday AS steps,
+go_die.userItemID itemID
+FROM
+go_die ,
+`user`
+WHERE
+go_die.userID = `user`.id
+AND go_die.userID=#{userID}
+  </select>
 </mapper>

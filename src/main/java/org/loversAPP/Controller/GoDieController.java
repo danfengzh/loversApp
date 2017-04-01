@@ -1,6 +1,7 @@
 package org.loversAPP.Controller;
 
 import org.loversAPP.DTO.FeedBack;
+import org.loversAPP.DTO.GoDieFeeBack;
 import org.loversAPP.Jpush.JpushClientUtil;
 import org.loversAPP.model.GoDie;
 import org.loversAPP.model.User;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -40,33 +43,44 @@ public class GoDieController {
     private TaskExecutor taskExecutor;
     @RequestMapping(value = "/getDogActByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
-    public FeedBack<String> getDogActByID(int userID){
-        FeedBack feedBack;
-        int cos=goDieService.getDogActByID(userID);
-        if(cos>=1){
-            feedBack=new FeedBack("success","200");
+    public Map getDogActByID(int userID){
+      Map map=new HashMap();
+     GoDieFeeBack goDieFeeBack=goDieService.getGoDieFeedBackByID(userID);
+
+        if(goDieFeeBack!=null&&goDieFeeBack.getItemID()>=1){
+            map.put("code","200");
+            map.put("msg","success");
+            map.put("step",goDieFeeBack.getSteps());
         }else {
-            feedBack=new FeedBack("failure","400");
+            map.put("code","201");
+            map.put("msg","success");
         }
-        return feedBack;
+        return map;
     }
+
+    /**
+     *
+     * @param userID  释放道具者
+     * @param userItemID  道具id
+     * @param reciveID  被道具作用者id
+     * @return
+     */
     @RequestMapping(value = "/insertGoDie",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
-    public FeedBack<String> insertGoDie(final int userID, int userItemID){
+    public FeedBack<String> insertGoDie(final int userID, int userItemID, final int reciveID){
         FeedBack feedBack;
         GoDie goDie=new GoDie();
-        goDie.setUserid(userID);
+        goDie.setUserid(reciveID);
         goDie.setUseritemid(userItemID);
         int cos=goDieService.insertGoDie(goDie);//完成goDie的插入
-
         //删除道具
         deleItem(userItemID, userID);
         //同时向用户推送消息
         taskExecutor.execute(new Runnable() {
             public void run() {
                 User user= userService.getUserByID(userID);
-                messageService.insertMessage(userID,-1,"2",new Date(),"你被别人限制行动了！");
-                JpushClientUtil.sendDynatic(String.valueOf(userID),String.valueOf(user.getStauts()),"你有一条消息提醒","tips",
+                messageService.insertMessage(userID,reciveID,"2",new Date(),"你被别人限制行动了！");
+                JpushClientUtil.sendDynatic(String.valueOf(reciveID),String.valueOf(user.getStauts()),"你有一条消息提醒","tips",
                         "你被别人限制行动了！","hips");
             }
         });

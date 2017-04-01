@@ -193,4 +193,12 @@
       loverID = #{loverid,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="getDogHeadByID" resultType="java.lang.Integer">
+ SELECT
+	count(*)
+FROM
+	`lover_dog`
+WHERE
+ lover_dog.loverID=#{loverID}
+  </select>
 </mapper>

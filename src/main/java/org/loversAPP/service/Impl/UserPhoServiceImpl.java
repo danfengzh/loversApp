@@ -53,4 +53,16 @@ public class UserPhoServiceImpl implements UserPhoService {
     public List<UserPhoto> getPhotosExceptOne(Integer userID) {
         return photoRecordsMapper.getPhotosExceptOne(userID);
     }
+
+    public UserPhoto getUserPhotoByPhotoID(int photoID) {
+        return photoRecordsMapper.getUserPhotoByPhotoID(photoID);
+    }
+
+    public int getUserIDbyPhoid(int phoID) {
+        return photoRecordsMapper.getUserIDbyPhoid(phoID);
+    }
+
+    public int updateUserPhoUrlByUserID(int trueUserid,String photo) {
+        return photoRecordsMapper.updateUserPhoUrlByUserID(trueUserid,photo);
+    }
 }

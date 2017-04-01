@@ -35,4 +35,10 @@ public interface PhotoRecordsMapper {
     List<PhotoRecords> getOuterUserPhotosByUseriD();
 
     List<UserPhoto> getPhotosExceptOne(@Param("userID") Integer userID);
+
+    UserPhoto getUserPhotoByPhotoID(@Param("photoID") int photoID);
+
+    int getUserIDbyPhoid(@Param("phoID") int phoID);
+
+    int updateUserPhoUrlByUserID(@Param("trueUserid") int trueUserid, @Param("photo") String photo);
 }

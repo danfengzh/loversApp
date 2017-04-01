@@ -1,5 +1,6 @@
 package org.loversAPP.service.Impl;
 
+import org.loversAPP.DTO.GoDieFeeBack;
 import org.loversAPP.dao.GoDieMapper;
 import org.loversAPP.model.GoDie;
 import org.loversAPP.service.GoDieService;
@@ -22,5 +23,9 @@ public class GoDieServiceImpl implements GoDieService {
     public int insertGoDie(GoDie goDie) {
         goDie.setTime(new Date());
         return goDieMapper.insertSelective(goDie);
+    }
+
+    public GoDieFeeBack getGoDieFeedBackByID(int userID) {
+        return goDieMapper.getGoDieFeedBackByID(userID);
     }
 }

@@ -10,5 +10,5 @@ public interface SheduleTestService {
     public int insertSheduleTest(SheduleTest sheduleTest);
 
 
-    public int updateSheduleTestInfoByID(int id,String content);
+    public int updateSheduleTestInfoByID(int id, String content);
 }

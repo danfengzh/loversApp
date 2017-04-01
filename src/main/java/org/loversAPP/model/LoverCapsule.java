@@ -1,5 +1,6 @@
 package org.loversAPP.model;
 
+import java.util.Date;
 import org.loversAPP.base.BaseModel;
 
 public class LoverCapsule extends BaseModel {
@@ -7,15 +8,17 @@ public class LoverCapsule extends BaseModel {
 
     private Integer receiverid;
 
-    private Integer useritemid;
+    private Integer userid;
 
-    private String openday;
+    private Date openday;
 
     private String content;
 
     private String photo;
 
     private String state;
+
+    private Integer itemid;
 
     public Integer getId() {
         return id;
@@ -33,20 +36,20 @@ public class LoverCapsule extends BaseModel {
         this.receiverid = receiverid;
     }
 
-    public Integer getUseritemid() {
-        return useritemid;
+    public Integer getUserid() {
+        return userid;
     }
 
-    public void setUseritemid(Integer useritemid) {
-        this.useritemid = useritemid;
+    public void setUserid(Integer userid) {
+        this.userid = userid;
     }
 
-    public String getOpenday() {
+    public Date getOpenday() {
         return openday;
     }
 
-    public void setOpenday(String openday) {
-        this.openday = openday == null ? null : openday.trim();
+    public void setOpenday(Date openday) {
+        this.openday = openday;
     }
 
     public String getContent() {
@@ -71,5 +74,13 @@ public class LoverCapsule extends BaseModel {
 
     public void setState(String state) {
         this.state = state == null ? null : state.trim();
+    }
+
+    public Integer getItemid() {
+        return itemid;
+    }
+
+    public void setItemid(Integer itemid) {
+        this.itemid = itemid;
     }
 }

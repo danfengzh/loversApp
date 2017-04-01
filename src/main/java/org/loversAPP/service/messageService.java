@@ -10,7 +10,7 @@ import java.util.List;
  */
 public interface messageService {
 
-    public Integer insertMessage(Integer userID , Integer receiverID , String msgType , Date msgDate ,String msgContent);
+    public Integer insertMessage(Integer userID, Integer receiverID, String msgType, Date msgDate, String msgContent);
 
     /**
      * 2.message表和user表联合查询receiver的所有消息)  查看消息都发给了谁

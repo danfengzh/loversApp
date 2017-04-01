@@ -12,6 +12,14 @@
         <property name="targetObject" ref="sheduleTaskJobForText"/>
         <property name="targetMethod" value="testText"/>
     </bean>
+    <bean id="doolePhoTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="sheduleTaskforDoolePhoto"/>
+        <property name="targetMethod" value="testifDoolePhotoOutDate"/>
+    </bean>
+    <bean id="loverCasuleTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="sheduleTaskForLoverCaspule"/>
+        <property name="targetMethod" value="ifopen"/>
+    </bean>
     <bean id="simpleTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
         <property name="jobDetail" ref="photoTask"/>
         <!-- 调度工厂实例化完成后 立即执行-->
@@ -26,11 +34,27 @@
         <!-- 每次一分钟插入一条记录-->
         <property name="repeatInterval" value="6000"/>
     </bean>
+    <bean id="simpleTrigger3" class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
+        <property name="jobDetail" ref="doolePhoTask"/>
+        <!-- 调度工厂实例化完成后 立即执行-->
+        <property name="startDelay" value="0"/>
+        <!-- 每次一分钟插入一条记录-->
+        <property name="repeatInterval" value="6000"/>
+    </bean>
+    <bean id="simpleTrigger4" class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
+        <property name="jobDetail" ref="loverCasuleTask"/>
+        <!-- 调度工厂实例化完成后 立即执行-->
+        <property name="startDelay" value="0"/>
+        <!-- 每次一分钟插入一条记录-->
+        <property name="repeatInterval" value="6000"/>
+    </bean>
     <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean"  lazy-init="false" autowire="no">
         <property name="triggers">
             <list>
                 <ref bean="simpleTrigger"/>
                 <ref bean="simpleTrigger2"/>
+                <ref bean="simpleTrigger3"/>
+                <ref bean="simpleTrigger4"/>
             </list>
         </property>
         <property name="applicationContextSchedulerContextKey" value="applicationContextKey"/>

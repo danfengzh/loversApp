@@ -6,19 +6,19 @@ import org.loversAPP.Controller.utils.fileUpload;
 import org.loversAPP.DTO.FeedBack;
 import org.loversAPP.DTO.ItemCountWrapper;
 import org.loversAPP.DTO.UserItemCount;
+import org.loversAPP.DTO.UserPhoto;
+import org.loversAPP.Jpush.JpushClientUtil;
+import org.loversAPP.SheduleTask.SheduleTaskForLoverCaspule;
 import org.loversAPP.SheduleTask.SheduleTaskJobForText;
 import org.loversAPP.SheduleTask.SheduleTaskJobForUserPhoto;
-import org.loversAPP.model.Item;
-import org.loversAPP.model.Moment;
-import org.loversAPP.model.UserItem;
-import org.loversAPP.model.UserOneItem;
-import org.loversAPP.service.ItemService;
-import org.loversAPP.service.MomentService;
-import org.loversAPP.service.UserPhoService;
-import org.loversAPP.service.UserTextService;
+import org.loversAPP.SheduleTask.SheduleTaskforDoolePhoto;
+import org.loversAPP.model.*;
+import org.loversAPP.service.*;
 import org.loversAPP.utils.MD5Utils;
 import org.loversAPP.utils.UniqueStringGenerate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -45,6 +45,22 @@ public class ItemController extends BaseController {
     private SheduleTaskJobForUserPhoto sheduleTaskJobForUserPhoto;
     @Autowired
     private SheduleTaskJobForText sheduleTaskJobForText;
+    @Autowired
+    private DoolePhotoService doolePhotoService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private LoverShipService loverShipService;
+    @Autowired
+    private messageService messageService;
+    @Qualifier("taskExecutor")
+    private TaskExecutor taskExecutor;
+    @Autowired
+    private LoveCauleService loveCauleService;
+    @Autowired
+    private SheduleTaskforDoolePhoto sheduleTaskforDoolePhoto;
+    @Autowired
+    private SheduleTaskForLoverCaspule sheduleTaskForLoverCaspule;
     @RequestMapping(value = "/insertItem",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
     public FeedBack insertItem(String itemName , String itemFunction ,
@@ -103,7 +119,6 @@ public class ItemController extends BaseController {
 //        }
         return feedBack;
     }
-
     private void deleItem(@RequestParam("itemID") Integer itemID, @RequestParam("userID") Integer userID) {
         UserItem userItem=itemService.getSpeicUseritembY(userID,itemID);
         int maxid= itemService.maxIDu(userID);
@@ -114,7 +129,6 @@ public class ItemController extends BaseController {
             itemService.deleteUserItemByID(userID);
         }
     }
-
     @RequestMapping(value = "/getAllItems",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
     public FeedBack<Item> getAllItems( ){
@@ -231,6 +245,7 @@ public class ItemController extends BaseController {
         Moment moment=new Moment();
         moment.setUserid(userID);
         moment.setMomenttype(11);
+        moment.setMomentimage("");
         moment.setMomentdate(new Date());
         moment.setMomentcontent(text);
         moment.setCommentid(-1);
@@ -264,6 +279,152 @@ public class ItemController extends BaseController {
         }
         else {
             feedBack=new FeedBack("failure","400",items);
+        }
+        return feedBack;
+    }
+
+    /**
+     * 用户使用涂鸦工具对用户头像进行涂鸦
+     * @return
+     */
+    @RequestMapping(value = "/doodlePhoto",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public FeedBack<String> doodlePhoto(int photoID,MultipartFile doodlePhoto ,int userID ,int userItemID ){
+        //删除用户对应的道具 涂鸦笔
+        deleItem(userItemID,userID);
+        //涂鸦照片的保存路径
+        String savePath=getMessage(ControllerConstant.DoolePhotoPath);
+        String dooleImageUrl=fileUpload.tacleUpload(doodlePhoto,savePath,request,UniqueStringGenerate.generateRandomStr(8));
+        UserPhoto userPhoto= userPhoService.getUserPhotoByPhotoID(photoID);//原来用户的照片信息
+        final int  trueUserid=userPhoService.getUserIDbyPhoid(photoID);
+        //完成涂鸦操作
+        doolePhotoService.doodlePhoto(photoID,userPhoto.getPhoto(),userID,userItemID);
+        //同时将用户的原有的url记录里面的照片路径替换
+        userPhoService.updateUserPhoUrlByUserID(trueUserid,dooleImageUrl);
+        //完成动态的生成
+        Moment moment=new Moment();
+        moment.setMomentimage(dooleImageUrl);
+        moment.setMomenttype(16);
+        moment.setMomentcontent("对"+userPhoto.getUserName()+"使用了道具：涂鸦笔");
+        moment.setUserid(userID);
+        momentService.insertMoment(moment);
+        //根据userid来获取用户的单身状况----先根据PhoTOid来查
+
+        final User dooleUser=userService.getUserByID(trueUserid);
+        final User myAnotherHalf=loverShipService.getHalfByID(trueUserid);
+        if(dooleUser.getStauts()==2){
+            //不是单身用户
+            //完成消息推送
+            taskExecutor.execute(new Runnable() {
+                public void run() {
+                    //插入消息
+                    messageService.insertMessage(-1,myAnotherHalf.getId(),"19",new Date(),"您的照片被涂鸦了");
+                    JpushClientUtil.sendDynatic(String.valueOf(myAnotherHalf.getId()),String.valueOf(myAnotherHalf.getStauts()),"你有一条消息提醒","tips",
+                            "你被别人限制行动了！","hips");
+                }
+            });
+        }
+        taskExecutor.execute(new Runnable() {
+            public void run() {
+                //最终都会向用户完成消息推送
+                messageService.insertMessage(-1,trueUserid,"19",new Date(),"您的照片被涂鸦了");
+                JpushClientUtil.sendDynatic(String.valueOf(trueUserid),String.valueOf(dooleUser.getStauts()),"你有一条消息提醒","tips",
+                        "你被别人限制行动了！","hips");
+            }
+        });
+        //检测触发函数  ---是否涂鸦的照片已经到达时间
+        taskExecutor.execute(new Runnable() {
+            public void run() {
+                //在线程池里面进行触发
+                sheduleTaskforDoolePhoto.testifDoolePhotoOutDate();
+            }
+        });
+
+        return new FeedBack<String>("success","200");
+    }
+    /**
+     *
+     * @param userID
+     * @param receiverID
+     * @param ItemID
+     * @param openDay
+     * @param content
+     * @param photo
+     * @return
+     */
+    @RequestMapping(value = "/insertCapsule",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public FeedBack<String> insertCapsule(int userID,int  receiverID,int  ItemID,String openDay,String content,MultipartFile photo){
+        FeedBack feedBack;
+        LoverCapsule  previousLoverCapule=loveCauleService.getLoverCasuleByRecID(receiverID);
+        if(!previousLoverCapule.getState().equals("2")){
+            feedBack=new FeedBack("success","201");
+        }
+        else {
+            String savePath=getMessage(ControllerConstant.LoverCauplePath);
+            String phoUrl=fileUpload.tacleUpload(photo,savePath,request,UniqueStringGenerate.generateRandomStr(12));
+            deleItem(ItemID,userID);
+            Moment moment=new Moment();
+            moment.setUserid(userID);
+            moment.setMomenttype(12);
+            moment.setMomentdate(new Date());
+            moment.setCommentid(-1);
+            moment.setMomentimage("");
+            moment.setMomentcontent("来自过去的消息去看你，前爱的");
+            momentService.insertMoment(moment);
+            taskExecutor.execute(new Runnable() {
+                public void run() {
+                    //检测是否时间到达
+                    sheduleTaskForLoverCaspule.ifopen();
+                }
+            });
+            feedBack= new FeedBack<String>("success","200");
+        }
+
+        return feedBack;
+    }
+    @RequestMapping(value = "/setStateByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public FeedBack<String>  setStateByID(int receiverID){
+        FeedBack feedBack=null;
+        LoverCapsule  loverCapsule=loveCauleService.getLoverCasuleByRecID(receiverID);
+        if(loverCapsule.getState().equals("1")){
+            loveCauleService.setStateByID(loverCapsule.getId(),"2");
+            feedBack=new FeedBack("success","200");
+            //插入用户道具
+            UserItem userItem=itemService.getSpeicUseritembY(loverCapsule.getReceiverid(),17);
+            UserOneItem userOneItem=new UserOneItem();
+            if(userItem==null)
+            {
+                itemService.insertUserItem( loverCapsule.getReceiverid(),17);
+                userOneItem.setItemid(loverCapsule.getItemid());
+                userOneItem.setUserid(loverCapsule.getReceiverid());
+            }
+            else
+            {
+                itemService.updateUserItemCount(loverCapsule.getReceiverid(),userItem.getCount()+1);
+                userOneItem.setItemid(17);
+                userOneItem.setUserid(userItem.getUserId());
+            }
+            itemService.insertIntoUserOneItem(userOneItem);
+            //同时删除
+            deleItem(12,loverCapsule.getUserid());
+
+        }else {
+            feedBack=new FeedBack("success","201");
+        }
+        return feedBack;
+    }
+    @RequestMapping(value = "/getCapsuleByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public FeedBack<LoverCapsule> getCapsuleByID(int recvierID){
+        FeedBack feedBack;
+        List<LoverCapsule> loverCapsule=loveCauleService.getAllCanOpenLoverCasules(recvierID);
+        if(loverCapsule!=null){
+            feedBack=new FeedBack("success","200",loverCapsule);
+        }
+        else {
+            feedBack=new FeedBack("success","201",loverCapsule);
         }
         return feedBack;
     }

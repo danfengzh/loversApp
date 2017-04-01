@@ -1,6 +1,7 @@
 package org.loversAPP.dao;
 
 import org.apache.ibatis.annotations.Param;
+import org.loversAPP.DTO.GoDieFeeBack;
 import org.loversAPP.model.GoDie;
 import org.loversAPP.model.GoDieExample;
 
@@ -30,4 +31,6 @@ public interface GoDieMapper {
     int updateByPrimaryKey(GoDie record);
 
     int getDogActByID(@Param("userID") int userID);
+
+    GoDieFeeBack getGoDieFeedBackByID(@Param("userID") int userID);
 }

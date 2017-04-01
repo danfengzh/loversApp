@@ -7,6 +7,6 @@ import org.loversAPP.model.FinishStatus;
  */
 public interface finishStatusService {
   public Integer finishStatus(Integer userID);
-  public int setFinishStatusByUID(Integer userID,Integer status);
+  public int setFinishStatusByUID(Integer userID, Integer status);
   public FinishStatus getFinishStatusByUID(Integer userID);
 }

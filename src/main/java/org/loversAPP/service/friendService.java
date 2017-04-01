@@ -11,9 +11,9 @@ import java.util.List;
  */
 public interface friendService {
 
-    public Integer   insertFriend(Integer userID ,Integer friendID);
+    public Integer   insertFriend(Integer userID, Integer friendID);
 
-    public Integer deleteFriend(Integer userID ,Integer friendID);
+    public Integer deleteFriend(Integer userID, Integer friendID);
 
     /**
      * 需要friend表和user表联合查询
@@ -23,7 +23,7 @@ public interface friendService {
     public FriendShip getFriendsByUID(Integer userID);
 
     public List<TinyUser> getAllTinyUser(int userid);
-    public int checkIsFollowed(int userid,int friendID);
+    public int checkIsFollowed(int userid, int friendID);
 
     public List<CarePeople> getCarePeoples(int friendID);
 

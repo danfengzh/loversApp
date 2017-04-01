@@ -1,6 +1,7 @@
 package org.loversAPP.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class LoverCapsuleExample {
@@ -224,63 +225,63 @@ public class LoverCapsuleExample {
             return (Criteria) this;
         }
 
-        public Criteria andUseritemidIsNull() {
-            addCriterion("userItemID is null");
+        public Criteria andUseridIsNull() {
+            addCriterion("userId is null");
             return (Criteria) this;
         }
 
-        public Criteria andUseritemidIsNotNull() {
-            addCriterion("userItemID is not null");
+        public Criteria andUseridIsNotNull() {
+            addCriterion("userId is not null");
             return (Criteria) this;
         }
 
-        public Criteria andUseritemidEqualTo(Integer value) {
-            addCriterion("userItemID =", value, "useritemid");
+        public Criteria andUseridEqualTo(Integer value) {
+            addCriterion("userId =", value, "userid");
             return (Criteria) this;
         }
 
-        public Criteria andUseritemidNotEqualTo(Integer value) {
-            addCriterion("userItemID <>", value, "useritemid");
+        public Criteria andUseridNotEqualTo(Integer value) {
+            addCriterion("userId <>", value, "userid");
             return (Criteria) this;
         }
 
-        public Criteria andUseritemidGreaterThan(Integer value) {
-            addCriterion("userItemID >", value, "useritemid");
+        public Criteria andUseridGreaterThan(Integer value) {
+            addCriterion("userId >", value, "userid");
             return (Criteria) this;
         }
 
-        public Criteria andUseritemidGreaterThanOrEqualTo(Integer value) {
-            addCriterion("userItemID >=", value, "useritemid");
+        public Criteria andUseridGreaterThanOrEqualTo(Integer value) {
+            addCriterion("userId >=", value, "userid");
             return (Criteria) this;
         }
 
-        public Criteria andUseritemidLessThan(Integer value) {
-            addCriterion("userItemID <", value, "useritemid");
+        public Criteria andUseridLessThan(Integer value) {
+            addCriterion("userId <", value, "userid");
             return (Criteria) this;
         }
 
-        public Criteria andUseritemidLessThanOrEqualTo(Integer value) {
-            addCriterion("userItemID <=", value, "useritemid");
+        public Criteria andUseridLessThanOrEqualTo(Integer value) {
+            addCriterion("userId <=", value, "userid");
             return (Criteria) this;
         }
 
-        public Criteria andUseritemidIn(List<Integer> values) {
-            addCriterion("userItemID in", values, "useritemid");
+        public Criteria andUseridIn(List<Integer> values) {
+            addCriterion("userId in", values, "userid");
             return (Criteria) this;
         }
 
-        public Criteria andUseritemidNotIn(List<Integer> values) {
-            addCriterion("userItemID not in", values, "useritemid");
+        public Criteria andUseridNotIn(List<Integer> values) {
+            addCriterion("userId not in", values, "userid");
             return (Criteria) this;
         }
 
-        public Criteria andUseritemidBetween(Integer value1, Integer value2) {
-            addCriterion("userItemID between", value1, value2, "useritemid");
+        public Criteria andUseridBetween(Integer value1, Integer value2) {
+            addCriterion("userId between", value1, value2, "userid");
             return (Criteria) this;
         }
 
-        public Criteria andUseritemidNotBetween(Integer value1, Integer value2) {
-            addCriterion("userItemID not between", value1, value2, "useritemid");
+        public Criteria andUseridNotBetween(Integer value1, Integer value2) {
+            addCriterion("userId not between", value1, value2, "userid");
             return (Criteria) this;
         }
 
@@ -294,62 +295,52 @@ public class LoverCapsuleExample {
             return (Criteria) this;
         }
 
-        public Criteria andOpendayEqualTo(String value) {
+        public Criteria andOpendayEqualTo(Date value) {
             addCriterion("openDay =", value, "openday");
             return (Criteria) this;
         }
 
-        public Criteria andOpendayNotEqualTo(String value) {
+        public Criteria andOpendayNotEqualTo(Date value) {
             addCriterion("openDay <>", value, "openday");
             return (Criteria) this;
         }
 
-        public Criteria andOpendayGreaterThan(String value) {
+        public Criteria andOpendayGreaterThan(Date value) {
             addCriterion("openDay >", value, "openday");
             return (Criteria) this;
         }
 
-        public Criteria andOpendayGreaterThanOrEqualTo(String value) {
+        public Criteria andOpendayGreaterThanOrEqualTo(Date value) {
             addCriterion("openDay >=", value, "openday");
             return (Criteria) this;
         }
 
-        public Criteria andOpendayLessThan(String value) {
+        public Criteria andOpendayLessThan(Date value) {
             addCriterion("openDay <", value, "openday");
             return (Criteria) this;
         }
 
-        public Criteria andOpendayLessThanOrEqualTo(String value) {
+        public Criteria andOpendayLessThanOrEqualTo(Date value) {
             addCriterion("openDay <=", value, "openday");
             return (Criteria) this;
         }
 
-        public Criteria andOpendayLike(String value) {
-            addCriterion("openDay like", value, "openday");
-            return (Criteria) this;
-        }
-
-        public Criteria andOpendayNotLike(String value) {
-            addCriterion("openDay not like", value, "openday");
-            return (Criteria) this;
-        }
-
-        public Criteria andOpendayIn(List<String> values) {
+        public Criteria andOpendayIn(List<Date> values) {
             addCriterion("openDay in", values, "openday");
             return (Criteria) this;
         }
 
-        public Criteria andOpendayNotIn(List<String> values) {
+        public Criteria andOpendayNotIn(List<Date> values) {
             addCriterion("openDay not in", values, "openday");
             return (Criteria) this;
         }
 
-        public Criteria andOpendayBetween(String value1, String value2) {
+        public Criteria andOpendayBetween(Date value1, Date value2) {
             addCriterion("openDay between", value1, value2, "openday");
             return (Criteria) this;
         }
 
-        public Criteria andOpendayNotBetween(String value1, String value2) {
+        public Criteria andOpendayNotBetween(Date value1, Date value2) {
             addCriterion("openDay not between", value1, value2, "openday");
             return (Criteria) this;
         }
@@ -561,6 +552,66 @@ public class LoverCapsuleExample {
 
         public Criteria andStateNotBetween(String value1, String value2) {
             addCriterion("state not between", value1, value2, "state");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemidIsNull() {
+            addCriterion("itemID is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemidIsNotNull() {
+            addCriterion("itemID is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemidEqualTo(Integer value) {
+            addCriterion("itemID =", value, "itemid");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemidNotEqualTo(Integer value) {
+            addCriterion("itemID <>", value, "itemid");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemidGreaterThan(Integer value) {
+            addCriterion("itemID >", value, "itemid");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemidGreaterThanOrEqualTo(Integer value) {
+            addCriterion("itemID >=", value, "itemid");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemidLessThan(Integer value) {
+            addCriterion("itemID <", value, "itemid");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemidLessThanOrEqualTo(Integer value) {
+            addCriterion("itemID <=", value, "itemid");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemidIn(List<Integer> values) {
+            addCriterion("itemID in", values, "itemid");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemidNotIn(List<Integer> values) {
+            addCriterion("itemID not in", values, "itemid");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemidBetween(Integer value1, Integer value2) {
+            addCriterion("itemID between", value1, value2, "itemid");
+            return (Criteria) this;
+        }
+
+        public Criteria andItemidNotBetween(Integer value1, Integer value2) {
+            addCriterion("itemID not between", value1, value2, "itemid");
             return (Criteria) this;
         }
     }

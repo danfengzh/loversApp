@@ -28,4 +28,6 @@ public interface DoodlePhotoMapper {
     int updateByPrimaryKeySelective(DoodlePhoto record);
 
     int updateByPrimaryKey(DoodlePhoto record);
+
+    List<DoodlePhoto> getAllDooolePhotos();
 }

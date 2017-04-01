@@ -12,10 +12,10 @@ import java.util.List;
  * Created by Administrator on 2017/3/6.
  */
 public interface ItemService {
-    public Integer insertItem(String itemName ,String itemFunction ,
-                              Long price ,String itemImage,Integer itemType,Integer itemlevel ,Integer itemPrivilege);
+    public Integer insertItem(String itemName, String itemFunction,
+                              Long price, String itemImage, Integer itemType, Integer itemlevel, Integer itemPrivilege);
 
-    public Integer insertUserItem(Integer userID ,Integer itemID);
+    public Integer insertUserItem(Integer userID, Integer itemID);
 
     public Integer deleteUserItemByID(Integer userID);
     public List<Item> getAllItems();
@@ -29,13 +29,13 @@ public interface ItemService {
     public List<ItemCountWrapper> getItemsCountByUIDForEach(int userid);
 
 
-    public int doodlePhoto(int photoID,String photo,int userItemID);
+    public int doodlePhoto(int photoID, String photo, int userItemID);
 
     public int getCountUserItemByid(int userid);
-    public int updateUserItemCount(int userid,int count);
+    public int updateUserItemCount(int userid, int count);
 
     public UserItem getUserItemByUsERid(int userid);
-    public UserItem getUserItemByID( int ID);
+    public UserItem getUserItemByID(int ID);
     public int  insertbatchUseritrems(List<UserItem> userItems);
     List<UserOneItem> getUserOneItems(int userid);
     public int maxIDu(int userid);
@@ -47,5 +47,5 @@ public interface ItemService {
     public int insertIntoUserOneItem(UserOneItem userOneItem);
 
     public int deletUserOneItem(int id);
-    public UserItem   getSpeicUseritembY(int userid,int itemid);
+    public UserItem   getSpeicUseritembY(int userid, int itemid);
 }

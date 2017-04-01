@@ -28,4 +28,14 @@ public interface LoverCapsuleMapper {
     int updateByPrimaryKeySelective(LoverCapsule record);
 
     int updateByPrimaryKey(LoverCapsule record);
+
+    int setStateByID(@Param("id") int id, @Param("state") String state);
+
+    List<LoverCapsule> getCaspule();
+
+    String getLoverCasuleStateBy(@Param("receiverID")int receiverID);
+
+    LoverCapsule getLoverCasuleByRecID(@Param("receiverID")int receiverID);
+
+    List<LoverCapsule> getAllCanOpenLoverCasules(@Param("receiverID")int recvierID);
 }

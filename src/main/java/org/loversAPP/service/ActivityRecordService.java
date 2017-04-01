@@ -14,14 +14,14 @@ public interface ActivityRecordService {
 
     public Integer deleteActiityRecords(String loverID);
 
-    public Integer insertRecord(String loverID,String longtitude ,String latitude);
+    public Integer insertRecord(String loverID, String longtitude, String latitude);
 
     public Integer getIDByLoverID(String loverID);
 
     public Activityrecords getRecordByID(Integer id);
 
 
-    public Integer updateTotalStepsByID(Integer id,Integer totalSteps);
+    public Integer updateTotalStepsByID(Integer id, Integer totalSteps);
 
     public List<Activityrecords> getAllRecords();
 
@@ -29,7 +29,7 @@ public interface ActivityRecordService {
     public Integer deleteRecordByID(Integer id);
 
 
-    public  Integer updateLocationByID(Integer id,String longatitude,String latitude);
+    public  Integer updateLocationByID(Integer id, String longatitude, String latitude);
 
     public Integer insertPhotoRecords();
 
@@ -60,7 +60,7 @@ public interface ActivityRecordService {
 
     public Integer deletePhotoByID(Integer photoID);
 
-    public Integer updateRadiusByID(Integer id,Integer radius);
+    public Integer updateRadiusByID(Integer id, Integer radius);
 
     List<WrapperActicvityRecord> getAllWrapperActicvityRecord();
     List<WrapperActicvityRecord> getAllRecordsExceptMe(int userID);

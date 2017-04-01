@@ -193,4 +193,9 @@
       photoID = #{photoid,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="getAllDooolePhotos" resultMap="BaseResultMap">
+    SELECT
+doodle_photo.doodleTime
+FROM `doodle_photo`
+  </select>
 </mapper>
