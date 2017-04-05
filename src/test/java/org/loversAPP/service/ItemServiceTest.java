@@ -2,6 +2,7 @@ package org.loversAPP.service;
 
 import org.junit.Test;
 import org.loversAPP.model.Item;
+import org.loversAPP.model.UserItem;
 import org.loversAPP.model.UserOneItem;
 import org.loversAPP.service.baseService.baseServiceTest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,5 +38,24 @@ public class ItemServiceTest extends baseServiceTest {
     public void wwuuuw() throws Exception {
    List<UserOneItem> userOneItems= itemService.getUserOneItems(10);
         System.out.println("*************");
+    }
+    @Test
+    public void test(){
+        UserItem userItem=itemService.getSpeicUseritembY(47,10);
+        UserOneItem userOneItem=new UserOneItem();
+        if(userItem==null)
+        {
+            itemService.insertUserItem( 47,10);
+            userOneItem.setItemid(47);
+            userOneItem.setUserid(10);
+        }
+        else
+        {
+           // itemService.updateUserItemBindItemIDCount(47,userItem.getCount()+1);
+            userOneItem.setItemid(userItem.getItemId());
+            userOneItem.setUserid(userItem.getUserId());
+        }
+        itemService.insertIntoUserOneItem(userOneItem);
+        System.out.println("vvv");
     }
 }

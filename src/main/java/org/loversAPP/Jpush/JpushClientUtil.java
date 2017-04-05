@@ -214,7 +214,6 @@ public class JpushClientUtil {
         return PushPayload.newBuilder()
                 .setPlatform(Platform.android_ios())
                 .setAudience(Audience.alias(alias))
-                .setAudience(Audience.tag(tag))
                 .setNotification(Notification.newBuilder()
                         .setAlert(notification_title)
                         .addPlatformNotification(AndroidNotification.newBuilder()
@@ -428,6 +427,9 @@ public class JpushClientUtil {
                 .build();
     }
     public static void main(String [] args){
-        JpushClientUtil.sendDynatic("17","0","the message from server","loverapp","好爱爱家爱介绍动画时候还是","实话实说和");
+       // JpushClientUtil.sendDynatic("24","2","the message from server","loverapp","好爱爱家爱介绍动画时候还是","实话实说和");
+        JpushClientUtil.sendDynatic(String.valueOf(48),"2","你被别人限制行动了！","OWO！",
+                "OWO","hips");
+
     }
 }

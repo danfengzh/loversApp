@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.loversAPP.dao.MomentMapper">
+  <cache type="org.loversAPP.Cache.RedisCache"/>
   <resultMap id="BaseResultMap" type="org.loversAPP.model.Moment">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="userID" jdbcType="INTEGER" property="userid" />
@@ -165,11 +166,22 @@
     </if>
   </select>
   <select id="selectByUserid" resultType="org.loversAPP.model.Moment">
-    SELECT *
-FROM `moment`
+  SELECT
+moment.id,
+moment.userID,
+moment.momentType,
+moment.momentContent,
+moment.momentImage,
+moment.momentDate,
+moment.commentID,
+`user`.userName,
+`user`.avator
+FROM
+moment ,
+`user`
 WHERE
-moment.userID=#{userID}
-
+moment.userID = #{userID} AND
+moment.userID = `user`.id
   </select>
   <update id="updateByExampleSelective" parameterType="map">
     update moment

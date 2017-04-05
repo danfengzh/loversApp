@@ -2,7 +2,9 @@ package org.loversAPP.service.Impl;
 
 import org.loversAPP.DTO.UserMessage;
 import org.loversAPP.dao.MessageMapper;
+import org.loversAPP.dao.MessageReadDao;
 import org.loversAPP.model.Message;
+import org.loversAPP.model.MessageRead;
 import org.loversAPP.service.messageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +19,8 @@ import java.util.List;
 public class messageServiceImpl implements messageService {
     @Autowired
     private MessageMapper messageMapper;
-
+    @Autowired
+    private MessageReadDao messageReadDao;
     public Integer insertMessage(Integer userID, Integer receiverID, String msgType, Date msgDate, String msgContent) {
         Message message=new Message();
         message.setUserid(userID);
@@ -25,6 +28,13 @@ public class messageServiceImpl implements messageService {
         message.setMsgtype(msgType);
         message.setMsgcontent(msgContent);
         message.setMsgdate(new Date());
+        //同时插入message_read表
+        int res=messageMapper.getMaxIDbyUserid()==null?0:messageMapper.getMaxIDbyUserid();
+        MessageRead messageRead=new MessageRead();
+        messageRead.setMessageID(res+1);
+        messageRead.setRecieverID(receiverID);
+
+        messageReadDao.insertMessageRead(messageRead);
         return messageMapper.insert(message);
     }
 

@@ -48,6 +48,40 @@
         <!-- 每次一分钟插入一条记录-->
         <property name="repeatInterval" value="6000"/>
     </bean>
+    <bean id="insertTreasure" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="sheduleTaskForInsertTreasureCasully"/>
+        <property name="targetMethod" value="insertTreasureCasully"/>
+    </bean>
+    <!--SheduleTaskForDeteGoDie -->
+    <bean id="testForDogHead" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="sheduleTaskForDogHead"/>
+        <property name="targetMethod" value="ifDeleteLoverDog"/>
+    </bean>
+    <bean id="testForGoDie" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="sheduleTaskForDeteGoDie"/>
+        <property name="targetMethod" value="ifDeleteGoDie"/>
+    </bean>
+    <bean id="simpleTrigger5" class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
+        <property name="jobDetail" ref="testForDogHead"/>
+        <!-- 调度工厂实例化完成后 立即执行-->
+        <property name="startDelay" value="0"/>
+        <!-- 每次一分钟插入一条记录-->
+        <property name="repeatInterval" value="6000"/>
+    </bean>
+    <bean id="simpleTrigger6" class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
+        <property name="jobDetail" ref="testForGoDie"/>
+        <!-- 调度工厂实例化完成后 立即执行-->
+        <property name="startDelay" value="0"/>
+        <!-- 每次一分钟插入一条记录-->
+        <property name="repeatInterval" value="6000"/>
+    </bean>
+    <!-- ======================== 调度触发器
+     <property name="cronExpression" value="0 0 10,14,16 * * ?"></property>
+     ======================== -->
+    <bean id="CronTriggerBean" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="insertTreasure"></property>
+        <property name="cronExpression" value="0 40 15 * * ?"></property>
+    </bean>
     <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean"  lazy-init="false" autowire="no">
         <property name="triggers">
             <list>
@@ -55,6 +89,9 @@
                 <ref bean="simpleTrigger2"/>
                 <ref bean="simpleTrigger3"/>
                 <ref bean="simpleTrigger4"/>
+                <ref bean="CronTriggerBean"/>
+                <ref bean="simpleTrigger5"/>
+                <ref bean="simpleTrigger6"/>
             </list>
         </property>
         <property name="applicationContextSchedulerContextKey" value="applicationContextKey"/>

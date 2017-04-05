@@ -13,6 +13,16 @@ public class GoDie extends BaseModel {
 
     private Integer userid;
 
+    private Integer reciveID;
+
+    public Integer getReciveID() {
+        return reciveID;
+    }
+
+    public void setReciveID(Integer reciveID) {
+        this.reciveID = reciveID;
+    }
+
     public Integer getId() {
         return id;
     }

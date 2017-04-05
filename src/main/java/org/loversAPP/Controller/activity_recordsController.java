@@ -193,6 +193,11 @@ public class activity_recordsController extends BaseController {
     public Map getTextsExceptOne  (Integer userID){
         Map result=new HashMap();
         List<UserText> userPhotos= userTextService.getTextsExceptOne(userID);
+        for(UserText userText:userPhotos){
+            if(userText.getId().equals(userID)){
+                userText.setIsMe(1);
+            }
+        }
         RetuBetiful(result, userPhotos);
         return result;
     }
@@ -201,6 +206,11 @@ public class activity_recordsController extends BaseController {
     public Map getPhotosExceptOne (@RequestParam("userID") Integer userID){
         Map result=new HashMap();
         List<UserPhoto> userPhotos= userPhoService.getPhotosExceptOne(userID);
+        for (UserPhoto userPhoto:userPhotos){
+            if(userPhoto.getId().equals(userID)){
+                userPhoto.setIsMe(1);
+            }
+        }
         RetuBetiful(result, userPhotos);
         return result;
     }
@@ -219,7 +229,7 @@ public class activity_recordsController extends BaseController {
     @ResponseBody
     public FeedBack deleteTextByID(@RequestParam("id") Integer id){
         FeedBack feedBack;
-        Integer cout=userTextService.deleteTextByID(id);
+        int cout=userTextService.deleteTextByID(id);
         if(cout==1){
             feedBack=new FeedBack("success","200");
         }
@@ -232,7 +242,7 @@ public class activity_recordsController extends BaseController {
     @ResponseBody
     public FeedBack deletePhotoByID(@RequestParam("id") Integer id){
         FeedBack feedBack;
-        Integer cout=userPhoService.deletePhotoByID(id);
+        int cout=userPhoService.deletePhotoByID(id);
         if(cout==1){
             feedBack=new FeedBack("success","200");
         }
@@ -241,5 +251,16 @@ public class activity_recordsController extends BaseController {
         }
         return feedBack;
     }
-
+    @RequestMapping(value ="hasCircle",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public FeedBack<String> hasCircle(int userID){
+        FeedBack  feedBack=null;
+        int res=activityRecordService.hasCircle(userID);
+        if(res==1){
+            feedBack=new FeedBack("success","200");
+        }else {
+            feedBack=new FeedBack("failure","400");
+        }
+        return feedBack;
+    }
 }

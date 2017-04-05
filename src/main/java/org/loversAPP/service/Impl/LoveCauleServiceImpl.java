@@ -5,6 +5,7 @@ import org.loversAPP.model.LoverCapsule;
 import org.loversAPP.service.LoveCauleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -15,6 +16,7 @@ import java.util.List;
 public class LoveCauleServiceImpl implements LoveCauleService {
     @Autowired
     private LoverCapsuleMapper loverCapsuleMapper;
+    @Transactional
     public int insertCapsule(LoverCapsule loverCapsule) {
         return loverCapsuleMapper.insertSelective(loverCapsule);
     }

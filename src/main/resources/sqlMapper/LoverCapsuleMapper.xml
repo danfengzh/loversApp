@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.loversAPP.dao.LoverCapsuleMapper">
+  <cache type="org.loversAPP.Cache.RedisCache"/>
   <resultMap id="BaseResultMap" type="org.loversAPP.model.LoverCapsule">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="receiverID" jdbcType="INTEGER" property="receiverid" />
@@ -271,6 +272,8 @@ love_capsule
 WHERE
 love_capsule.receiverID=#{receiverID} AND
 love_capsule.state='2'
-
+  </select>
+  <select id="getMaxId" resultType="java.lang.Integer">
+    SELECT max(id) FROM `love_capsule`;
   </select>
 </mapper>

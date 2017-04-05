@@ -25,7 +25,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2017/3/6.
@@ -62,6 +64,8 @@ public class ItemController extends BaseController {
     private SheduleTaskforDoolePhoto sheduleTaskforDoolePhoto;
     @Autowired
     private SheduleTaskForLoverCaspule sheduleTaskForLoverCaspule;
+    @Autowired
+    private ItemCapsuleService itemCapsuleService;
     @RequestMapping(value = "/insertItem",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
     public FeedBack insertItem(String itemName , String itemFunction ,
@@ -322,18 +326,18 @@ public class ItemController extends BaseController {
             taskExecutor.execute(new Runnable() {
                 public void run() {
                     //插入消息
-                    messageService.insertMessage(-1,myAnotherHalf.getId(),"19",new Date(),"您的照片被涂鸦了");
-                    JpushClientUtil.sendDynatic(String.valueOf(myAnotherHalf.getId()),String.valueOf(myAnotherHalf.getStauts()),"你有一条消息提醒","tips",
-                            "你被别人限制行动了！","hips");
+                    messageService.insertMessage(-1,myAnotherHalf.getId(),"4",new Date(),"您的照片被涂鸦了");
+                    JpushClientUtil.sendDynatic(String.valueOf(myAnotherHalf.getId()),String.valueOf(myAnotherHalf.getStauts()),"你们的照片被涂鸦了","你们的照片被涂鸦了",
+                            "你们的照片被涂鸦了！","hips");
                 }
             });
         }
         taskExecutor.execute(new Runnable() {
             public void run() {
                 //最终都会向用户完成消息推送
-                messageService.insertMessage(-1,trueUserid,"19",new Date(),"您的照片被涂鸦了");
-                JpushClientUtil.sendDynatic(String.valueOf(trueUserid),String.valueOf(dooleUser.getStauts()),"你有一条消息提醒","tips",
-                        "你被别人限制行动了！","hips");
+                messageService.insertMessage(-1,trueUserid,"4",new Date(),"您的照片被涂鸦了");
+                JpushClientUtil.sendDynatic(String.valueOf(trueUserid),String.valueOf(dooleUser.getStauts()),"你们的照片被涂鸦了","你们的照片被涂鸦了",
+                        "你的照片被涂鸦了！","hips");
             }
         });
         //检测触发函数  ---是否涂鸦的照片已经到达时间
@@ -357,51 +361,53 @@ public class ItemController extends BaseController {
      */
     @RequestMapping(value = "/insertCapsule",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
-    public FeedBack<String> insertCapsule(final int userID, final int  receiverID, int  ItemID, Date openDay, String content,
-                                          @RequestParam(value = "photo",required = false) MultipartFile photo){
-        FeedBack feedBack;
-        LoverCapsule  previousLoverCapule=loveCauleService.getLoverCasuleByRecID(receiverID);
-        if(previousLoverCapule!=null&&!previousLoverCapule.getState().equals("2")){
-            feedBack=new FeedBack("success","201");
-        }
-        else {
+    public Map insertCapsule(final int userID, final int  receiverID, int  ItemID, Date openDay, String content,
+                             @RequestParam(value = "photo",required = false) MultipartFile photo){
+        final Map map=new HashMap();
+      //  LoverCapsule  previousLoverCapule=loveCauleService.getLoverCasuleByRecID(receiverID);
+//        if(previousLoverCapule!=null&&!previousLoverCapule.getState().equals("2")){
+//            map.put("code","201");
+//            map.put("msg","success");
+//        }
+
             String savePath=getMessage(ControllerConstant.LoverCauplePath);
             Moment moment=new Moment();
             String phoUrl="";
-           if(photo!=null){
+            if(photo!=null){
                 phoUrl=fileUpload.tacleUpload(photo,savePath,request,UniqueStringGenerate.generateRandomStr(12));
-               moment.setMomentimage(phoUrl);
-           }
-           else {
-               moment.setMomentimage("");
-           }
+                moment.setMomentimage(phoUrl);
+            }
+            else {
+                moment.setMomentimage("");
+            }
             deleItem(ItemID,userID);
-            UserItem userItem=itemService.getSpeicUseritembY(receiverID,17);
-            UserOneItem userOneItem=new UserOneItem();
-            if(userItem==null)
-            {
-                itemService.insertUserItem( receiverID,17);
-                userOneItem.setItemid(receiverID);
-                userOneItem.setUserid(17);
-            }
-            else
-            {
-                //updateUserItemBindItemIDCount
-                itemService.updateUserItemBindItemIDCount(receiverID,17,userItem.getCount()+1);
-                userOneItem.setItemid(userItem.getItemId());
-                userOneItem.setUserid(userItem.getUserId());
-            }
-            itemService.insertIntoUserOneItem(userOneItem);
+//            UserItem userItem=itemService.getSpeicUseritembY(receiverID,17);
+//            UserOneItem userOneItem=new UserOneItem();
+//            if(userItem==null)
+//            {
+//                itemService.insertUserItem( receiverID,17);
+//                userOneItem.setItemid(17);
+//                userOneItem.setUserid(receiverID);
+//            }
+//            else
+//            {
+//                //updateUserItemBindItemIDCount
+//                itemService.updateUserItemBindItemIDCount(receiverID,17,userItem.getCount()+1);
+//                userOneItem.setItemid(17);
+//                userOneItem.setUserid(userItem.getUserId());
+//            }
+//            itemService.insertIntoUserOneItem(userOneItem);
             moment.setUserid(userID);
             moment.setMomenttype(12);
             moment.setMomentdate(new Date());
             moment.setCommentid(-1);
-            moment.setMomentcontent("来自过去的消息去看你，前爱的");
+            moment.setMomentcontent("来自过去的消息去看你，亲爱的");
             momentService.insertMoment(moment);
-            LoverCapsule  loverCapsule=new LoverCapsule();
+            final LoverCapsule  loverCapsule=new LoverCapsule();
             loverCapsule.setUserid(userID);
             loverCapsule.setContent(content);
-            loverCapsule.setOpenday(openDay);
+           // loverCapsule.setOpenday(openDay);
+            loverCapsule.setOpenday(new Date());
             loverCapsule.setItemid(ItemID);
             loverCapsule.setReceiverid(receiverID);
             if(photo==null){
@@ -410,10 +416,17 @@ public class ItemController extends BaseController {
                 loverCapsule.setPhoto(phoUrl);
             }
             loveCauleService.insertCapsule(loverCapsule);
+
+            //int  loverCaspuleID=loveCauleService.getLoverCasuleIDByUserAndItemID(userID,12);
+//            ItemCapsule itemCapsule=new ItemCapsule();
+//            itemCapsule.setItemID(17);
+//            itemCapsule.setUserID(receiverID);
+//            itemCapsule.setLove_capsule_id();
+//            itemCapsuleService.insertItemCapsule()
             taskExecutor.execute(new Runnable() {
                 public void run() {
-                    messageService.insertMessage(userID,receiverID,"11",new Date(),"你使用了时间沙漏");
-                    JpushClientUtil.sendDynatic(String.valueOf(receiverID),"1","tips","你的私信","你使用了时间沙漏","tips");
+                    messageService.insertMessage(userID,receiverID,"11",new Date(),"在遥远的未来你将会收到一条神秘消息");
+                    //JpushClientUtil.sendDynatic(String.valueOf(receiverID),"1","owo","你的私信","在遥远的未来你将会收到一条神秘消息","tips");
 
                 }
             });
@@ -421,45 +434,32 @@ public class ItemController extends BaseController {
                 public void run() {
                     //检测是否时间到达
                     sheduleTaskForLoverCaspule.ifopen();
+
                 }
+
             });
-            feedBack= new FeedBack<String>("success","200");
-        }
-
-        return feedBack;
+//            map.put("code","202");
+//            map.put("msg","success");
+            // feedBack= new FeedBack<String>("success","200");
+        map.put("code","200");
+        map.put("msg","success");
+        map.put("data",loverCapsule);
+        return map;
     }
-    @RequestMapping(value = "/setStateByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
-    @ResponseBody
-    public FeedBack<String>  setStateByID(int receiverID){
-        FeedBack feedBack=null;
-        LoverCapsule  loverCapsule=loveCauleService.getLoverCasuleByRecID(receiverID);
-        if(loverCapsule.getState().equals("1")){
-            loveCauleService.setStateByID(loverCapsule.getId(),"2");
-            feedBack=new FeedBack("success","200");
-            //插入用户道具
-            UserItem userItem=itemService.getSpeicUseritembY(loverCapsule.getReceiverid(),17);
-            UserOneItem userOneItem=new UserOneItem();
-            if(userItem==null)
-            {
-                itemService.insertUserItem( loverCapsule.getReceiverid(),17);
-                userOneItem.setItemid(loverCapsule.getItemid());
-                userOneItem.setUserid(loverCapsule.getReceiverid());
-            }
-            else
-            {
-                itemService.updateUserItemCount(loverCapsule.getReceiverid(),userItem.getCount()+1);
-                userOneItem.setItemid(17);
-                userOneItem.setUserid(userItem.getUserId());
-            }
-            itemService.insertIntoUserOneItem(userOneItem);
-            //同时删除
-            deleItem(12,loverCapsule.getUserid());
+//    @RequestMapping(value = "/setStateByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+//    @ResponseBody
+//    public FeedBack<String>  setStateByID(int receiverID){
+//        FeedBack feedBack=null;
+//        LoverCapsule  loverCapsule=loveCauleService.getLoverCasuleByRecID(receiverID);
+//        if(loverCapsule.getState().equals("1")){
+//            loveCauleService.setStateByID(loverCapsule.getId(),"2");
+//            feedBack=new FeedBack("success","200");
+//
+//        }else {
+//            feedBack=new FeedBack("success","201");
+//        }
+//        return feedBack;
 
-        }else {
-            feedBack=new FeedBack("success","201");
-        }
-        return feedBack;
-    }
     @RequestMapping(value = "/getCapsuleByID",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
     @ResponseBody
     public FeedBack<LoverCapsule> getCapsuleByID(int recvierID){

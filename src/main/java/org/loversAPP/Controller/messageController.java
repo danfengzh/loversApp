@@ -44,8 +44,8 @@ public class messageController extends BaseController {
         //异步发送消息 给receiver----调用极光推送异步完成--
         taskExecutor.execute(new Runnable() {
             public void run() {
-                JpushClientUtil.sendDynatic(String.valueOf(receiverID),String.valueOf(staus),"你有一条消息提醒","tips",
-                        msgType,msgContent);
+                JpushClientUtil.sendDynatic(String.valueOf(receiverID),String.valueOf(staus),msgContent,msgContent,
+                        msgContent,msgContent);
             }
         });
         if(count==1){

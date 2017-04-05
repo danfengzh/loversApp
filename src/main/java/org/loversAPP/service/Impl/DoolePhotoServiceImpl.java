@@ -31,7 +31,7 @@ public class DoolePhotoServiceImpl implements DoolePhotoService {
     }
 
     public int insertDog(LoverDog loverDog) {
-        return loverDogMapper.insertSelective(loverDog);
+        return loverDogMapper.insertLoverDog(loverDog);
     }
 
     public int getDogHeadByID(String loverID) {

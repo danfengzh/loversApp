@@ -1,204 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.loversAPP.dao.LoverDogMapper">
-  <resultMap id="BaseResultMap" type="org.loversAPP.model.LoverDog">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="userItemID" jdbcType="INTEGER" property="useritemid" />
-    <result column="insertTime" jdbcType="TIMESTAMP" property="inserttime" />
-    <result column="loverID" jdbcType="INTEGER" property="loverid" />
-  </resultMap>
-  <sql id="Example_Where_Clause">
-    <where>
-      <foreach collection="oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause">
-    <where>
-      <foreach collection="example.oredCriteria" item="criteria" separator="or">
-        <if test="criteria.valid">
-          <trim prefix="(" prefixOverrides="and" suffix=")">
-            <foreach collection="criteria.criteria" item="criterion">
-              <choose>
-                <when test="criterion.noValue">
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue">
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue">
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue">
-                  and ${criterion.condition}
-                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Base_Column_List">
-    id, userItemID, insertTime, loverID
-  </sql>
-  <select id="selectByExample" parameterType="org.loversAPP.model.LoverDogExample" resultMap="BaseResultMap">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from lover_dog
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
+    <cache type="org.loversAPP.Cache.RedisCache"/>
+    <insert id="insertLoverDog" parameterType="org.loversAPP.model.LoverDog">
+      INSERT lover_dog(userID,insertTime,loverID,ItemID) VALUES(#{loverDog.userID},#{loverDog.inserttime},
+      #{loverDog.loverid},#{loverDog.itemID});
+    </insert>
+    <select id="getDogHeadByID" resultType="java.lang.Integer">
+    SELECT count(*)
+FROM `lover_dog`
+WHERE
+lover_dog.loverID=#{loverID}
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from lover_dog
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from lover_dog
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <delete id="deleteByExample" parameterType="org.loversAPP.model.LoverDogExample">
-    delete from lover_dog
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
-  <insert id="insert" parameterType="org.loversAPP.model.LoverDog">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into lover_dog (userItemID, insertTime, loverID
-      )
-    values (#{useritemid,jdbcType=INTEGER}, #{inserttime,jdbcType=TIMESTAMP}, #{loverid,jdbcType=INTEGER}
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="org.loversAPP.model.LoverDog">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into lover_dog
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="useritemid != null">
-        userItemID,
-      </if>
-      <if test="inserttime != null">
-        insertTime,
-      </if>
-      <if test="loverid != null">
-        loverID,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="useritemid != null">
-        #{useritemid,jdbcType=INTEGER},
-      </if>
-      <if test="inserttime != null">
-        #{inserttime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="loverid != null">
-        #{loverid,jdbcType=INTEGER},
-      </if>
-    </trim>
-  </insert>
-  <select id="countByExample" parameterType="org.loversAPP.model.LoverDogExample" resultType="java.lang.Long">
-    select count(*) from lover_dog
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  <update id="updateByExampleSelective" parameterType="map">
-    update lover_dog
-    <set>
-      <if test="record.id != null">
-        id = #{record.id,jdbcType=INTEGER},
-      </if>
-      <if test="record.useritemid != null">
-        userItemID = #{record.useritemid,jdbcType=INTEGER},
-      </if>
-      <if test="record.inserttime != null">
-        insertTime = #{record.inserttime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.loverid != null">
-        loverID = #{record.loverid,jdbcType=INTEGER},
-      </if>
-    </set>
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map">
-    update lover_dog
-    set id = #{record.id,jdbcType=INTEGER},
-      userItemID = #{record.useritemid,jdbcType=INTEGER},
-      insertTime = #{record.inserttime,jdbcType=TIMESTAMP},
-      loverID = #{record.loverid,jdbcType=INTEGER}
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByPrimaryKeySelective" parameterType="org.loversAPP.model.LoverDog">
-    update lover_dog
-    <set>
-      <if test="useritemid != null">
-        userItemID = #{useritemid,jdbcType=INTEGER},
-      </if>
-      <if test="inserttime != null">
-        insertTime = #{inserttime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="loverid != null">
-        loverID = #{loverid,jdbcType=INTEGER},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="org.loversAPP.model.LoverDog">
-    update lover_dog
-    set userItemID = #{useritemid,jdbcType=INTEGER},
-      insertTime = #{inserttime,jdbcType=TIMESTAMP},
-      loverID = #{loverid,jdbcType=INTEGER}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <select id="getDogHeadByID" resultType="java.lang.Integer">
- SELECT
-	count(*)
+    <select id="getLoverDogCount" resultType="org.loversAPP.DTO.LoverDogCount">
+        SELECT
+Count(lover_dog.loverID) count,
+lover_dog.loverID,
+lover_dog.insertTime,
+lover_dog.id
 FROM
 	`lover_dog`
-WHERE
- lover_dog.loverID=#{loverID}
-  </select>
+GROUP BY
+lover_dog.loverID
+
+    </select>
+    <delete id="deleteLoverDogByID">
+        delete from lover_dog WHERE id=#{id}
+    </delete>
 </mapper>

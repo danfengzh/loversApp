@@ -1,5 +1,6 @@
 package org.loversAPP.service;
 
+import org.loversAPP.DTO.ActivityRecordsPosition;
 import org.loversAPP.DTO.FriendPhoto;
 import org.loversAPP.DTO.FriendText;
 import org.loversAPP.DTO.WrapperActicvityRecord;
@@ -64,4 +65,9 @@ public interface ActivityRecordService {
 
     List<WrapperActicvityRecord> getAllWrapperActicvityRecord();
     List<WrapperActicvityRecord> getAllRecordsExceptMe(int userID);
+
+    List<ActivityRecordsPosition> getactivityRecordsPositionList();
+
+    public int hasCircle(int  userID);
+
 }

@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.loversAPP.dao.GoDieMapper">
+  <cache type="org.loversAPP.Cache.RedisCache"/>
   <resultMap id="BaseResultMap" type="org.loversAPP.model.GoDie">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="userItemID" jdbcType="INTEGER" property="useritemid" />
     <result column="time" jdbcType="TIMESTAMP" property="time" />
-    <result column="userID" jdbcType="INTEGER" property="userid" />
+    <result column="userID" jdbcType="INTEGER" property="userid"/>
+    <result column="reciveID" javaType="INTEGER" property="reciveID"/>
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -116,6 +118,9 @@
       <if test="useritemid != null">
         userItemID,
       </if>
+      <if test="reciveID !=null">
+        reciveID,
+      </if>
       <if test="time != null">
         time,
       </if>
@@ -126,6 +131,9 @@
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="useritemid != null">
         #{useritemid,jdbcType=INTEGER},
+      </if>
+      <if test="reciveID !=null">
+        #{reciveID,jdbcType=INTEGER},
       </if>
       <if test="time != null">
         #{time,jdbcType=TIMESTAMP},
@@ -199,7 +207,7 @@ count(*)
 FROM
 go_die
 WHERE
-go_die.userID=#{userID}
+go_die.reciveID=#{userID}
   </select>
   <select id="getGoDieFeedBackByID" resultType="org.loversAPP.DTO.GoDieFeeBack">
     SELECT
@@ -212,4 +220,21 @@ WHERE
 go_die.userID = `user`.id
 AND go_die.userID=#{userID}
   </select>
+  <delete id="deleteGoDieByID">
+    DELETE FROM go_die WHERE userID=#{userID}
+  </delete>
+  <select id="getTempGoDie" resultType="org.loversAPP.DTO.TempGoDie">
+      SELECT
+Count(go_die.reciveID) count,
+go_die.reciveID,
+go_die.id,
+go_die.time
+FROM `go_die`
+GROUP BY
+go_die.reciveID
+  </select>
+  <delete id="deleteGoDieByPrimairyKey">
+    DELETE from `go_die`
+    WHERE id=#{id}
+  </delete>
 </mapper>

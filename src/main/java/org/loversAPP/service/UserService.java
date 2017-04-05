@@ -59,4 +59,6 @@ public interface UserService {
     public int delectLocByID(int userid);
     public int insertSingleSign(int userID);
     public int getSignCount(int userid, String signDate);
+
+    int updateUserInfoSelective(User user);
 }

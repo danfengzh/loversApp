@@ -2,6 +2,10 @@ package org.loversAPP.Controller.utils;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 /**
  * Created by ppssyyy on 2017-03-23.
  * 地图计算类
@@ -42,7 +46,75 @@ public class MapCalculator {
         distance = distance * EARTH_RADIUS;
         return distance;
     }
+   public static class Positon{
+        private String longLatitude;
+        private String latitude;
 
+        public String getLongLatitude() {
+            return longLatitude;
+        }
+
+        public void setLongLatitude(String longLatitude) {
+            this.longLatitude = longLatitude;
+        }
+
+        public String getLatitude() {
+            return latitude;
+        }
+
+        public void setLatitude(String latitude) {
+            this.latitude = latitude;
+        }
+    }
+
+    /**
+     *    根据中心点 center1 center2，以及半径radis来生成 指定数量count个 随机点的数量
+     * @param center1
+     * @param center2
+     * @param count
+     * @param radis
+     * @return
+     * if (m_origin != null) {
+    int segNum = this.getNumSegs();
+    for (int i = segNum - 1; i >= 0; i--)
+    this.removeSeg(i);
+
+    double[] xy = new double[2];
+    for(double i = 0; i < Math.PI*2; i+=Math.PI*2/60) {
+    xy[0] = m_origin.getX() + m_radius * Math.cos(i);
+    xy[1] = m_origin.getY() + m_radius * Math.sin(i);
+    try {
+    this.addPoint(xy[0], xy[1], MrfPathIterator.MRF_SEG_LINETO);
+    }
+    catch (Exception e) {
+    }
+     */
+    public static List<Positon> MakeRandomPositonAroundCircle(String center1,String center2,int count,int radis){
+        List<Positon> positonList=new ArrayList<Positon>();
+        if(StringUtils.isEmpty(center1)) center1="0";
+        if(StringUtils.isEmpty(center2)) center2="0";
+        double centr1=Double.parseDouble(center1);
+        double centr2=Double.parseDouble(center2);
+        for (int i = 0; i <count ; i++) {
+            //生成 r--3r之间的随机数字
+            int randowRadius=radis+new Random().nextInt(2*radis);
+            Double x_random=0.0;
+            Double y_random=0.0;
+            if(i/2==0){
+                 x_random=centr1+new Random().nextInt((int) (radis))*0.00001;
+                 y_random=centr2+new Random().nextInt((int) (radis))*0.00001;
+            }else {
+                x_random=centr1-new Random().nextInt((int) (radis))*0.00001;
+                y_random=centr2-new Random().nextInt((int) (radis))*0.00001;
+            }
+
+            Positon positon=new Positon();
+            positon.setLatitude(x_random.toString());
+            positon.setLongLatitude(y_random.toString());
+            positonList.add(positon);
+        }
+        return positonList;
+    }
     /**
      * 判断物体是否在圈子里
      * @param cLat 圈子经度
@@ -61,8 +133,8 @@ public class MapCalculator {
     }
     //生成
 
-  public static void main(String [] args){
-     double ss= Double.parseDouble("0");
-      System.out.println("*******");
-  }
+    public static void main(String [] args){
+        List<Positon> positonList= MakeRandomPositonAroundCircle("50","50",10,200);
+        System.out.println("v");
+    }
 }

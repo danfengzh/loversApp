@@ -24,4 +24,5 @@ public interface LoveCauleService {
     LoverCapsule getLoverCasuleByRecID(int receiverID);
 
     List<LoverCapsule> getAllCanOpenLoverCasules(int recvierID);
+
 }

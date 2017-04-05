@@ -7,11 +7,11 @@ import java.util.Date;
 public class LoverDog extends BaseModel {
     private Integer id;
 
-    private Integer useritemid;
-
+    private Integer userID;
+    private Integer itemID;
     private Date inserttime;
 
-    private Integer loverid;
+    private String loverid;
 
     public Integer getId() {
         return id;
@@ -21,12 +21,20 @@ public class LoverDog extends BaseModel {
         this.id = id;
     }
 
-    public Integer getUseritemid() {
-        return useritemid;
+    public Integer getUserID() {
+        return userID;
     }
 
-    public void setUseritemid(Integer useritemid) {
-        this.useritemid = useritemid;
+    public void setUserID(Integer userID) {
+        this.userID = userID;
+    }
+
+    public Integer getItemID() {
+        return itemID;
+    }
+
+    public void setItemID(Integer itemID) {
+        this.itemID = itemID;
     }
 
     public Date getInserttime() {
@@ -37,11 +45,11 @@ public class LoverDog extends BaseModel {
         this.inserttime = inserttime;
     }
 
-    public Integer getLoverid() {
+    public String getLoverid() {
         return loverid;
     }
 
-    public void setLoverid(Integer loverid) {
+    public void setLoverid(String loverid) {
         this.loverid = loverid;
     }
 }

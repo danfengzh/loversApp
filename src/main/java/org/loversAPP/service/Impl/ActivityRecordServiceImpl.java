@@ -1,5 +1,6 @@
 package org.loversAPP.service.Impl;
 
+import org.loversAPP.DTO.ActivityRecordsPosition;
 import org.loversAPP.DTO.FriendPhoto;
 import org.loversAPP.DTO.FriendText;
 import org.loversAPP.DTO.WrapperActicvityRecord;
@@ -163,5 +164,13 @@ public class ActivityRecordServiceImpl implements ActivityRecordService{
 
     public List<WrapperActicvityRecord> getAllRecordsExceptMe(int userID) {
         return activityrecordsMapper.getAllRecordsExceptMe(userID);
+    }
+
+    public List<ActivityRecordsPosition> getactivityRecordsPositionList() {
+        return activityrecordsMapper.getactivityRecordsPositionList();
+    }
+
+    public int hasCircle(int userID) {
+        return activityrecordsMapper.hasCircle(userID);
     }
 }

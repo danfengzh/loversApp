@@ -323,4 +323,19 @@ and #{userID} not  IN(user1.id,user2.id)
       </if>
     </where>
   </update>
+  <select id="getactivityRecordsPositionList" resultType="org.loversAPP.DTO.ActivityRecordsPosition" useCache="false">
+    SELECT
+activityrecords.radius,
+activityrecords.longtitude,
+activityrecords.latitude
+FROM
+activityrecords
+  </select>
+  <select id="hasCircle" resultType="java.lang.Integer">
+     SELECT count(*)
+FROM
+`user`,
+lover_ship
+WHERE #{userID} IN(loverBoyID,loverGirlID)
+  </select>
 </mapper>

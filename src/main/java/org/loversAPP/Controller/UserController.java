@@ -17,6 +17,8 @@ import org.loversAPP.service.messageService;
 import org.loversAPP.utils.MD5Utils;
 import org.loversAPP.utils.UniqueStringGenerate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -42,7 +44,9 @@ public class UserController extends BaseController {
     private messageService messageService;
     @Autowired
     private finishStatusService finishStatusService;
-
+    @Autowired
+    @Qualifier("taskExecutor")
+    private TaskExecutor taskExecutor;
     /**
      * 根据用户id查询用户个人信息
      *
@@ -232,7 +236,7 @@ public class UserController extends BaseController {
      */
     @RequestMapping(value = "getUserByInviteCode", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
     @ResponseBody
-    public FeedBack<Integer> getUserByInviteCode(@RequestParam("inviteCode") String inviteCode, @RequestParam("id") Integer id) {
+    public FeedBack<Integer> getUserByInviteCode(@RequestParam("inviteCode") String inviteCode, @RequestParam("id") final Integer id) {
         FeedBack<Integer> feedBack;
         final User user = userService.getUserByInviteCode(inviteCode);
         if (user != null) {
@@ -243,13 +247,13 @@ public class UserController extends BaseController {
             //同时插入消息 方便发送
 
             if (loverID == null && lovserID2 == null) {     //给被邀请者发消息
-                int flag = messageService.insertMessage(id, user.getId(), "1", new Date(), "匹配成功");
-                try {
-                    JpushClientUtil.sendDynatic(String.valueOf(user.getId()), String.valueOf(user.getId()), "你有一条消息提醒", "tips",
-                            "1", "匹配成功");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                taskExecutor.execute(new Runnable() {
+                    public void run() {
+                        messageService.insertMessage(id, user.getId(), "10", new Date(), "匹配成功");
+                        JpushClientUtil.sendDynatic(String.valueOf(user.getId()), String.valueOf(user.getId()), "匹配成功", "匹配成功",
+                                "匹配成功", "tips");
+                    }
+                });
                 LoverShip loverShip = new LoverShip();
                 loverShip.setState(1);
                 loverShip.setLovergirlid(id);//邀请人id

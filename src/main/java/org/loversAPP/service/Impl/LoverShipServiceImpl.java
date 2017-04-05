@@ -44,8 +44,8 @@ public class LoverShipServiceImpl implements LoverShipService {
         final User girl=userMapper.selectByPrimaryKey(loverShip.getLovergirlid());//邀请者
         final User boy=userMapper.selectByPrimaryKey(loverShip.getLoverboyid());//被邀请者
         if (girl!=null&&boy!=null) {
-            girl.setStauts(1);
-            boy.setStauts(1);
+            girl.setStauts(2);
+            boy.setStauts(2);
             userMapper.updateByPrimaryKeySelective(boy);
             userMapper.updateByPrimaryKeySelective(girl);
             return loverShipMapper.insertSelective(loverShip);

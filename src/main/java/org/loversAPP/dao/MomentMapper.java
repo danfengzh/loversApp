@@ -29,5 +29,5 @@ public interface MomentMapper {
 
     int updateByPrimaryKey(Moment record);
 
-    List<Moment> selectByUserid(int userID);
+    List<Moment> selectByUserid(@Param("userID") int userID);
 }

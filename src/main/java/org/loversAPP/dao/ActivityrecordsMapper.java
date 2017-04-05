@@ -1,6 +1,7 @@
 package org.loversAPP.dao;
 
 import org.apache.ibatis.annotations.Param;
+import org.loversAPP.DTO.ActivityRecordsPosition;
 import org.loversAPP.DTO.WrapperActicvityRecord;
 import org.loversAPP.model.Activityrecords;
 import org.loversAPP.model.ActivityrecordsExample;
@@ -35,4 +36,8 @@ public interface ActivityrecordsMapper {
     List<WrapperActicvityRecord> getAllWrapperActicvityRecord();
 
     List<WrapperActicvityRecord> getAllRecordsExceptMe(@Param("userID") int userID);
+
+    List<ActivityRecordsPosition> getactivityRecordsPositionList();
+
+    Integer hasCircle(@Param("userID") int userID);
 }

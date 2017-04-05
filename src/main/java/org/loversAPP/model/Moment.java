@@ -19,6 +19,9 @@ public class Moment extends BaseModel {
 
     private Integer commentid;
 
+    private String  username;
+
+    private String  avatar;
     public Integer getId() {
         return id;
     }

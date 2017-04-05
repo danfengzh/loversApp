@@ -4,11 +4,14 @@ import org.loversAPP.AsyncTask.SendMessAgeThread;
 import org.loversAPP.Controller.base.BaseController;
 import org.loversAPP.DTO.FeedBack;
 import org.loversAPP.DTO.SuperLoverInfo;
+import org.loversAPP.Jpush.JpushClientUtil;
 import org.loversAPP.VO.MessAgeContent;
 import org.loversAPP.model.LoverShip;
 import org.loversAPP.model.User;
+import org.loversAPP.model.UserCirCle;
 import org.loversAPP.service.Impl.LoverSigninService;
 import org.loversAPP.service.LoverShipService;
+import org.loversAPP.service.UserCirCleService;
 import org.loversAPP.service.UserService;
 import org.loversAPP.utils.UniqueStringGenerate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +43,8 @@ public class LoverShipController extends BaseController{
     @Autowired
     @Qualifier("taskExecutor")
     private TaskExecutor taskExecutor;
+    @Autowired
+    private UserCirCleService userCirCleService;
     /**
      *
      * @param loverAID 女生
@@ -234,5 +239,40 @@ public class LoverShipController extends BaseController{
             feedBack =new FeedBack("failure","400");
         }
         return feedBack;
+    }
+    @RequestMapping(value = "becomeLover",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public FeedBack<String> becomeLover(@RequestParam("userID") final int userID,
+                                        @RequestParam("receiverID") final int  receiverID,
+                                        @RequestParam("latitude") String latitude,
+                                        @RequestParam("longtitude") String longtitude){
+//        UserCirCle userCirCle=new UserCirCle();
+//        userCirCle.setLatitude(latitude);
+//        userCirCle.setLongtitude(longtitude);
+//        userCirCle.setUserID(userID);
+//        userCirCleService.insertUserCirCle(userCirCle);
+        User user=new User();
+        user.setId(userID);
+        user.setStauts(2);
+        user.setExp(0);
+        user.setStepstoday(0);
+        user.setMoney(0);
+        user.setExp(0);
+        User another=new User();
+        another.setId(receiverID);
+        another.setStauts(2);
+        another.setExp(0);
+        another.setStepstoday(0);
+        another.setMoney(0);
+        another.setExp(0);
+        userService.updateUserInfoSelective(user);
+        userService.updateUserInfoSelective(another);
+        taskExecutor.execute(new Runnable() {
+            public void run() {
+                JpushClientUtil.sendDynatic(String.valueOf(userID),"0","恭喜你摆脱单身","系统消息","恭喜你摆脱单身","tips");
+                JpushClientUtil.sendDynatic(String.valueOf(receiverID),"0","恭喜你摆脱单身","系统消息","恭喜你摆脱单身","tips");
+            }
+        });
+        return new FeedBack<String>("success","200");
     }
 }

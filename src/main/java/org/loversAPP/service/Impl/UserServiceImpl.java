@@ -155,6 +155,12 @@ public class UserServiceImpl implements UserService
         return userMapper.getSignCount(userid,signDate);
     }
 
+    public int updateUserInfoSelective(User user) {
+        UserExample userExample=new UserExample();
+        userExample.createCriteria().andIdEqualTo(user.getId());
+        return userMapper.updateByExampleSelective(user,userExample);
+    }
+
 
     public Integer updateStepsTodayByID(Integer id, Integer stepsToday) {
         User user=new User();

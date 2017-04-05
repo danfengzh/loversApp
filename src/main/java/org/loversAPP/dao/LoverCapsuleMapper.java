@@ -38,4 +38,6 @@ public interface LoverCapsuleMapper {
     LoverCapsule getLoverCasuleByRecID(@Param("receiverID")int receiverID);
 
     List<LoverCapsule> getAllCanOpenLoverCasules(@Param("receiverID")int recvierID);
+
+    int getMaxId();
 }

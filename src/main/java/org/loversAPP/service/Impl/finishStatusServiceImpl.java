@@ -36,7 +36,7 @@ public class finishStatusServiceImpl implements finishStatusService {
         FinishStatusExample finishStatusExample=new FinishStatusExample();
         finishStatusExample.createCriteria().andUseridEqualTo(userID);
         List<FinishStatus> finishStatuses= finishStatusMapper.selectByExample(finishStatusExample);
-        if(finishStatuses!=null){
+        if(finishStatuses!=null&&finishStatuses.size()>=1){
             return finishStatuses.get(0);
         }
         else {

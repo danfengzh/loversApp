@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.loversAPP.dao.PhotoRecordsMapper">
+  <cache type="org.loversAPP.Cache.RedisCache"/>
   <resultMap id="BaseResultMap" type="org.loversAPP.model.PhotoRecords">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="recordsID" jdbcType="INTEGER" property="recordsid" />
@@ -191,6 +192,7 @@ photo_records.userID=#{userid}
     </select>
   <select id="getPhotosExceptOne" resultType="org.loversAPP.DTO.UserPhoto">
     SELECT
+    `user`.id,
 `user`.userName,
 `user`.avator avatar,
 photo_records.photo,
@@ -202,8 +204,10 @@ FROM
 photo_records ,
 `user`
 WHERE
-photo_records.userID = `user`.id AND
-and #{userID} not in(`user`.id)
+photo_records.userID = `user`.id
+AND
+`user`.stauts = 1
+#{userID} not in(id)
   </select>
   <select id="getPhotosByRecordsID" resultType="org.loversAPP.DTO.UserPhoto">
     SELECT
