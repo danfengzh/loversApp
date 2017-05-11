@@ -1,7 +1,9 @@
 package org.loversAPP.service;
 
 import org.junit.Test;
+import org.loversAPP.Controller.utils.DateUtil;
 import org.loversAPP.DTO.PositionUser;
+import org.loversAPP.DTO.StepToday;
 import org.loversAPP.model.User;
 import org.loversAPP.service.baseService.baseServiceTest;
 import org.slf4j.Logger;
@@ -55,6 +57,7 @@ public class UserServiceTest extends baseServiceTest {
 
     @Test
     public void getIDByInviteCode() throws Exception {
+      User user=  userService.getUserByID(106);
         System.out.println();
     }
 
@@ -65,9 +68,9 @@ public class UserServiceTest extends baseServiceTest {
 
     @Test
     public void getAllUsers() throws Exception {
-         List<User> US
-        =userService.getAllUsers();
-        System.out.println("");
+       StepToday stepToday= userService.getSteps(104,null);
+       userService.updateSteps(104, DateUtil.getDay(),20);
+        System.out.println("bbbb");
     }
 
 }

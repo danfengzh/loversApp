@@ -406,8 +406,8 @@ public class ItemController extends BaseController {
             final LoverCapsule  loverCapsule=new LoverCapsule();
             loverCapsule.setUserid(userID);
             loverCapsule.setContent(content);
-           // loverCapsule.setOpenday(openDay);
-            loverCapsule.setOpenday(new Date());
+            loverCapsule.setOpenday(openDay);
+           // loverCapsule.setOpenday(new Date());
             loverCapsule.setItemid(ItemID);
             loverCapsule.setReceiverid(receiverID);
             if(photo==null){

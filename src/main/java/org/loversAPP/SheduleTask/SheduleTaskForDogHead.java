@@ -23,7 +23,7 @@ public class SheduleTaskForDogHead {
     public void  ifDeleteLoverDog(){
         //1.先保证后一条
        List<LoverDogCount> loverDogCounts= loverDogService.getLoverDogCount();
-        long deltaTime=1000*6;//1分钟
+        long deltaTime=1000*60*60*3;//
         for(LoverDogCount loverDogCount:loverDogCounts){
             if(loverDogCount.getCount()==2){
                 loverDogService.deleteLoverDogByID(loverDogCount.getId());

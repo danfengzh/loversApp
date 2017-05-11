@@ -8,7 +8,6 @@ import org.loversAPP.Jpush.JpushClientUtil;
 import org.loversAPP.VO.MessAgeContent;
 import org.loversAPP.model.LoverShip;
 import org.loversAPP.model.User;
-import org.loversAPP.model.UserCirCle;
 import org.loversAPP.service.Impl.LoverSigninService;
 import org.loversAPP.service.LoverShipService;
 import org.loversAPP.service.UserCirCleService;

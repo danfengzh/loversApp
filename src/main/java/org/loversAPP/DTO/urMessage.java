@@ -7,6 +7,7 @@ import java.util.Date;
  * Created by Administrator on 2017/3/7.
  */
 public class urMessage implements Serializable {
+    private int messageID;
     private String userName;
     private Integer userID;
     private String avatar;
@@ -14,6 +15,14 @@ public class urMessage implements Serializable {
     private Date msgDate;
     private String msgContent;
     private int isRead;
+
+    public int getMessageID() {
+        return messageID;
+    }
+
+    public void setMessageID(int messageID) {
+        this.messageID = messageID;
+    }
 
     public int getIsRead() {
         return isRead;

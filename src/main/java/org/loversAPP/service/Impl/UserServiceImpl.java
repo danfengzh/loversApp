@@ -5,6 +5,7 @@ import org.loversAPP.DTO.PositionUser;
 import org.loversAPP.DTO.UserDistance;
 import org.loversAPP.DTO.location;
 import org.loversAPP.dao.UserMapper;
+import org.loversAPP.DTO.StepToday;
 import org.loversAPP.model.User;
 import org.loversAPP.model.UserExample;
 import org.loversAPP.service.UserService;
@@ -19,7 +20,6 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService
 {
-
     @Autowired
     private UserMapper userMapper;
 
@@ -162,6 +162,31 @@ public class UserServiceImpl implements UserService
     }
 
 
+
+    public int updateSteps(int userID,String date, int steps) {
+
+        return userMapper.upDateSignInfo(userID,date,steps);
+    }
+
+    public StepToday getSteps(int userID,String date) {
+
+        return userMapper.getTodySteps(userID,date);
+    }
+
+
+    public int upDateSignInfo(int userID, String todayStr, int steps) {
+        return userMapper.upDateSignInfo(userID,todayStr,steps);
+    }
+
+    public int insertSignToday(int userID, int status) {
+        StepToday stepToday=new StepToday();
+        stepToday.setUserID(userID);
+        stepToday.setStatus(status);
+        stepToday.setDate(DateUtil.getDay());
+        return userMapper.insertSignToday(stepToday);
+    }
+
+
     public Integer updateStepsTodayByID(Integer id, Integer stepsToday) {
         User user=new User();
         user.setId(id);
@@ -215,7 +240,6 @@ public class UserServiceImpl implements UserService
         Integer res = updateUserInfo(user);
         return res;
     }
-
     public Integer updateSignatureByID(Integer userId, String signature) {
         User user=new User();
         user.setId(userId);
@@ -277,8 +301,6 @@ public class UserServiceImpl implements UserService
         Integer res = updateUserInfo(user);
         return res;
     }
-
-
     public Integer updateBimgByID(Integer id, String back) {
         User user=new User();
         user.setId(id);

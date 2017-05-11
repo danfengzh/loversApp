@@ -103,6 +103,7 @@ public class messageController extends BaseController {
             userMess.setMsgDate(m.getMsgdate());
             userMess.setMsgContent(m.getMsgcontent());
             userMess.setIsRead(m.getIsRead());
+            userMess.setMessageID(m.getId());
             myusers.add(userMess);
         }
         if(userMessage!=null){

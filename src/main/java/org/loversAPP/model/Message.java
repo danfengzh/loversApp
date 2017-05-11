@@ -16,6 +16,15 @@ public class Message extends BaseModel {
     private String msgcontent;
 
     private Integer receiverid;
+    private int isRead;
+
+    public int getIsRead() {
+        return isRead;
+    }
+
+    public void setIsRead(int isRead) {
+        this.isRead = isRead;
+    }
 
     public Integer getId() {
         return id;

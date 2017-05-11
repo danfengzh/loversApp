@@ -22,7 +22,7 @@ public class SheduleTaskJobForUserPhoto {
     public void testInsert(){
         //轮询 获取分析当前的系统时间
         //如果到达时间的话 就清空 该条记录
-        long deltaTime=1000*60;//1分钟
+        long deltaTime=1000*60*60*24*30;//
         List<PhotoRecords> userPhotos=userPhoService.getOuterUserPhotosByUseriD();
         for (PhotoRecords userPhoto:userPhotos){
             boolean flag= TimeIntervalUtils.isOutDate(userPhoto.getPublishdate(),60000);

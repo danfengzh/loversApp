@@ -7,6 +7,7 @@ import org.loversAPP.DTO.FeedBack;
 import org.loversAPP.DTO.PositionUser;
 import org.loversAPP.DTO.UserDistance;
 import org.loversAPP.DTO.location;
+import org.loversAPP.DTO.StepToday;
 import org.loversAPP.model.User;
 import org.loversAPP.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -128,4 +129,47 @@ public class ExtraUserController  extends BaseController {
         }
         return feedBack;
     }
+
+    /**
+     *(检测调用当前接口的日期是否在今天，
+     * 如果是，更新数据库中的steps=传参的steps+数据库的steps，
+     * 若不是，则用当前日期覆盖数据库中日期，并用当前steps覆盖数据库中的steps)
+
+     * @param userID
+     * @param date
+     * @param steps
+     * @return
+     */
+    @RequestMapping(value ="updateSteps",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public FeedBack<String> updateSteps(int userID,String date,int steps){
+        FeedBack feedBack=null;
+        StepToday CurstepToday= userService.getSteps(userID,null);
+        String todayStr=DateUtil.getDay();
+        //查询之前的步数
+        if(todayStr.equals(date)){
+            userService.updateSteps(userID,date,steps+CurstepToday.getStepsToday());
+            feedBack=new FeedBack("success","200",steps+CurstepToday.getStepsToday());
+        }else {
+            userService.upDateSignInfo(userID,todayStr,steps);
+            feedBack=new FeedBack("success","200",steps);
+        }
+        return feedBack;
+    }
+    @RequestMapping(value ="getSteps",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public FeedBack<StepToday> getSteps(int userID){
+        FeedBack feedBack=null;
+        StepToday stepToday= userService.getSteps(userID,null);
+        feedBack=new FeedBack("success","200",stepToday);
+        return feedBack;
+    }
+    @RequestMapping(value ="insertSteps",method = RequestMethod.POST,produces ="application/json;charset=utf-8")
+    @ResponseBody
+    public FeedBack<String>  insertSteps(int userID,int status){
+
+        userService.insertSignToday(userID,status);
+        return new FeedBack<String>("success","200");
+    }
+
 }

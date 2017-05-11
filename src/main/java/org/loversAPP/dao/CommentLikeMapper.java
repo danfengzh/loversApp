@@ -1,6 +1,7 @@
 package org.loversAPP.dao;
 
 import org.apache.ibatis.annotations.Param;
+import org.loversAPP.DTO.LikeWithUser;
 import org.loversAPP.model.CommentLike;
 import org.loversAPP.model.CommentLikeExample;
 
@@ -28,4 +29,6 @@ public interface CommentLikeMapper {
     int updateByPrimaryKeySelective(CommentLike record);
 
     int updateByPrimaryKey(CommentLike record);
+
+    List<LikeWithUser> getLikesByCID(@Param("commentID") int commentID);
 }

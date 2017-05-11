@@ -16,4 +16,7 @@ public interface MomentService {
 
     public Moment getMommentByID(int id);
 
+    public int  updateCommentIDByID(int id,int commentID);
+
+
 }

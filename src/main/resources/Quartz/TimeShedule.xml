@@ -80,7 +80,7 @@
      ======================== -->
     <bean id="CronTriggerBean" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <property name="jobDetail" ref="insertTreasure"></property>
-        <property name="cronExpression" value="0 40 15 * * ?"></property>
+        <property name="cronExpression" value="0 0 12,19 * * ? *"></property>
     </bean>
     <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean"  lazy-init="false" autowire="no">
         <property name="triggers">

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.loversAPP.dao.MessageMapper">
-  <cache type="org.loversAPP.Cache.RedisCache"/>
+  <!--<cache type="org.loversAPP.Cache.RedisCache"/>-->
   <resultMap id="BaseResultMap" type="org.loversAPP.model.Message">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="userID" jdbcType="INTEGER" property="userid" />
@@ -106,9 +106,9 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into message (userID, msgType, msgDate,
-    msgContent, receiverID)
+    msgContent, receiverID,isRead)
     values (#{userid,jdbcType=INTEGER}, #{msgtype,jdbcType=VARCHAR}, #{msgdate,jdbcType=TIMESTAMP},
-    #{msgcontent,jdbcType=VARCHAR}, #{receiverid,jdbcType=INTEGER})
+    #{msgcontent,jdbcType=VARCHAR}, #{receiverid,jdbcType=INTEGER},#{isRead,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="org.loversAPP.model.Message">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
@@ -225,14 +225,14 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="setReadByMID">
-    UPDATE message_read
+    UPDATE message
     SET isRead=1
     WHERE messageID=#{messageID}
   </update>
   <update id="setAllReadByRID">
-    UPDATE message_read
-    SET isRead=1
-    WHERE recieverID=#{recieverID}
+    UPDATE message
+SET isRead = 1
+WHERE message.receiverID=#{recieverID}
   </update>
   <resultMap id="UserMessageMap" type="org.loversAPP.DTO.UserMessage" extends="BaseResultMap">
     <result column="userID" property="user.id"/>
@@ -241,8 +241,7 @@
     <result column="isRead" property="isRead"/>
   </resultMap>
   <select id="getUserMessageByID" resultMap="UserMessageMap">
-   SELECT
-   message_read.isRead,
+  SELECT
 message.id,
 message.userID,
 message.msgType,
@@ -250,20 +249,20 @@ message.msgDate,
 message.msgContent,
 message.receiverID,
 `user`.userName,
-`user`.avator
+`user`.avator,
+message.isRead
 FROM
 message ,
-`user`,
-message_read
+`user`
 WHERE
-message.userID =#{userID} AND
-message.receiverID = `user`.id
-and message_read.messageID = message.id
+message.userID = #{userID} AND
+message.userID = `user`.id
+ORDER BY
+message.msgDate DESC
 
   </select>
   <select id="getUserMessageByRecID" resultMap="UserMessageMap">
-    SELECT
-     message_read.isRead,
+  SELECT
 message.id,
 message.userID,
 message.msgType,
@@ -271,30 +270,28 @@ message.msgDate,
 message.msgContent,
 message.receiverID,
 `user`.userName,
-`user`.avator
+`user`.avator,
+message.isRead
 FROM
 message ,
-`user`,
-message_read
+`user`
 WHERE
 message.receiverID = #{recID} AND
-message.userID = `user`.id
-and message_read.messageID = message.id
+message.receiverID = `user`.id
 ORDER BY
 message.msgDate DESC
   </select>
   <select id="getUnreadCountByRID" resultType="java.lang.Integer">
-    SELECT COUNT(*)
+SELECT COUNT(*)
 FROM
-message_read
+message
 WHERE
-message_read.recieverID=#{recieverID} AND
-message_read.isRead=0
-
+message.receiverID = #{recieverID} AND
+message.isRead = 0
   </select>
   <select id="getMaxIDbyUserid" resultType="java.lang.Integer">
     SELECT
-max(id)
+ifnull(max(id),0)
 FROM `message`
   </select>
 </mapper>

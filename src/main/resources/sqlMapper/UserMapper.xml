@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.loversAPP.dao.UserMapper">
-  <cache type="org.loversAPP.Cache.RedisCache"/>
+  <!--<cache type="org.loversAPP.Cache.RedisCache"/>-->
   <resultMap id="BaseResultMap" type="org.loversAPP.model.User">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="userName" jdbcType="VARCHAR" property="username" />
@@ -105,7 +105,7 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from user
@@ -550,13 +550,15 @@ FROM `user`
 WHERE  stauts=1
     </select>
   <select id="getAllPositionUsers" resultType="org.loversAPP.DTO.PositionUser">
-    SELECT
+SELECT
 `user`.id,
 `user`.longtitude,
 `user`.latitude,
 `user`.avator avatar,
 `user`.sex
 FROM `user`
+WHERE
+`user`.stauts = 1
   </select>
   <!--
     SELECT * FROM `user` where userName like '%w%' and stauts=1;
@@ -581,4 +583,37 @@ user_cirlocation.userID=#{userid}
     SELECT COUNT(*) FROM single_signin WHERE userID=#{userid} and
     signDate=#{signDate}
   </select>
+  <update id="upDateSignTodayByUserID">
+   UPDATE  steps_today
+   set stepsToday=#{steps}
+   WHERE userID=#{userID}
+   and date=#{date}
+  </update>
+  <select id="getTodySteps" resultType="org.loversAPP.DTO.StepToday">
+    SELECT
+steps_today.`status`,
+steps_today.userID,
+steps_today.date,
+steps_today.stepsToday
+FROM
+steps_today
+<where>
+   <if test="userID!=null">
+     steps_today.userID=#{userID}
+   </if>
+  <if test="day!=null">
+
+   AND steps_today.stepsToday=#{day}
+  </if>
+</where>
+  </select>
+  <update id="upDateSignInfo">
+    UPDATE steps_today
+    set date=#{todayStr},
+    stepsToday=#{steps}
+    WHERE userID=#{userID}
+  </update>
+  <insert id="insertSignToday">
+    INSERT steps_today(userID,status,date,stepsToday) VALUES (#{stepToday.userID},#{stepToday.status},#{stepToday.date},0)
+  </insert>
 </mapper>

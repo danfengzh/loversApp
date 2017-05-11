@@ -54,5 +54,5 @@ public interface MessageMapper {
     public int setAllReadByRID(Integer recieverID);
     public int getUnreadCountByRID(Integer recieverID);
 
-    Integer getMaxIDbyUserid();
+   public Integer getMaxIDbyUserid();
 }

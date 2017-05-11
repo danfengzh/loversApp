@@ -149,4 +149,12 @@ public class DateUtil {
         System.out.println(datestr);
 
     }
+
+    public static String fomatDate(Date likeDate) {
+
+        if(likeDate!=null){
+           return sdfTime.format("yyyy-MM-dd HH:mm:ss");
+        }
+        return null;
+    }
 }

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.loversAPP.dao.CommentLikeMapper">
-  <cache type="org.loversAPP.Cache.RedisCache"/>
   <resultMap id="BaseResultMap" type="org.loversAPP.model.CommentLike">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="commentID" jdbcType="INTEGER" property="commentid" />
@@ -194,4 +193,16 @@
       likeDate = #{likedate,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="getLikesByCID" resultType="org.loversAPP.DTO.LikeWithUser">
+      SELECT
+`user`.avator avatar,
+comment_like.userID,
+comment_like.likeDate
+FROM
+comment_like ,
+`user`
+WHERE
+comment_like.userID = `user`.id AND
+comment_like.commentID=#{commentID}
+  </select>
 </mapper>

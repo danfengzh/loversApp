@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.loversAPP.dao.MessageReadDao">
-  <insert id="insertMessageRead">
-      INSERT message_read(messageID,recieverID,isRead) VALUES (#{messageRead.messageID},#{messageRead.recieverID},0)
-  </insert>
-</mapper>

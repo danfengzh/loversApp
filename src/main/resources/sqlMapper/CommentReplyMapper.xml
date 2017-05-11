@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.loversAPP.dao.CommentReplyMapper">
-  <cache type="org.loversAPP.Cache.RedisCache"/>
   <resultMap id="BaseResultMap" type="org.loversAPP.model.CommentReply">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="commentID" jdbcType="INTEGER" property="commentid" />
@@ -209,4 +208,17 @@
       replyDate = #{replydate,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="getReplistrbYcID" resultType="org.loversAPP.DTO.ReplyWithUser">
+     SELECT
+comment_reply.userID,
+`user`.avator avatar,
+comment_reply.replyDate,
+comment_reply.replyContent
+FROM
+comment_reply ,
+`user`
+WHERE
+comment_reply.userID = `user`.id AND
+comment_reply.commentID =#{commentID}
+  </select>
 </mapper>

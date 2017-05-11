@@ -43,7 +43,7 @@ public class SheduleTaskForLoverCaspule {
     public void  ifopen(){
 
       List<LoverCapsule> loverCapsuleList= loveCauleService.getCaspule();
-        long deltaTime=1000*60;//1分钟
+        long deltaTime=10;//
       for(LoverCapsule loverCapsule:loverCapsuleList){
           //
           boolean flag= TimeIntervalUtils.isOutDate(loverCapsule.getOpenday(),deltaTime);

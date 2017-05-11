@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.loversAPP.dao.GoDieMapper">
-  <cache type="org.loversAPP.Cache.RedisCache"/>
+  <!--<cache type="org.loversAPP.Cache.RedisCache"/>-->
   <resultMap id="BaseResultMap" type="org.loversAPP.model.GoDie">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="userItemID" jdbcType="INTEGER" property="useritemid" />
@@ -217,8 +217,8 @@ FROM
 go_die ,
 `user`
 WHERE
-go_die.userID = `user`.id
-AND go_die.userID=#{userID}
+go_die.reciveID = `user`.id
+AND go_die.reciveID=#{userID}
   </select>
   <delete id="deleteGoDieByID">
     DELETE FROM go_die WHERE userID=#{userID}

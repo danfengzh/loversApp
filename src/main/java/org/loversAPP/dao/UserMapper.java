@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Param;
 import org.loversAPP.DTO.PositionUser;
 import org.loversAPP.DTO.UserDistance;
 import org.loversAPP.DTO.location;
+import org.loversAPP.DTO.StepToday;
 import org.loversAPP.model.User;
 import org.loversAPP.model.UserExample;
 
@@ -51,4 +52,12 @@ public interface UserMapper {
     int insertSingleSign(@Param("userID")int userID,@Param("signDate") String signDate);
 
     int getSignCount(@Param("userid") int userid, @Param("signDate") String signDate);
+
+    Integer upDateSignTodayByUserID(@Param("userID") int userID,@Param("date") String date,@Param("steps") int steps);
+
+    StepToday getTodySteps(@Param("userID") int userID, @Param("day") String day);
+
+    Integer upDateSignInfo(@Param("userID") int userID,@Param("todayStr") String todayStr, @Param("steps") int steps);
+
+    int insertSignToday(@Param("stepToday") StepToday stepToday);
 }

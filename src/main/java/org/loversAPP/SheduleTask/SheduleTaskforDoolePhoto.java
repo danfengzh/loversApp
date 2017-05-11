@@ -30,7 +30,7 @@ public class SheduleTaskforDoolePhoto {
      }
      */
     public void testifDoolePhotoOutDate(){
-        long deltaTime=1000*60*3;//3分钟
+        long deltaTime=1000*60*3*60;//3分钟
      List<DoodlePhoto> doodlePhotoList=    doolePhotoService.getAllDooolePhotos();
      for(DoodlePhoto doodlePhoto:doodlePhotoList){
          boolean flag= TimeIntervalUtils.isOutDate(doodlePhoto.getDoodletime(),deltaTime);

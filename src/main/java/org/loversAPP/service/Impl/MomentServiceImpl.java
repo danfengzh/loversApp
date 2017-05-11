@@ -35,4 +35,11 @@ public class MomentServiceImpl implements MomentService {
     public Moment getMommentByID(int id) {
         return momentMapper.selectByPrimaryKey(id);
     }
+
+    public int updateCommentIDByID(int id, int commentID) {
+        Moment moment=new Moment();
+        moment.setId(id);
+        moment.setCommentid(commentID);
+        return momentMapper.updateByPrimaryKeySelective(moment);
+    }
 }

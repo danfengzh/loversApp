@@ -3,6 +3,7 @@ package org.loversAPP.service;
 import org.loversAPP.DTO.PositionUser;
 import org.loversAPP.DTO.UserDistance;
 import org.loversAPP.DTO.location;
+import org.loversAPP.DTO.StepToday;
 import org.loversAPP.model.User;
 
 import java.util.List;
@@ -61,4 +62,12 @@ public interface UserService {
     public int getSignCount(int userid, String signDate);
 
     int updateUserInfoSelective(User user);
+
+    int updateSteps(int userID,String date,int  steps);
+
+    StepToday getSteps(int userID,String date);
+
+    int upDateSignInfo(int userID, String todayStr, int steps);
+
+    int insertSignToday(int userID, int status);
 }

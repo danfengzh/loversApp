@@ -1,11 +1,11 @@
 package org.loversAPP.dao;
 
 import org.apache.ibatis.annotations.Param;
-import org.loversAPP.model.CommentReplyExample;
+import org.loversAPP.DTO.ReplyWithUser;
 import org.loversAPP.model.CommentReply;
+import org.loversAPP.model.CommentReplyExample;
 
 import java.util.List;
-
 
 public interface CommentReplyMapper {
     long countByExample(CommentReplyExample example);
@@ -29,4 +29,6 @@ public interface CommentReplyMapper {
     int updateByPrimaryKeySelective(CommentReply record);
 
     int updateByPrimaryKey(CommentReply record);
+
+    List<ReplyWithUser> getReplistrbYcID(@Param("commentID") int commentID);
 }
